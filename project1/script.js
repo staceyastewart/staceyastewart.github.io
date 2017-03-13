@@ -24,8 +24,55 @@ let body = $('body')
 
 
 //grabbed the below from MDN
-function getRandomInt(min, max) {
+function getRandomInteger(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
+roundNumber = 1
+playerScore = 0
+enemyScore = 0
+
+playerRoll = []
+
+let rollTheDice = function() {
+  for (var i = 0; i < 3; i++) {
+    playerRoll.push(getRandomInteger(1,7))
+  }
+  console.log(playerRoll)
+  return playerRoll
+}
+
+rollTheDice()
+
+
+//check the dice should tell the player when they get points
+let checkTheDice = function(arr, player_score) {
+  if(arr[0] !== roundNumber && arr[1] !== roundNumber && arr[2] !== roundNumber) {
+    //go to next player
+    console.log(player_score)
+    return;
+  } else if(arr[0] === arr[1] && arr[1] === arr[2]) {
+    if (arr[0] === roundNumber) {
+      //this is a "bunco"
+      player_score += 21
+    } else {
+      player_score += 5
+    }
+  } else {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] === roundNumber) {
+        player_score += 1
+      }
+    }
+  }
+  console.log(player_score)
+}
+
+checkTheDice(playerRoll, playerScore)
+
+
+
+
+
