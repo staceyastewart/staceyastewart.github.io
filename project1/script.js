@@ -16,7 +16,12 @@ function getRandomInteger(min, max) {
 let roundNumber = 1
 let playerRoll = []
 let fullTurn = []
-
+let totalPlayer1Score = []
+let totalPlayer2Score = []
+let fullTurn_1_1 = [];
+let fullTurn_1_2 = [];
+let round1Player1 = 0;
+let round1Player2 = 0;
 
 //check the dice should tell the player when they get points
 let oneTurn = function() {
@@ -67,51 +72,60 @@ let oneTurn = function() {
 }
 
 
+let createRound = function() {
+  round1Player1 = oneTurn();
+  fullTurn_1_1 = fullTurn;
+  totalPlayer1Score.push(round1Player1);
+  console.log(fullTurn_1_1);
+  console.log("Player 1 score: " + totalPlayer1Score);
+  console.log("Round 1: " + round1Player1);
+  round1Player2 = oneTurn();
+  fullTurn_1_2 = fullTurn;
+  totalPlayer2Score.push(round1Player2);
+  console.log("Player 1 score: " + totalPlayer2Score);
+  console.log("Round 1: " + round1Player2);
+  console.log(fullTurn_1_2);
+}
+
+createRound()
 
 
+// //tried to do the below with a for loop creating a variable each time but couldn't
+// let round1Player1 = oneTurn()
+// let fullTurn_1_1 = fullTurn
+// console.log(fullTurn_1_1)
+// // let round2Player1 = oneTurn()
+// // let round3Player1 = oneTurn()
+// // let round4Player1 = oneTurn()
+// // let round5Player1 = oneTurn()
+// // let round6Player1 = oneTurn()
 
-
-
-let totalPlayer1Score = []
-let totalPlayer2Score = []
-
-//tried to do the below with a for loop creating a variable each time but couldn't
-let round1Player1 = oneTurn()
-let fullTurn_1_1 = fullTurn
-console.log(fullTurn_1_1)
-// let round2Player1 = oneTurn()
-// let round3Player1 = oneTurn()
-// let round4Player1 = oneTurn()
-// let round5Player1 = oneTurn()
-// let round6Player1 = oneTurn()
-
-totalPlayer1Score.push(round1Player1)
-console.log("Player 1 score: " + totalPlayer1Score)
-console.log("Round 1: " + round1Player1)
-// totalPlayer1Score.push(round2Player1)
+// totalPlayer1Score.push(round1Player1)
 // console.log("Player 1 score: " + totalPlayer1Score)
-// console.log("Round 2: " + round2Player1)
+// console.log("Round 1: " + round1Player1)
+// // totalPlayer1Score.push(round2Player1)
+// // console.log("Player 1 score: " + totalPlayer1Score)
+// // console.log("Round 2: " + round2Player1)
 
 
-//calling oneTurn again here adds the second player's turn to the fullTurn array in the function
-let round1Player2 = oneTurn()
-let fullTurn_1_2 = fullTurn
-console.log(fullTurn_1_2)
-// let round2Player2 = oneTurn()
-// let round3Player2 = oneTurn()
-// let round4Player2 = oneTurn()
-// let round5Player2 = oneTurn()
-// let round6Player2 = oneTurn()
+// //calling oneTurn again here adds the second player's turn to the fullTurn array in the function
+// let round1Player2 = oneTurn()
+// let fullTurn_1_2 = fullTurn
+// console.log(fullTurn_1_2)
+// // let round2Player2 = oneTurn()
+// // let round3Player2 = oneTurn()
+// // let round4Player2 = oneTurn()
+// // let round5Player2 = oneTurn()
+// // let round6Player2 = oneTurn()
 
-totalPlayer2Score.push(round1Player2)
-console.log("Player 1 score: " + totalPlayer2Score)
-console.log("Round 1: " + round1Player2)
-
-
+// totalPlayer2Score.push(round1Player2)
+// console.log("Player 1 score: " + totalPlayer2Score)
+// console.log("Round 1: " + round1Player2)
 
 
 
-//below completes player 1 round 1
+
+//below is now looping but there is some kind of off by one error
 
 $("#button").on("click", function(event) {
     //hiding the button below is causing the dice and the other button to shift up on the div. Fix later
@@ -145,7 +159,13 @@ $("#button").on("click", function(event) {
       //so this need to start the functions over again
       $("#messages").text("You didn't score on this turn. You scored " + round1Player1 + " points this round. It is now your opponent's turn.")
       $("#button").hide()
-      $("#scoreboard table tbody tr:nth-child(2) td:nth-child(2)").text(round1Player1)
+      //this is where I need to put something that changes the item that the score is listed in each time
+      // $(".gameInPlay:first")
+      //can use above and then remove the class attribute immediatey after
+      // $("#scoreboard table tbody tr:nth-child(2) td:nth-child(2)").text(round1Player1)
+      $(".gameInPlay:first").text(round1Player1);
+      $(".gameInPlay:first").removeClass("gameInPlay")
+
       $("#opponentButton").css("visibility", "visible")
 
 
@@ -172,9 +192,17 @@ $("#button").on("click", function(event) {
         fullTurn_1_2.shift()
         if(fullTurn_1_2.length === 0) {
           $("#messages").text("Your opponent didn't score on this roll. They scored " + round1Player2 + " points this round. It's now your turn again!")
-          $("#scoreboard table tbody tr:nth-child(2) td:nth-child(3)").text(round1Player2)
+          // $("#scoreboard table tbody tr:nth-child(2) td:nth-child(3)").text(round1Player2)
+          $(".gameInPlay:first").text(round1Player1);
+          $(".gameInPlay:first").removeClass("gameInPlay")
           $("#opponentButton").css("visibility", "hidden")
           $("#button").show()
+          roundNumber++;
+          if (roundNumber>6) {
+            return;
+          }else{
+            createRound();
+          }
         }
       })
     }
@@ -184,35 +212,6 @@ $("#button").on("click", function(event) {
 
 
 
-
-
-
-//notes from Stefan below from a homework
-// so just because you mentioned it, one way to think about the click/win function is to, onclick, do something like add a class called 'clicked', so that as each box gets clicked, it appends that class name. and, within that same onclick function, check to see how many instances of the 'clicked' class exist on the page, and, if it's equal to 4, then log the win. it might look something like this:
-
- //  zoneArray[i].onclick = function(e) {
- //    this.className += (" green clicked");
-
- //    this.onmouseover = function() {
- //      //do nothing
- //    }
- //    this.onmouseout = function() {
- //      //do nothing
- //    }
- //   let clicked = document.getElementsByClassName('clicked');
- //   if (clicked.length  === 4) {
- //     alert("you win!")
- //   }
- // }
-
-
-//With above info I want to try to put a class name on each round for one player. Then, once one instance of fullTurn is an empty array (in other words, once one turn is complete), it should delete the class name from the first child, and go to the next child for the click event
-// $(".gameInPlay:first")
-//Trying to think about how I can avoid creating all the arrays for the entire game up front, but instead call them each time one is finished
-//or could create the entire game's rolls for each player up front and then iterate through an array of arrays of arrays
-//should maybe create objects
-//could make a constructor function that creates each
-//Need to at least create a function that gives all the info that the click event needs because creating them all from scratch is a waste of time
 
 
 
