@@ -43,9 +43,15 @@ playerRoll = []
 
 let fullTurn = []
 
+let cardOne = $("#card1")
+let cardTwo = $("#card2")
+let cardThree = $("#card3")
+
 //check the dice should tell the player when they get points
 let oneTurn = function() {
   let Score = 1;
+  fullTurn = [];
+  playerScore = [];
   while (Score > playerScore.length){
     let rollTheDice = function() {
       for (var i = 0; i < 3; i++) {
@@ -87,24 +93,40 @@ let oneTurn = function() {
 }
 
 
-let totalPlayerScore = []
+let totalPlayer1Score = []
+let totalPlayer2Score = []
 
+//tried to do the below with a for loop creating a variable each time but couldn't
 let round1Player1 = oneTurn()
-totalPlayerScore.push(round1Player1)
+let fullTurn_1_1 = fullTurn
+console.log(fullTurn_1_1)
+// let round2Player1 = oneTurn()
+// let round3Player1 = oneTurn()
+// let round4Player1 = oneTurn()
+// let round5Player1 = oneTurn()
+// let round6Player1 = oneTurn()
 
-console.log("Player score: " + totalPlayerScore)
+totalPlayer1Score.push(round1Player1)
+console.log("Player 1 score: " + totalPlayer1Score)
 console.log("Round 1: " + round1Player1)
+// totalPlayer1Score.push(round2Player1)
+// console.log("Player 1 score: " + totalPlayer1Score)
+// console.log("Round 2: " + round2Player1)
 
 
+//calling oneTurn again here adds the second player's turn to the fullTurn array in the function
+let round1Player2 = oneTurn()
+let fullTurn_1_2 = fullTurn
+console.log(fullTurn_1_2)
+// let round2Player2 = oneTurn()
+// let round3Player2 = oneTurn()
+// let round4Player2 = oneTurn()
+// let round5Player2 = oneTurn()
+// let round6Player2 = oneTurn()
 
-//need to use fullTurn array of arrays to interact with clicks and to show the user their score
-
-//maybe can do a function that only ever calls the first index of the array and then I delete it after every single roll until there are no more
-//apparantly can use the shift() method on the array to remove the first element
-
-let cardOne = $("#card1")
-let cardTwo = $("#card2")
-let cardThree = $("#card3")
+totalPlayer2Score.push(round1Player2)
+console.log("Player 1 score: " + totalPlayer2Score)
+console.log("Round 1: " + round1Player2)
 
 
 //below completes player 1 round 1
@@ -113,35 +135,65 @@ $("#button").on("click", function(event) {
     //found fix on StackOverflow css: visibility
     //to reverse this, use visibility: visible
     $("#opponentButton").css("visibility", "hidden");
-    console.log(fullTurn[0]);
-    cardOne.text(fullTurn[0][0])
-    cardTwo.text(fullTurn[0][1])
-    cardThree.text(fullTurn[0][2])
+    // console.log(fullTurn_1_1[0]);
+    cardOne.text(fullTurn_1_1[0][0])
+    cardTwo.text(fullTurn_1_1[0][1])
+    cardThree.text(fullTurn_1_1[0][2])
 
-     if(fullTurn[0][0] === fullTurn[0][1] && fullTurn[0][1] === fullTurn[0][2]) {
-      if (fullTurn[0][0] === roundNumber) {
+     if(fullTurn_1_1[0][0] === fullTurn_1_1[0][1] && fullTurn_1_1[0][1] === fullTurn_1_1[0][2]) {
+      if (fullTurn_1_1[0][0] === roundNumber) {
         $("#messages").text("Bunco! You scored 21 points! Please roll again.")
       } else {
         $("#messages").text("Three of a kind! You scored 5 points. Please roll again.")
       }
     }else {
       let scoreCount = 0
-      for (var i = 0; i < fullTurn[0].length; i++) {
-        if (fullTurn[0][i] === roundNumber) {
+      for (var i = 0; i < fullTurn_1_1[0].length; i++) {
+        if (fullTurn_1_1[0][i] === roundNumber) {
           scoreCount++
           }
         }
         $("#messages").text("You scored " + scoreCount + ". Please roll again.")
       }
 
-    fullTurn.shift()
-    if (fullTurn.length == 0) {
+    fullTurn_1_1.shift()
+    if (fullTurn_1_1.length == 0) {
       //if the array is empty, it is the next player's turn
       //so this need to start the functions over again
       $("#messages").text("You didn't score on this turn. You scored " + round1Player1 + " points this round. It is now your opponent's turn.")
       $("#button").hide()
-      $("#scoreboard > table > tbody > tr:nth-child(2) > td:nth-child(2)").text(round1Player1)
+      $("#scoreboard table tbody tr:nth-child(2) td:nth-child(2)").text(round1Player1)
       $("#opponentButton").css("visibility", "visible")
+
+
+
+      $("#opponentButton").on("click", function(event) {
+        cardOne.text(fullTurn_1_2[0][0])
+        cardTwo.text(fullTurn_1_2[0][1])
+        cardThree.text(fullTurn_1_2[0][2])
+        if(fullTurn_1_2[0][0] === fullTurn_1_2[0][1] && fullTurn_1_2[0][1] === fullTurn_1_2[0][2]) {
+          if (fullTurn_1_2[0][0] === roundNumber) {
+            $("#messages").text("Bunco! Your opponent scored 21 points! Please roll again.")
+          } else {
+            $("#messages").text("Three of a kind! Your opponent scored 5 points. Please roll again.")
+          }
+        }else {
+          let scoreCount = 0
+          for (var i = 0; i < fullTurn_1_2[0].length; i++) {
+            if (fullTurn_1_2[0][i] === roundNumber) {
+              scoreCount++
+              }
+            }
+            $("#messages").text("Your opponent scored " + scoreCount + ". Please roll again.")
+          }
+        fullTurn_1_2.shift()
+        if(fullTurn_1_2.length === 0) {
+          $("#messages").text("Your opponent didn't score on this roll. They scored " + round1Player2 + " points this round. It's now your turn again!")
+          $("#scoreboard table tbody tr:nth-child(2) td:nth-child(3)").text(round1Player2)
+          $("#opponentButton").css("visibility", "hidden")
+          $("#button").show()
+        }
+      })
     }
   }
 );
