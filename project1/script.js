@@ -90,47 +90,29 @@ let createRound = function() {
 createRound()
 
 
-// //tried to do the below with a for loop creating a variable each time but couldn't
-// let round1Player1 = oneTurn()
-// let fullTurn_1_1 = fullTurn
-// console.log(fullTurn_1_1)
-// // let round2Player1 = oneTurn()
-// // let round3Player1 = oneTurn()
-// // let round4Player1 = oneTurn()
-// // let round5Player1 = oneTurn()
-// // let round6Player1 = oneTurn()
 
-// totalPlayer1Score.push(round1Player1)
-// console.log("Player 1 score: " + totalPlayer1Score)
-// console.log("Round 1: " + round1Player1)
-// // totalPlayer1Score.push(round2Player1)
-// // console.log("Player 1 score: " + totalPlayer1Score)
-// // console.log("Round 2: " + round2Player1)
+//how do I make the below constantly check within my event listener
+//tried a setInterval but that's a disaster
+let checkForNextRound = function () {
+  if(fullTurn_1_2.length == 0) {
+    roundNumber++;
+    if (roundNumber>6) {
+      //do nothing
+      //should probably put the win statement in here
+    }else{
+      createRound();
+    }
+  }
+}
 
-
-// //calling oneTurn again here adds the second player's turn to the fullTurn array in the function
-// let round1Player2 = oneTurn()
-// let fullTurn_1_2 = fullTurn
-// console.log(fullTurn_1_2)
-// // let round2Player2 = oneTurn()
-// // let round3Player2 = oneTurn()
-// // let round4Player2 = oneTurn()
-// // let round5Player2 = oneTurn()
-// // let round6Player2 = oneTurn()
-
-// totalPlayer2Score.push(round1Player2)
-// console.log("Player 1 score: " + totalPlayer2Score)
-// console.log("Round 1: " + round1Player2)
-
-
-
-
-//below is now looping but there is some kind of off by one error
+//major bugs fixed
+//goes through the game for all 6 rounds and logs the player's scores each time correctly
+//still needs to alert the winner/loser at the end
 
 $("#button").on("click", function(event) {
-    //hiding the button below is causing the dice and the other button to shift up on the div. Fix later
-    //found fix on StackOverflow css: visibility
-    //to reverse this, use visibility: visible
+     // below doesn't seem to work
+    checkForNextRound()
+    //found on StackOverflow css: visibility
     $("#opponentButton").css("visibility", "hidden");
     // console.log(fullTurn_1_1[0]);
     cardOne.text(fullTurn_1_1[0][0])
@@ -159,18 +141,14 @@ $("#button").on("click", function(event) {
       //so this need to start the functions over again
       $("#messages").text("You didn't score on this turn. You scored " + round1Player1 + " points this round. It is now your opponent's turn.")
       $("#button").hide()
-      //this is where I need to put something that changes the item that the score is listed in each time
-      // $(".gameInPlay:first")
-      //can use above and then remove the class attribute immediatey after
-      // $("#scoreboard table tbody tr:nth-child(2) td:nth-child(2)").text(round1Player1)
       $(".gameInPlay:first").text(round1Player1);
       $(".gameInPlay:first").removeClass("gameInPlay")
-
       $("#opponentButton").css("visibility", "visible")
 
 
 
       $("#opponentButton").on("click", function(event) {
+        //below card assignment is throwing a console error when the array is empty. Doesn't seem to affect the game but should probably fix anyway
         cardOne.text(fullTurn_1_2[0][0])
         cardTwo.text(fullTurn_1_2[0][1])
         cardThree.text(fullTurn_1_2[0][2])
@@ -190,25 +168,19 @@ $("#button").on("click", function(event) {
             $("#messages").text("Your opponent scored " + scoreCount + ". Please roll again.")
           }
         fullTurn_1_2.shift()
-        if(fullTurn_1_2.length === 0) {
-          $("#messages").text("Your opponent didn't score on this roll. They scored " + round1Player2 + " points this round. It's now your turn again!")
-          // $("#scoreboard table tbody tr:nth-child(2) td:nth-child(3)").text(round1Player2)
-          $(".gameInPlay:first").text(round1Player1);
+        if(fullTurn_1_2.length == 0) {
+          $("#messages").text("Your opponent didn't score on this roll. They scored " + round1Player2 + " points this round. It's the end of this round. Please click 'Roll Your Dice' to begin the next round!")
+          console.log(round1Player2)
+          $(".gameInPlay:first").text(round1Player2);
           $(".gameInPlay:first").removeClass("gameInPlay")
           $("#opponentButton").css("visibility", "hidden")
           $("#button").show()
-          roundNumber++;
-          if (roundNumber>6) {
-            return;
-          }else{
-            createRound();
-          }
+          return;
         }
       })
     }
   }
 );
-
 
 
 
