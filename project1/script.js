@@ -1,31 +1,9 @@
 console.log("linked")
 
 let body = $('body')
-
-//pseudocode
-//First, lay out the rules of the game:
-  //each player rolls 3 dice
-  //6 rounds, where the number of the round is the target for the number you want to roll on each die
-  //one point for each die matching the target
-  //if you get three of a kind of the target, you get 21 points
-  //if you roll three of a kind of anything but the target, you get 5 points
-  //each player keeps rolling in each round until a roll gives them zero points
-//One player vs the computer
-//have a function that randomly gives the player 3 numbers from 1-6 until no target numbers are showing
-  //the function must add the number of target numbers to the running score
-  //function must also acknowledge three of a kind (probably with an if/else statement)
-//probably use same function to get computer's scores
-//continue playing for 6 rounds
-//after 6 rounds, announce the winning player
-
-
-
-//DAY 1:
-//Have created most of the game logic for one round
-//Still need to alert the user to each roll of the dice and the points awarded for each toss. Would like to avoid using alerts if possible because they're so annoying
-//Need to figure out a way to delay the execution in my while loop. Maybe a click event for each throw of the dice?
-
-
+let cardOne = $("#card1")
+let cardTwo = $("#card2")
+let cardThree = $("#card3")
 
 
 //grabbed the below random integer formula from MDN
@@ -35,17 +13,10 @@ function getRandomInteger(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-roundNumber = 1
-playerScore = []
-enemyScore = 0
-
-playerRoll = []
-
+let roundNumber = 1
+let playerRoll = []
 let fullTurn = []
 
-let cardOne = $("#card1")
-let cardTwo = $("#card2")
-let cardThree = $("#card3")
 
 //check the dice should tell the player when they get points
 let oneTurn = function() {
@@ -59,22 +30,24 @@ let oneTurn = function() {
       }
       fullTurn.push(playerRoll)
     };
-    //can I create a click event in this while loop so that the user has to click to throw the dice again? I want to delay it spitting out all the throws at once
     rollTheDice();
     console.log(playerRoll)
      if(playerRoll[0] === playerRoll[1] && playerRoll[1] === playerRoll[2]) {
       if (playerRoll[0] === roundNumber) {
+        //three of a kind of the target number
         //this is a "bunco"
         playerScore.push(21)
         Score++;
       } else {
+        //three of a kind of a number other than target
         playerScore.push(5)
         Score++;
       }
     }else if(playerRoll[0] !== roundNumber && playerRoll[1] !== roundNumber && playerRoll[2] !== roundNumber) {
       Score -= 1;
-      //go to next player >> this should break the while loop
+      //go to next player
     } else {
+      //add up the number of times the target number appears
       for (var i = 0; i < playerRoll.length; i++) {
         if (playerRoll[i] === roundNumber) {
           playerScore.push(1)
@@ -88,9 +61,15 @@ let oneTurn = function() {
     let sum = playerScore.reduce(function(acc, val) {
       return acc+val;
     }, 0)
-    console.log("full turn " + fullTurn)
+    console.log("full turn array" + fullTurn)
+    console.log("Points this round " + sum)
     return sum
 }
+
+
+
+
+
 
 
 let totalPlayer1Score = []
@@ -129,7 +108,11 @@ console.log("Player 1 score: " + totalPlayer2Score)
 console.log("Round 1: " + round1Player2)
 
 
+
+
+
 //below completes player 1 round 1
+
 $("#button").on("click", function(event) {
     //hiding the button below is causing the dice and the other button to shift up on the div. Fix later
     //found fix on StackOverflow css: visibility
@@ -155,8 +138,8 @@ $("#button").on("click", function(event) {
         }
         $("#messages").text("You scored " + scoreCount + ". Please roll again.")
       }
-
     fullTurn_1_1.shift()
+
     if (fullTurn_1_1.length == 0) {
       //if the array is empty, it is the next player's turn
       //so this need to start the functions over again
@@ -197,6 +180,39 @@ $("#button").on("click", function(event) {
     }
   }
 );
+
+
+
+
+
+
+
+//notes from Stefan below from a homework
+// so just because you mentioned it, one way to think about the click/win function is to, onclick, do something like add a class called 'clicked', so that as each box gets clicked, it appends that class name. and, within that same onclick function, check to see how many instances of the 'clicked' class exist on the page, and, if it's equal to 4, then log the win. it might look something like this:
+
+ //  zoneArray[i].onclick = function(e) {
+ //    this.className += (" green clicked");
+
+ //    this.onmouseover = function() {
+ //      //do nothing
+ //    }
+ //    this.onmouseout = function() {
+ //      //do nothing
+ //    }
+ //   let clicked = document.getElementsByClassName('clicked');
+ //   if (clicked.length  === 4) {
+ //     alert("you win!")
+ //   }
+ // }
+
+
+//With above info I want to try to put a class name on each round for one player. Then, once one instance of fullTurn is an empty array (in other words, once one turn is complete), it should delete the class name from the first child, and go to the next child for the click event
+// $(".gameInPlay:first")
+//Trying to think about how I can avoid creating all the arrays for the entire game up front, but instead call them each time one is finished
+//or could create the entire game's rolls for each player up front and then iterate through an array of arrays of arrays
+//should maybe create objects
+//could make a constructor function that creates each
+//Need to at least create a function that gives all the info that the click event needs because creating them all from scratch is a waste of time
 
 
 
