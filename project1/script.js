@@ -89,11 +89,11 @@ let oneTurn = function() {
 
 let totalPlayerScore = []
 
-let round1 = oneTurn()
-totalPlayerScore.push(round1)
+let round1Player1 = oneTurn()
+totalPlayerScore.push(round1Player1)
 
 console.log("Player score: " + totalPlayerScore)
-console.log("Round 1: " + round1)
+console.log("Round 1: " + round1Player1)
 
 
 
@@ -106,19 +106,42 @@ let cardOne = $("#card1")
 let cardTwo = $("#card2")
 let cardThree = $("#card3")
 
+
+//below completes player 1 round 1
 $("#button").on("click", function(event) {
+    //hiding the button below is causing the dice and the other button to shift up on the div. Fix later
+    //found fix on StackOverflow css: visibility
+    //to reverse this, use visibility: visible
+    $("#opponentButton").css("visibility", "hidden");
     console.log(fullTurn[0]);
     cardOne.text(fullTurn[0][0])
     cardTwo.text(fullTurn[0][1])
     cardThree.text(fullTurn[0][2])
-    console.log(fullTurn.length)
+
+     if(fullTurn[0][0] === fullTurn[0][1] && fullTurn[0][1] === fullTurn[0][2]) {
+      if (fullTurn[0][0] === roundNumber) {
+        $("#messages").text("Bunco! You scored 21 points! Please roll again.")
+      } else {
+        $("#messages").text("Three of a kind! You scored 5 points. Please roll again.")
+      }
+    }else {
+      let scoreCount = 0
+      for (var i = 0; i < fullTurn[0].length; i++) {
+        if (fullTurn[0][i] === roundNumber) {
+          scoreCount++
+          }
+        }
+        $("#messages").text("You scored " + scoreCount + ". Please roll again.")
+      }
+
     fullTurn.shift()
-    console.log(fullTurn.length)
     if (fullTurn.length == 0) {
       //if the array is empty, it is the next player's turn
       //so this need to start the functions over again
-      $("#messages").text("You scored " + round1 + " points this round")
+      $("#messages").text("You didn't score on this turn. You scored " + round1Player1 + " points this round. It is now your opponent's turn.")
       $("#button").hide()
+      $("#scoreboard > table > tbody > tr:nth-child(2) > td:nth-child(2)").text(round1Player1)
+      $("#opponentButton").css("visibility", "visible")
     }
   }
 );
