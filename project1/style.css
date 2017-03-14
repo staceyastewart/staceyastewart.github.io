@@ -1,9 +1,44 @@
 body{
   text-align: center;
   background-color: white;
+  width: 100%;
+  height: 100%;
+  margin-top: 40px;
+}
+
+table{
+  color: navy;
+  margin: 5%;
+  border-spacing: 1px;
+  border-color: black;
+  /* display: table-cell; */
+  /* vertical-align: middle; */
+  /* border: 2px dashed navy; */
+  /* float: left; */
+  /* display: table; */
+  /* border-collapse: separate; */
+}
+
+#messageBoard {
+  display: table;
+  height: 200px;
+  width: 200px;
+  background-color: rgb(0,144,189);
+  float: left;
+  margin-top: 50px;
+  margin-left: 5%;
+  border: 2px solid black;
+
+}
+
+#messages{
+  color: navy;
+  display: table-cell;
+  vertical-align: middle;
 }
 
 #board{
+  display: inline-block;
   position: relative;
   height: 300px;
   width: 300px;
@@ -13,20 +48,46 @@ body{
 }
 
 #button{
-  height: 25px;
-  width: 25px;
-  margin-top: 200px;
+  height: 35px;
+  width: 60px;
+  margin-top: 50px;
 }
 
 #cardPlate{
-  height: 80px;
+  height: 65px;
   width: 200px;
   background-color: yellow;
   text-align: center;
+  background-position: center;
+  margin-top: 110px;
+  margin-left: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .cards{
-  height: 50px;
+  height: 35px;
   width: 50px;
   display: inline-block;
+  border: 3px solid black;
+  padding-top: 20px;
 }
+
+#scoreboard {
+  display: table;
+  height: 200px;
+  width: 200px;
+  background-color: rgb(0,144,189);
+  float: right;
+  margin-top: 50px;
+  border: 2px solid black;
+  margin-right: 5%;
+}
+
+.round{
+  background-color: rgba(0,0,0, .15);
+}
+
+
+
+

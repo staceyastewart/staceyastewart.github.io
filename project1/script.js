@@ -117,6 +117,7 @@ $("#button").on("click", function(event) {
     if (fullTurn.length == 0) {
       //if the array is empty, it is the next player's turn
       //so this need to start the functions over again
+      $("#messages").text("You scored " + round1 + " points this round")
       $("#button").hide()
     }
   }
