@@ -2,7 +2,6 @@ console.log("linked")
 
 let body = $('body')
 
-
 //pseudocode
 //First, lay out the rules of the game:
   //each player rolls 3 dice
@@ -21,6 +20,12 @@ let body = $('body')
 
 
 
+//DAY 1:
+//Have created most of the game logic for one round
+//Still need to alert the user to each roll of the dice and the points awarded for each toss. Would like to avoid using alerts if possible because they're so annoying
+//Need to figure out a way to delay the execution in my while loop. Maybe a click event for each throw of the dice?
+
+
 
 
 //grabbed the below random integer formula from MDN
@@ -36,19 +41,19 @@ enemyScore = 0
 
 playerRoll = []
 
-
-
-
+let fullTurn = []
 
 //check the dice should tell the player when they get points
 let oneTurn = function() {
-  let Score = 1
+  let Score = 1;
   while (Score > playerScore.length){
     let rollTheDice = function() {
       for (var i = 0; i < 3; i++) {
         playerRoll.push(getRandomInteger(1,7))
       }
+      fullTurn.push(playerRoll)
     };
+    //can I create a click event in this while loop so that the user has to click to throw the dice again? I want to delay it spitting out all the throws at once
     rollTheDice();
     console.log(playerRoll)
      if(playerRoll[0] === playerRoll[1] && playerRoll[1] === playerRoll[2]) {
@@ -62,8 +67,7 @@ let oneTurn = function() {
       }
     }else if(playerRoll[0] !== roundNumber && playerRoll[1] !== roundNumber && playerRoll[2] !== roundNumber) {
       Score -= 1;
-      //go to next player
-      // return;
+      //go to next player >> this should break the while loop
     } else {
       for (var i = 0; i < playerRoll.length; i++) {
         if (playerRoll[i] === roundNumber) {
@@ -74,35 +78,50 @@ let oneTurn = function() {
       }
     playerRoll = []
     }
-    console.log("score: "+playerScore)
     //took the below reduce function from MDN
     let sum = playerScore.reduce(function(acc, val) {
       return acc+val;
     }, 0)
+    console.log("full turn " + fullTurn)
+    return sum
 }
 
 
+let totalPlayerScore = []
 
-oneTurn()
+let round1 = oneTurn()
+totalPlayerScore.push(round1)
+
+console.log("Player score: " + totalPlayerScore)
+console.log("Round 1: " + round1)
 
 
 
-// let playerTurn = function() {
-//   for (var i = 0; i < 2; i++) {
-//     rollTheDice();
-//     let thisTurn = playerRoll;
-//     console.log("this turn " + thisTurn);
-//     checkTheDice(thisTurn);
-//     let thisTurnScore = playerScore;
-//     console.log("score " + thisTurnScore);
-//     playerRoll = [];
-//   }
+//need to use fullTurn array of arrays to interact with clicks and to show the user their score
 
-// }
+//maybe can do a function that only ever calls the first index of the array and then I delete it after every single roll until there are no more
+//apparantly can use the shift() method on the array to remove the first element
 
-// playerTurn()
+let cardOne = $("#card1")
+let cardTwo = $("#card2")
+let cardThree = $("#card3")
 
-//if I do each score as an playerRollay within an playerRollay for each round, I can do a while loop I think
+$("#button").on("click", function(event) {
+    console.log(fullTurn[0]);
+    cardOne.text(fullTurn[0][0])
+    cardTwo.text(fullTurn[0][1])
+    cardThree.text(fullTurn[0][2])
+    console.log(fullTurn.length)
+    fullTurn.shift()
+    console.log(fullTurn.length)
+    if (fullTurn.length == 0) {
+      //if the array is empty, it is the next player's turn
+      //so this need to start the functions over again
+      $("#button").hide()
+    }
+  }
+);
+
 
 
 

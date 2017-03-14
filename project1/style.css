@@ -1,0 +1,32 @@
+body{
+  text-align: center;
+  background-color: white;
+}
+
+#board{
+  position: relative;
+  height: 300px;
+  width: 300px;
+  background-color: green;
+  margin: auto;
+  border: 10px solid black;
+}
+
+#button{
+  height: 25px;
+  width: 25px;
+  margin-top: 200px;
+}
+
+#cardPlate{
+  height: 80px;
+  width: 200px;
+  background-color: yellow;
+  text-align: center;
+}
+
+.cards{
+  height: 50px;
+  width: 50px;
+  display: inline-block;
+}
