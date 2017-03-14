@@ -98,7 +98,25 @@ let checkForNextRound = function () {
     roundNumber++;
     if (roundNumber>6) {
       //do nothing
-      //should probably put the win statement in here
+      $("#button").hide()
+      card1.remove();
+      card2.remove();
+      card3.remove();
+      let player1FinalScore = totalPlayer1Score.reduce(function(acc, val) {
+          return acc+val;
+        }, 0)
+      let player2FinalScore = totalPlayer2Score.reduce(function(acc, val) {
+          return acc+val;
+        }, 0)
+      console.log(player1FinalScore)
+      console.log(player2FinalScore)
+      if (player1FinalScore > player2FinalScore) {
+        //do something to alert the user they won
+      } else if (player2FinalScore > player1FinalScore) {
+        //do something to alert the user that they lost
+      } else {
+        //let the user know they tied
+      }
     }else{
       createRound();
     }
@@ -110,7 +128,6 @@ let checkForNextRound = function () {
 //still needs to alert the winner/loser at the end
 
 $("#button").on("click", function(event) {
-     // below doesn't seem to work
     checkForNextRound()
     //found on StackOverflow css: visibility
     $("#opponentButton").css("visibility", "hidden");
@@ -175,6 +192,10 @@ $("#button").on("click", function(event) {
           $(".gameInPlay:first").removeClass("gameInPlay")
           $("#opponentButton").css("visibility", "hidden")
           $("#button").show()
+          //this is happening before showing player 2's last round
+          if (roundNumber === 6 && fullTurn_1_2.length == 0) {
+            $("#button").text("WHO WON?")
+          }
           return;
         }
       })
