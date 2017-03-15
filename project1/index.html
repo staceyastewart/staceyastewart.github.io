@@ -3,65 +3,69 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title></title>
+  <title>SAS Bunco</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300i|Ranga" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div id="messageBoard">
-      <!-- <h2>Messages</h2> -->
-      <p id="messages">Welcome to Bunco! This is a dice game with 6 rounds. In each round, you are trying to roll the number of the round. For example, in round 1, you are aiming to roll 1's. If you roll three of a kind of the round number you get 21 points! If you roll three of a kind of another number, you get 5 points. Click "Roll Your Dice" to get started!</p>
+  <h1> The Game of Bunco! </h1>
+  <!-- Did not know what a marquee was. Took this from http://www.html.am/html-codes/marquees/ -->
+  <marquee id="round" behavior="scroll" direction="right" scrollamount="15">Round 1</marquee>
+  <div id="messageBoard">
+    <!-- <h2>Messages</h2> -->
+    <p id="messages">Welcome to Bunco! This is a dice game with 6 rounds. In each round, you are trying to roll the number of the round. For example, in round 1, you are aiming to roll 1's. If you roll three of a kind of the round number you get 21 points! If you roll three of a kind of another number, you get 5 points. Click "Roll Your Dice" to get started!</p>
+  </div>
+  <div id="board">
+    <button type="button" id="opponentButton">Opponent's Roll</button>
+    <div id="cardPlate">
+      <div id="cardOne"> </div>
+      <div id="cardTwo"> </div>
+      <div id="cardThree"> </div>
     </div>
-    <div id="board">
-      <button type="button" id="opponentButton">Opponent's Roll</button>
-      <div id="cardPlate">
-        <div id="cardOne"> </div>
-        <div id="cardTwo"> </div>
-        <div id="cardThree"> </div>
-      </div>
-      <button type="button" id="button">Roll Your Dice</button>
-    </div>
-    <div id="scoreboard">
-      <h2>Scores</h2>
-      <!--Used the table set-up below from MDN -->
-      <!-- couldn't get the border to display inside table without the below border=1 -->
-      <table border="1">
-        <tr>
-          <th class="round">Round</th>
-          <th>Player 1</th>
-          <th>Player 2</th>
-        </tr>
-        <tr>
-          <td class="round">1</td>
-          <td class="gameInPlay"></td>
-          <td class="gameInPlay"></td>
-        </tr>
-        <tr>
-          <td class="round">2</td>
-          <td class="gameInPlay"></td>
-          <td class="gameInPlay"></td>
-        </tr>
-        <tr>
-          <td class="round">3</td>
-          <td class="gameInPlay"></td>
-          <td class="gameInPlay"></td>
-        </tr>
-        <tr>
-          <td class="round">4</td>
-          <td class="gameInPlay"></td>
-          <td class="gameInPlay"></td>
-        </tr>
-        <tr>
-          <td class="round">5</td>
-          <td class="gameInPlay"></td>
-          <td class="gameInPlay"></td>
-        </tr>
-        <tr>
-          <td class="round">6</td>
-          <td class="gameInPlay"></td>
-          <td class="gameInPlay"></td>
-        </tr>
-        </table>
-    </div>
+    <button type="button" id="button">Roll Your Dice</button>
+  </div>
+  <div id="scoreboard">
+    <h2>Scores</h2>
+    <!--Used the table set-up below from MDN -->
+    <!-- couldn't get the border to display inside table without the below border=1 -->
+    <table border="1">
+      <tr>
+        <th class="round">Round</th>
+        <th>Player 1</th>
+        <th>Player 2</th>
+      </tr>
+      <tr>
+        <td class="round">1</td>
+        <td class="gameInPlay"></td>
+        <td class="gameInPlay"></td>
+      </tr>
+      <tr>
+        <td class="round">2</td>
+        <td class="gameInPlay"></td>
+        <td class="gameInPlay"></td>
+      </tr>
+      <tr>
+        <td class="round">3</td>
+        <td class="gameInPlay"></td>
+        <td class="gameInPlay"></td>
+      </tr>
+      <tr>
+        <td class="round">4</td>
+        <td class="gameInPlay"></td>
+        <td class="gameInPlay"></td>
+      </tr>
+      <tr>
+        <td class="round">5</td>
+        <td class="gameInPlay"></td>
+        <td class="gameInPlay"></td>
+      </tr>
+      <tr>
+        <td class="round">6</td>
+        <td class="gameInPlay"></td>
+        <td class="gameInPlay"></td>
+      </tr>
+      </table>
+  </div>
 
 
 </body>

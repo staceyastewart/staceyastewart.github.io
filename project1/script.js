@@ -99,6 +99,7 @@ let checkForNextRound = function () {
     roundNumber++;
     if (roundNumber>6) {
       //do nothing
+      $("#round").css("visibility", "hidden")
       $("#button").hide()
       cardOne.remove();
       cardTwo.remove();
@@ -122,6 +123,7 @@ let checkForNextRound = function () {
         cardPlate.text("You tied!")
       }
     }else{
+      $("#round").text("Round " + roundNumber)
       createRound();
     }
   }
