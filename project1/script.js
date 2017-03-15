@@ -104,6 +104,7 @@ let checkForNextRound = function () {
       cardOne.remove();
       cardTwo.remove();
       cardThree.remove();
+      $("#messages").remove();
       let player1FinalScore = totalPlayer1Score.reduce(function(acc, val) {
           return acc+val;
         }, 0)
@@ -180,9 +181,20 @@ let setDicePhoto = function() {
   }
 }
 
-//major bugs fixed
-//goes through the game for all 6 rounds and logs the player's scores each time correctly
-//still needs to alert the winner/loser at the end
+
+
+//below is from the jquery ui library
+//Ben suggested having the dice rapidly changing before they set to what you roll. Could possibly try to add that here
+$("#button").click(function() {
+  $("#cardPlate").effect( "bounce", {times: 4}, "slow" );
+});
+
+$("#opponentButton").click(function() {
+  $("#cardPlate").effect( "bounce", {times: 4}, "slow" );
+});
+
+
+
 
 $("#button").on("click", function(event) {
     checkForNextRound()
@@ -216,7 +228,7 @@ $("#button").on("click", function(event) {
       //if the array is empty, it is the next player's turn
       //so this need to start the functions over again
       $("#messages").text("You didn't score on this turn. You scored " + round1Player1 + " points this round. It is now your opponent's turn.")
-      $("#button").hide()
+      $("#button").css("visibility", "hidden")
       $(".gameInPlay:first").text(round1Player1);
       $(".gameInPlay:first").removeClass("gameInPlay")
       $("#opponentButton").css("visibility", "visible")
@@ -253,7 +265,7 @@ $("#button").on("click", function(event) {
           $(".gameInPlay:first").text(round1Player2);
           $(".gameInPlay:first").removeClass("gameInPlay")
           $("#opponentButton").css("visibility", "hidden")
-          $("#button").show()
+          $("#button").css("visibility", "visible")
           //this is happening before showing player 2's last round
           if (roundNumber === 6 && fullTurn_1_2.length == 0) {
             $("#button").text("WHO WON?")
@@ -267,11 +279,14 @@ $("#button").on("click", function(event) {
 
 
 
-//THING TO WORK ON
+
+
+
+
+//THINGS TO WORK ON
 //
-//
-// should display the round number somewhere
-//Should have a title for the page
+// better alert for the conclusion of the game
+// try to make the dice rapidly change when rolling/bouncing
 
 
 

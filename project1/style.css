@@ -90,6 +90,7 @@ marquee{
   padding-bottom: 10px;
 }
 
+
 #cardOne{
   height: 35px;
   width: 50px;
@@ -113,6 +114,7 @@ marquee{
   padding-top: 20px;
   color: transparent;
 }
+
 
 #scoreboard {
   display: table;
