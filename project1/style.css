@@ -76,6 +76,7 @@ marquee{
   height: 35px;
   width: 75px;
   margin-top: 8px;
+  visibility: hidden
 }
 
 #cardPlate{
@@ -90,13 +91,19 @@ marquee{
   padding-bottom: 10px;
 }
 
+button#endOfGame {
+  margin-left: -5px;
+  margin-top: 25px;
+  background-color: yellow;
+}
+
 
 #cardOne{
   height: 35px;
   width: 50px;
   display: inline-block;
   padding-top: 20px;
-  color: red;
+  color: transparent;
 }
 
 #cardTwo{
@@ -104,7 +111,7 @@ marquee{
   width: 50px;
   display: inline-block;
   padding-top: 20px;
-  color: red;
+  color: transparent;
 }
 
 #cardThree{

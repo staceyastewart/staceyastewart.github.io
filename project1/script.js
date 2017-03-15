@@ -77,23 +77,20 @@ let createRound = function() {
   round1Player1 = oneTurn();
   fullTurn_1_1 = fullTurn;
   totalPlayer1Score.push(round1Player1);
-  console.log(fullTurn_1_1);
   console.log("Player 1 score: " + totalPlayer1Score);
   console.log("Round 1: " + round1Player1);
   round1Player2 = oneTurn();
   fullTurn_1_2 = fullTurn;
   totalPlayer2Score.push(round1Player2);
-  console.log("Player 1 score: " + totalPlayer2Score);
+  console.log("Player 2 score: " + totalPlayer2Score);
   console.log("Round 1: " + round1Player2);
-  console.log(fullTurn_1_2);
 }
 
 createRound()
 
 
 
-//how do I make the below constantly check within my event listener
-//tried a setInterval but that's a disaster
+
 let checkForNextRound = function () {
   if(fullTurn_1_2.length == 0) {
     roundNumber++;
@@ -184,41 +181,28 @@ let setDicePhoto = function() {
 
 
 
-//Ben suggested having the dice rapidly changing before they set to what you roll. Could possibly try to add that here
-//can maybe use class toggle
-//could also maybe use the hover effect
-//maniuplated something I found on StackOverflow here: http://stackoverflow.com/questions/18544237/keep-calling-on-a-function-while-mouseover
-
-
-//below is kind of working
-//when player 2 has a second turn, it is skipping certain rolls that the had intheir turn
-//seems to be skipping even number rolls but logs the last one regardless
-
+//Below makes the dice "roll" when hovered over
+//used something I found on StackOverflow here to help with this section: http://stackoverflow.com/questions/18544237/keep-calling-on-a-function-while-mouseover
 let keepRolling = function() {
   cardOne.text(getRandomInteger(1,7))
   cardTwo.text(getRandomInteger(1,7))
   cardThree.text(getRandomInteger(1,7))
 };
-// keepRolling();
 
 let test =
-
 $("#button").mouseover(function(){
   // setInterval(keepRolling(), 500)
   test = setInterval(function() {
     keepRolling()
     setDicePhoto()
   }, 200)
-
 })
 $("#button").mouseout(function() {
   clearInterval(test)
 })
 
 let test2 =
-
 $("#opponentButton").mouseover(function(){
-  // setInterval(keepRolling(), 500)
   test2 = setInterval(function() {
     keepRolling()
     setDicePhoto()
@@ -233,27 +217,32 @@ $("#opponentButton").mouseout(function() {
 
 
 //below is from the jquery ui library
+//Creates a bounce effect on the dice when they are "thrown"
 $("#button").click(function() {
   $("#cardPlate").effect( "bounce", {times: 4}, "slow" );
+  clearInterval(test)
 });
 
 $("#opponentButton").click(function() {
   $("#cardPlate").effect( "bounce", {times: 4}, "slow" );
+  clearInterval(test2)
 });
 
 
 
 
+//PLAYER 1 BUTTON
 $("#button").on("click", function(event) {
     clearInterval(test)
     checkForNextRound()
     //found on StackOverflow css: visibility
     $("#opponentButton").css("visibility", "hidden");
     // console.log(fullTurn_1_1[0]);
-    cardOne.text(fullTurn_1_1[0][0])
-    cardTwo.text(fullTurn_1_1[0][1])
-    cardThree.text(fullTurn_1_1[0][2])
-
+    if (fullTurn_1_1.length > 0) {
+      cardOne.text(fullTurn_1_1[0][0])
+      cardTwo.text(fullTurn_1_1[0][1])
+      cardThree.text(fullTurn_1_1[0][2])
+    }
     setDicePhoto()
 
      if(fullTurn_1_1[0][0] === fullTurn_1_1[0][1] && fullTurn_1_1[0][1] === fullTurn_1_1[0][2]) {
@@ -281,62 +270,91 @@ $("#button").on("click", function(event) {
       $(".gameInPlay:first").text(round1Player1);
       $(".gameInPlay:first").removeClass("gameInPlay")
       $("#opponentButton").css("visibility", "visible")
-
-
-
-      $("#opponentButton").on("click", function(event) {
-        clearInterval(test2)
-        //below card assignment is throwing a console error when the array is empty. Doesn't seem to affect the game but should probably fix anyway
-        cardOne.text(fullTurn_1_2[0][0])
-        cardTwo.text(fullTurn_1_2[0][1])
-        cardThree.text(fullTurn_1_2[0][2])
-
-        setDicePhoto()
-
-        if(fullTurn_1_2[0][0] === fullTurn_1_2[0][1] && fullTurn_1_2[0][1] === fullTurn_1_2[0][2]) {
-          if (fullTurn_1_2[0][0] === roundNumber) {
-            $("#messages").text("Bunco! Your opponent scored 21 points! Please roll again.")
-          } else {
-            $("#messages").text("Three of a kind! Your opponent scored 5 points. Please roll again.")
-          }
-        }else {
-          let scoreCount = 0
-          for (var i = 0; i < fullTurn_1_2[0].length; i++) {
-            if (fullTurn_1_2[0][i] === roundNumber) {
-              scoreCount++
-              }
-            }
-            $("#messages").text("Your opponent scored " + scoreCount + ". Please roll again.")
-          }
-        fullTurn_1_2.shift()
-        if(fullTurn_1_2.length == 0) {
-          $("#messages").text("Your opponent didn't score on this roll. They scored " + round1Player2 + " points this round. It's the end of this round. Please click 'Roll Your Dice' to begin the next round!")
-          console.log(round1Player2)
-          $(".gameInPlay:first").text(round1Player2);
-          $(".gameInPlay:first").removeClass("gameInPlay")
-          $("#opponentButton").css("visibility", "hidden")
-          $("#button").css("visibility", "visible")
-          //this is happening before showing player 2's last round
-          if (roundNumber === 6 && fullTurn_1_2.length == 0) {
-            $("#button").text("WHO WON?")
-          }
-          return;
-        }
-      })
     }
   }
 );
 
 
+//PLAYER 2 BUTTON
+//moving below click function out of above function seems to fix the error except at the very end of the game. It is still throwing an error
+$("#opponentButton").on("click", function(event) {
+  clearInterval(test2)
+  cardOne.text(fullTurn_1_2[0][0])
+  cardTwo.text(fullTurn_1_2[0][1])
+  cardThree.text(fullTurn_1_2[0][2])
+
+  setDicePhoto()
+
+  if(fullTurn_1_2[0][0] === fullTurn_1_2[0][1] && fullTurn_1_2[0][1] === fullTurn_1_2[0][2]) {
+    if (fullTurn_1_2[0][0] === roundNumber) {
+      $("#messages").text("Bunco! Your opponent scored 21 points! Please roll again.")
+    } else {
+      $("#messages").text("Three of a kind! Your opponent scored 5 points. Please roll again.")
+    }
+  }else {
+    let scoreCount = 0
+    for (var i = 0; i < fullTurn_1_2[0].length; i++) {
+      if (fullTurn_1_2[0][i] === roundNumber) {
+        scoreCount++
+        }
+      }
+      $("#messages").text("Your opponent scored " + scoreCount + ". Please roll again.")
+    }
+  console.log("before" + fullTurn_1_2.length)
+  fullTurn_1_2.shift()
+  console.log("after" + fullTurn_1_2.length)
+  console.log(fullTurn_1_2.length == 0)
+  if(fullTurn_1_2.length == 0) {
+    $("#messages").text("Your opponent didn't score on this roll. They scored " + round1Player2 + " points this round. It's the end of this round. Please click 'Roll Your Dice' to begin the next round!")
+    console.log(round1Player2)
+    $(".gameInPlay:first").text(round1Player2);
+    $(".gameInPlay:first").removeClass("gameInPlay")
+    $("#opponentButton").css("visibility", "hidden")
+    $("#button").css("visibility", "visible")
+    //should probably append a new button instead of using the same button
+    if (roundNumber === 6 && fullTurn_1_2.length == 0) {
+      // $("#button").text("WHO WON?")
+      $("#button").css("visibility", "hidden")
+      $("#cardPlate").append("<button id='endOfGame'>GAME OVER! CLICK FOR RESULTS</button>")
+    }
+    return;
+  }
+})
 
 
-
-
-
+//the below doesn't work because the element was created dynamically. need to go back in and just create this button and hide it in the beginning in css
+$("#endOfGame").on("click", function(event) {
+  // if (roundNumber=6) {
+    $("#round").css("visibility", "hidden")
+    $("#button").hide()
+    cardOne.remove();
+    cardTwo.remove();
+    cardThree.remove();
+    $("#cardPlate").remove();
+    $("#messages").remove();
+    let player1FinalScore = totalPlayer1Score.reduce(function(acc, val) {
+        return acc+val;
+      }, 0)
+    let player2FinalScore = totalPlayer2Score.reduce(function(acc, val) {
+        return acc+val;
+      }, 0)
+    console.log(player1FinalScore)
+    console.log(player2FinalScore)
+    if (player1FinalScore > player2FinalScore) {
+      //do something to alert the user they won
+      cardPlate.text("YOU WON!")
+    } else if (player2FinalScore > player1FinalScore) {
+      //do something to alert the user that they lost
+      cardPlate.text("You lost :(")
+    } else {
+      //let the user know they tied
+      cardPlate.text("You tied!")
+  }
+// }
+})
 //THINGS TO WORK ON
 //
 // better alert for the conclusion of the game
-// try to make the dice rapidly change when rolling/bouncing
 
 
 
