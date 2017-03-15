@@ -71,12 +71,34 @@ table{
   padding-bottom: 10px;
 }
 
-.cards{
+#cardOne{
   height: 35px;
   width: 50px;
   display: inline-block;
-  border: 3px solid black;
+  border: 2px solid black;
+  border-radius: 23px;
   padding-top: 20px;
+  color: transparent;
+}
+
+#cardTwo{
+  height: 35px;
+  width: 50px;
+  display: inline-block;
+  border: 2px solid black;
+  border-radius: 23px;
+  padding-top: 20px;
+  color: transparent;
+}
+
+#cardThree{
+  height: 35px;
+  width: 50px;
+  display: inline-block;
+  border: 2px solid black;
+  border-radius: 23px;
+  padding-top: 20px;
+  color: transparent;
 }
 
 #scoreboard {
@@ -94,6 +116,41 @@ table{
   background-color: rgba(0,0,0, .15);
 }
 
+.dice1{
+  background-image: url(Images/dice_sprite.png);
+  background-position: -4px -2px;
+  background-size: 710%;
+}
+
+.dice2{
+  background-image: url(Images/dice_sprite.png);
+  background-position: -62px -2px;
+  background-size: 710%;
+}
+
+.dice3{
+  background-image: url(Images/dice_sprite.png);
+  background-position: -121px -2px;
+  background-size: 710%;
+}
+
+.dice4{
+  background-image: url(Images/dice_sprite.png);
+  background-position: -181px -2px;
+  background-size: 710%;
+}
+
+.dice5{
+  background-image: url(Images/dice_sprite.png);
+  background-position: -241px -2px;
+  background-size: 710%;
+}
+
+.dice6{
+  background-image: url(Images/dice_sprite.png);
+  background-position: -301px -2px;
+  background-size: 710%;
+}
 
 
 

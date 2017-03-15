@@ -1,9 +1,9 @@
 console.log("linked")
 
 let body = $('body')
-let cardOne = $("#card1")
-let cardTwo = $("#card2")
-let cardThree = $("#card3")
+let cardOne = $("#cardOne")
+let cardTwo = $("#cardTwo")
+let cardThree = $("#cardThree")
 
 
 //grabbed the below random integer formula from MDN
@@ -99,9 +99,9 @@ let checkForNextRound = function () {
     if (roundNumber>6) {
       //do nothing
       $("#button").hide()
-      card1.remove();
-      card2.remove();
-      card3.remove();
+      cardOne.remove();
+      cardTwo.remove();
+      cardThree.remove();
       let player1FinalScore = totalPlayer1Score.reduce(function(acc, val) {
           return acc+val;
         }, 0)
@@ -135,6 +135,22 @@ $("#button").on("click", function(event) {
     cardOne.text(fullTurn_1_1[0][0])
     cardTwo.text(fullTurn_1_1[0][1])
     cardThree.text(fullTurn_1_1[0][2])
+    //can I use a switch below??
+    if (document.getElementById("cardOne").innerText == 1) {
+      document.getElementById("cardOne").className="dice1"
+    } else if (document.getElementById("cardOne").innerText == 2) {
+      // cardOne.addClass("dice2")
+      document.getElementById("cardOne").className="dice2"
+    } else if (document.getElementById("cardOne").innerText == 3) {
+      // cardOne.addClass("dice3")
+      document.getElementById("cardOne").className="dice3"
+    } else if (document.getElementById("cardOne").innerText == 4) {
+      document.getElementById("cardOne").className="dice4"
+    } else if (document.getElementById("cardOne").innerText == 5) {
+      document.getElementById("cardOne").className="dice5"
+    } else if (document.getElementById("cardOne").innerText == 6) {
+      document.getElementById("cardOne").className="dice6"
+    }
 
      if(fullTurn_1_1[0][0] === fullTurn_1_1[0][1] && fullTurn_1_1[0][1] === fullTurn_1_1[0][2]) {
       if (fullTurn_1_1[0][0] === roundNumber) {
@@ -169,6 +185,23 @@ $("#button").on("click", function(event) {
         cardOne.text(fullTurn_1_2[0][0])
         cardTwo.text(fullTurn_1_2[0][1])
         cardThree.text(fullTurn_1_2[0][2])
+
+        // if (document.getElementById("cardOne").innerText == 1) {
+        //   document.getElementById("cardOne").className="dice1"
+        // } else if (document.getElementById("cardOne").innerText == 2) {
+        //   // cardOne.addClass("dice2")
+        //   document.getElementById("cardOne").className="dice2"
+        // } else if (document.getElementById("cardOne").innerText == 3) {
+        //   // cardOne.addClass("dice3")
+        //   document.getElementById("cardOne").className="dice3"
+        // } else if (document.getElementById("cardOne").innerText == 4) {
+        //   document.getElementById("cardOne").className="dice4"
+        // } else if (document.getElementById("cardOne").innerText == 5) {
+        //   document.getElementById("cardOne").className="dice5"
+        // } else if (document.getElementById("cardOne").innerText == 6) {
+        //   document.getElementById("cardOne").className="dice6"
+        // }
+
         if(fullTurn_1_2[0][0] === fullTurn_1_2[0][1] && fullTurn_1_2[0][1] === fullTurn_1_2[0][2]) {
           if (fullTurn_1_2[0][0] === roundNumber) {
             $("#messages").text("Bunco! Your opponent scored 21 points! Please roll again.")
