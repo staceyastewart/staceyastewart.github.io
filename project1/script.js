@@ -4,6 +4,7 @@ let body = $('body')
 let cardOne = $("#cardOne")
 let cardTwo = $("#cardTwo")
 let cardThree = $("#cardThree")
+let cardPlate = $("#cardPlate")
 
 
 //grabbed the below random integer formula from MDN
@@ -112,14 +113,68 @@ let checkForNextRound = function () {
       console.log(player2FinalScore)
       if (player1FinalScore > player2FinalScore) {
         //do something to alert the user they won
+        cardPlate.text("YOU WON!")
       } else if (player2FinalScore > player1FinalScore) {
         //do something to alert the user that they lost
+        cardPlate.text("You lost :(")
       } else {
         //let the user know they tied
+        cardPlate.text("You tied!")
       }
     }else{
       createRound();
     }
+  }
+}
+
+
+
+let setDicePhoto = function() {
+  //can I use a switch below??
+  //could I use a loop somehow?
+  //could put the three cards into an array and loop through each
+
+  //cardOne
+  if (document.getElementById("cardOne").innerText == 1) {
+    document.getElementById("cardOne").className="dice1"
+  } else if (document.getElementById("cardOne").innerText == 2) {
+    document.getElementById("cardOne").className="dice2"
+  } else if (document.getElementById("cardOne").innerText == 3) {
+    document.getElementById("cardOne").className="dice3"
+  } else if (document.getElementById("cardOne").innerText == 4) {
+    document.getElementById("cardOne").className="dice4"
+  } else if (document.getElementById("cardOne").innerText == 5) {
+    document.getElementById("cardOne").className="dice5"
+  } else if (document.getElementById("cardOne").innerText == 6) {
+    document.getElementById("cardOne").className="dice6"
+  }
+  //cardTwo
+    if (document.getElementById("cardTwo").innerText == 1) {
+    document.getElementById("cardTwo").className="dice1"
+  } else if (document.getElementById("cardTwo").innerText == 2) {
+    document.getElementById("cardTwo").className="dice2"
+  } else if (document.getElementById("cardTwo").innerText == 3) {
+    document.getElementById("cardTwo").className="dice3"
+  } else if (document.getElementById("cardTwo").innerText == 4) {
+    document.getElementById("cardTwo").className="dice4"
+  } else if (document.getElementById("cardTwo").innerText == 5) {
+    document.getElementById("cardTwo").className="dice5"
+  } else if (document.getElementById("cardTwo").innerText == 6) {
+    document.getElementById("cardTwo").className="dice6"
+  }
+  //cardThree
+  if (document.getElementById("cardThree").innerText == 1) {
+    document.getElementById("cardThree").className="dice1"
+  } else if (document.getElementById("cardThree").innerText == 2) {
+    document.getElementById("cardThree").className="dice2"
+  } else if (document.getElementById("cardThree").innerText == 3) {
+    document.getElementById("cardThree").className="dice3"
+  } else if (document.getElementById("cardThree").innerText == 4) {
+    document.getElementById("cardThree").className="dice4"
+  } else if (document.getElementById("cardThree").innerText == 5) {
+    document.getElementById("cardThree").className="dice5"
+  } else if (document.getElementById("cardThree").innerText == 6) {
+    document.getElementById("cardThree").className="dice6"
   }
 }
 
@@ -135,22 +190,8 @@ $("#button").on("click", function(event) {
     cardOne.text(fullTurn_1_1[0][0])
     cardTwo.text(fullTurn_1_1[0][1])
     cardThree.text(fullTurn_1_1[0][2])
-    //can I use a switch below??
-    if (document.getElementById("cardOne").innerText == 1) {
-      document.getElementById("cardOne").className="dice1"
-    } else if (document.getElementById("cardOne").innerText == 2) {
-      // cardOne.addClass("dice2")
-      document.getElementById("cardOne").className="dice2"
-    } else if (document.getElementById("cardOne").innerText == 3) {
-      // cardOne.addClass("dice3")
-      document.getElementById("cardOne").className="dice3"
-    } else if (document.getElementById("cardOne").innerText == 4) {
-      document.getElementById("cardOne").className="dice4"
-    } else if (document.getElementById("cardOne").innerText == 5) {
-      document.getElementById("cardOne").className="dice5"
-    } else if (document.getElementById("cardOne").innerText == 6) {
-      document.getElementById("cardOne").className="dice6"
-    }
+
+    setDicePhoto()
 
      if(fullTurn_1_1[0][0] === fullTurn_1_1[0][1] && fullTurn_1_1[0][1] === fullTurn_1_1[0][2]) {
       if (fullTurn_1_1[0][0] === roundNumber) {
@@ -186,21 +227,7 @@ $("#button").on("click", function(event) {
         cardTwo.text(fullTurn_1_2[0][1])
         cardThree.text(fullTurn_1_2[0][2])
 
-        // if (document.getElementById("cardOne").innerText == 1) {
-        //   document.getElementById("cardOne").className="dice1"
-        // } else if (document.getElementById("cardOne").innerText == 2) {
-        //   // cardOne.addClass("dice2")
-        //   document.getElementById("cardOne").className="dice2"
-        // } else if (document.getElementById("cardOne").innerText == 3) {
-        //   // cardOne.addClass("dice3")
-        //   document.getElementById("cardOne").className="dice3"
-        // } else if (document.getElementById("cardOne").innerText == 4) {
-        //   document.getElementById("cardOne").className="dice4"
-        // } else if (document.getElementById("cardOne").innerText == 5) {
-        //   document.getElementById("cardOne").className="dice5"
-        // } else if (document.getElementById("cardOne").innerText == 6) {
-        //   document.getElementById("cardOne").className="dice6"
-        // }
+        setDicePhoto()
 
         if(fullTurn_1_2[0][0] === fullTurn_1_2[0][1] && fullTurn_1_2[0][1] === fullTurn_1_2[0][2]) {
           if (fullTurn_1_2[0][0] === roundNumber) {
@@ -237,6 +264,12 @@ $("#button").on("click", function(event) {
 );
 
 
+
+//THING TO WORK ON
+//
+//
+// should display the round number somewhere
+//Should have a title for the page
 
 
 
