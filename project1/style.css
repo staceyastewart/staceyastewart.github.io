@@ -96,7 +96,7 @@ marquee{
   width: 50px;
   display: inline-block;
   padding-top: 20px;
-  color: transparent;
+  color: red;
 }
 
 #cardTwo{
@@ -104,7 +104,7 @@ marquee{
   width: 50px;
   display: inline-block;
   padding-top: 20px;
-  color: transparent;
+  color: red;
 }
 
 #cardThree{

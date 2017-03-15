@@ -67,8 +67,8 @@ let oneTurn = function() {
     let sum = playerScore.reduce(function(acc, val) {
       return acc+val;
     }, 0)
-    console.log("full turn array" + fullTurn)
-    console.log("Points this round " + sum)
+    // console.log("full turn array" + fullTurn)
+    // console.log("Points this round " + sum)
     return sum
 }
 
@@ -183,8 +183,56 @@ let setDicePhoto = function() {
 
 
 
-//below is from the jquery ui library
+
 //Ben suggested having the dice rapidly changing before they set to what you roll. Could possibly try to add that here
+//can maybe use class toggle
+//could also maybe use the hover effect
+//maniuplated something I found on StackOverflow here: http://stackoverflow.com/questions/18544237/keep-calling-on-a-function-while-mouseover
+
+
+//below is kind of working
+//when player 2 has a second turn, it is skipping certain rolls that the had intheir turn
+//seems to be skipping even number rolls but logs the last one regardless
+
+let keepRolling = function() {
+  cardOne.text(getRandomInteger(1,7))
+  cardTwo.text(getRandomInteger(1,7))
+  cardThree.text(getRandomInteger(1,7))
+};
+// keepRolling();
+
+let test =
+
+$("#button").mouseover(function(){
+  // setInterval(keepRolling(), 500)
+  test = setInterval(function() {
+    keepRolling()
+    setDicePhoto()
+  }, 200)
+
+})
+$("#button").mouseout(function() {
+  clearInterval(test)
+})
+
+let test2 =
+
+$("#opponentButton").mouseover(function(){
+  // setInterval(keepRolling(), 500)
+  test2 = setInterval(function() {
+    keepRolling()
+    setDicePhoto()
+  }, 200)
+})
+$("#opponentButton").mouseout(function() {
+  clearInterval(test2)
+})
+
+
+
+
+
+//below is from the jquery ui library
 $("#button").click(function() {
   $("#cardPlate").effect( "bounce", {times: 4}, "slow" );
 });
@@ -197,6 +245,7 @@ $("#opponentButton").click(function() {
 
 
 $("#button").on("click", function(event) {
+    clearInterval(test)
     checkForNextRound()
     //found on StackOverflow css: visibility
     $("#opponentButton").css("visibility", "hidden");
@@ -236,6 +285,7 @@ $("#button").on("click", function(event) {
 
 
       $("#opponentButton").on("click", function(event) {
+        clearInterval(test2)
         //below card assignment is throwing a console error when the array is empty. Doesn't seem to affect the game but should probably fix anyway
         cardOne.text(fullTurn_1_2[0][0])
         cardTwo.text(fullTurn_1_2[0][1])
