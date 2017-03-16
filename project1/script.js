@@ -184,6 +184,7 @@ let stopRolling = function() {
 
 let interval_id;
 
+//Bryan helped with this section when I had a Chrome bug when resizing
 let startRolling = function(){
   return setInterval(function() {
       keepRolling()
@@ -196,7 +197,6 @@ let ceaseRolling = function(interval_id){
 }
 
 $("#button").on("mouseover", function(){
-  console.log('hboveasdfa')
   interval_id = startRolling();
 });
 
@@ -205,20 +205,6 @@ $("#button").on("mouseout", function(){
   stopRolling();
   setDicePhoto();
 });
-
-let test2 =
-$("#opponentButton").mouseover(function(){
-  test2 = setInterval(function() {
-    keepRolling()
-    setDicePhoto()
-  }, 150)
-})
-
-$("#opponentButton").mouseout(function() {
-  clearInterval(test2)
-  stopRolling()
-  setDicePhoto()
-})
 
 
 
@@ -285,18 +271,13 @@ let thisMightWork = function() {
 //Creates a bounce effect on the dice when they are "thrown"
 $("#button").click(function() {
   $("#cardPlate").effect( "bounce", {times: 3}, "fast" );
-  clearInterval(test)
-});
-
-$("#opponentButton").click(function() {
-  $("#cardPlate").effect( "bounce", {times: 3}, "fast" );
-  clearInterval(test2)
+  clearInterval(interval_id);
 });
 
 
 //PLAYER 1 BUTTON
 $("#button").on("click", function(event) {
-    clearInterval(test)
+    clearInterval(interval_id);
     checkForNextRound()
     //found on StackOverflow (css: visibility)
     $("#opponentButton").css("visibility", "hidden");
@@ -385,6 +366,5 @@ $("#endOfGame").on("click", function(event) {
 
 
 //Ask Bryan
-//hover bug
 //timeout
 //
