@@ -121,6 +121,9 @@ let setDicePhoto = function() {
     document.getElementById("cardOne").className="dice5"
   } else if (document.getElementById("cardOne").innerText == 6) {
     document.getElementById("cardOne").className="dice6"
+  } else {
+    // $("#cardOne").css("visibility", "hidden")
+    document.getElementById("cardOne").className=""
   }
   //cardTwo
     if (document.getElementById("cardTwo").innerText == 1) {
@@ -135,6 +138,9 @@ let setDicePhoto = function() {
     document.getElementById("cardTwo").className="dice5"
   } else if (document.getElementById("cardTwo").innerText == 6) {
     document.getElementById("cardTwo").className="dice6"
+  } else {
+    // $("#cardTwo").css("visibility", "hidden")
+    document.getElementById("cardTwo").className=""
   }
   //cardThree
   if (document.getElementById("cardThree").innerText == 1) {
@@ -149,6 +155,9 @@ let setDicePhoto = function() {
     document.getElementById("cardThree").className="dice5"
   } else if (document.getElementById("cardThree").innerText == 6) {
     document.getElementById("cardThree").className="dice6"
+  } else {
+    // $("#cardThree").css("visibility", "hidden")
+    document.getElementById("cardThree").className=""
   }
 }
 
@@ -157,12 +166,18 @@ let setDicePhoto = function() {
 
 //Below makes the dice "roll" when hovered over
 //BUG: does not work in full-screen mode sometimes. But only sometimes!!
-//used something I found on StackOverflow here to help with this section: http://stackoverflow.com/questions/18544237/keep-calling-on-a-function-while-mouseover
+//used something I found on StackOverflow to help with this section: http://stackoverflow.com/questions/18544237/keep-calling-on-a-function-while-mouseover
 
 let keepRolling = function() {
   cardOne.text(getRandomInteger(1,7))
   cardTwo.text(getRandomInteger(1,7))
   cardThree.text(getRandomInteger(1,7))
+};
+
+let stopRolling = function() {
+  cardOne.text(0)
+  cardTwo.text(0)
+  cardThree.text(0)
 };
 
 let test =
@@ -173,8 +188,11 @@ $("#button").mouseover(function(){
     setDicePhoto()
   }, 150)
 })
+
 $("#button").mouseout(function() {
   clearInterval(test)
+  stopRolling()
+  setDicePhoto()
 })
 
 let test2 =
@@ -184,8 +202,11 @@ $("#opponentButton").mouseover(function(){
     setDicePhoto()
   }, 150)
 })
+
 $("#opponentButton").mouseout(function() {
   clearInterval(test2)
+  stopRolling()
+  setDicePhoto()
 })
 
 
@@ -323,6 +344,8 @@ $("#endOfGame").on("click", function(event) {
 //THINGS TO WORK ON
 //
 // better alert for the conclusion of the game because it is anti-climactic
+// try to make the opponent's hand play without clicks
+//Do I actually need a readme file with explanations
 
 
 
