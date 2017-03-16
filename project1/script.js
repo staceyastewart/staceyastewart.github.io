@@ -212,6 +212,63 @@ $("#opponentButton").mouseout(function() {
 })
 
 
+
+
+//when called, the below displays the correct info on screen
+let computerOneTurn = function() {
+  cardOne.text(fullTurn_1_2[0][0])
+  cardTwo.text(fullTurn_1_2[0][1])
+  cardThree.text(fullTurn_1_2[0][2])
+  setDicePhoto()
+  if(fullTurn_1_2[0][0] === fullTurn_1_2[0][1] && fullTurn_1_2[0][1] === fullTurn_1_2[0][2]) {
+    if (fullTurn_1_2[0][0] === roundNumber) {
+      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Bunco! Player 2 scored 21 points! Please roll again.")
+    } else {
+      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Three of a kind! Player 2 scored 5 points. Please roll again.")
+    }
+  }else {
+    let scoreCount = 0
+    for (var i = 0; i < fullTurn_1_2[0].length; i++) {
+      if (fullTurn_1_2[0][i] === roundNumber) {
+        scoreCount++
+        }
+      }
+      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Player 2 scored " + scoreCount + ". Please roll again.")
+    }
+  fullTurn_1_2.shift()
+  if(fullTurn_1_2.length == 0) {
+  $("#messages").text("Because Player 2 didn't roll a " + roundNumber + ", Player 2 didn't score on this roll. They scored " + round1Player2 + " points this round. It's the end of this round. Please click 'Roll Your Dice' to begin the next round!")
+  console.log(round1Player2)
+  $(".gameInPlay:first").text(round1Player2);
+  $(".gameInPlay:first").removeClass("gameInPlay")
+  $("#opponentButton").css("visibility", "hidden")
+  $("#button").css("visibility", "visible")
+  //should probably append a new button instead of using the same button
+  if (roundNumber === 6 && fullTurn_1_2.length == 0) {
+    // $("#button").text("WHO WON?")
+    $("#button").css("visibility", "hidden")
+    $("#cardPlate").css("visibility", "visible")
+    $("#endOfGame").css("visibility", "visible")
+  }
+  return;
+}
+}
+
+
+//after trying multiple methods to do the setTimeout in a loop, this stackoverflow post REALLY helped:
+//http://stackoverflow.com/questions/5226285/settimeout-in-for-loop-does-not-print-consecutive-values
+//setting the timeout * the variable i is the only way I can get this to work in succession
+//not sure I fully understand why though
+
+let artificialIntelligence = function() {
+  for (var i = 0; i < fullTurn_1_2.length; i++) {
+    setTimeout(computerOneTurn, 2500 * i)
+  }
+}
+
+
+
+
 //below is from the jquery ui library, which Ben reccommended
 //Creates a bounce effect on the dice when they are "thrown"
 $("#button").click(function() {
@@ -261,54 +318,16 @@ $("#button").on("click", function(event) {
       $("#button").css("visibility", "hidden")
       $(".gameInPlay:first").text(round1Player1);
       $(".gameInPlay:first").removeClass("gameInPlay")
-      $("#opponentButton").css("visibility", "visible")
+      // setTimeout(artificialIntelligence(), 5000)
     }
   }
 );
 
 
-//PLAYER 2 BUTTON
-$("#opponentButton").on("click", function(event) {
-  clearInterval(test2)
-  cardOne.text(fullTurn_1_2[0][0])
-  cardTwo.text(fullTurn_1_2[0][1])
-  cardThree.text(fullTurn_1_2[0][2])
 
-  setDicePhoto()
 
-  if(fullTurn_1_2[0][0] === fullTurn_1_2[0][1] && fullTurn_1_2[0][1] === fullTurn_1_2[0][2]) {
-    if (fullTurn_1_2[0][0] === roundNumber) {
-      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Bunco! Player 2 scored 21 points! Please roll again.")
-    } else {
-      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Three of a kind! Player 2 scored 5 points. Please roll again.")
-    }
-  }else {
-    let scoreCount = 0
-    for (var i = 0; i < fullTurn_1_2[0].length; i++) {
-      if (fullTurn_1_2[0][i] === roundNumber) {
-        scoreCount++
-        }
-      }
-      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Player 2 scored " + scoreCount + ". Please roll again.")
-    }
-  fullTurn_1_2.shift()
-  if(fullTurn_1_2.length == 0) {
-    $("#messages").text("Because Player 2 didn't roll a " + roundNumber + ", Player 2 didn't score on this roll. They scored " + round1Player2 + " points this round. It's the end of this round. Please click 'Roll Your Dice' to begin the next round!")
-    console.log(round1Player2)
-    $(".gameInPlay:first").text(round1Player2);
-    $(".gameInPlay:first").removeClass("gameInPlay")
-    $("#opponentButton").css("visibility", "hidden")
-    $("#button").css("visibility", "visible")
-    //should probably append a new button instead of using the same button
-    if (roundNumber === 6 && fullTurn_1_2.length == 0) {
-      // $("#button").text("WHO WON?")
-      $("#button").css("visibility", "hidden")
-      $("#cardPlate").css("visibility", "visible")
-      $("#endOfGame").css("visibility", "visible")
-    }
-    return;
-  }
-})
+
+
 
 
 //Happens when the game finished and the end of game button is clicked
@@ -342,13 +361,6 @@ $("#endOfGame").on("click", function(event) {
       $("#round").text("Please play again!")
   }
 })
-
-
-
-//THINGS TO WORK ON
-//
-// better alert for the conclusion of the game because it is anti-climactic
-// try to make the opponent's hand play without clicks
 
 
 
