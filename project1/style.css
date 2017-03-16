@@ -70,14 +70,14 @@ marquee{
 
 #button{
   height: 35px;
-  width: 75px;
+  width: 85px;
   margin-top: 77px;
   border-radius: 5px;
 }
 
 #opponentButton{
   height: 35px;
-  width: 75px;
+  width: 85px;
   margin-top: 9px;
   visibility: hidden;
   border-radius: 5px;
@@ -93,7 +93,7 @@ marquee{
   margin-left: 78px;
   padding-top: 10px;
   padding-bottom: 10px;
-  color: rgb(255,0,0);
+  color: yellow;
   font-size: 39px;
 }
 
