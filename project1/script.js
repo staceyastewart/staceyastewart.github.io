@@ -96,30 +96,31 @@ let checkForNextRound = function () {
     roundNumber++;
     if (roundNumber>6) {
       //do nothing
-      $("#round").css("visibility", "hidden")
-      $("#button").hide()
-      cardOne.remove();
-      cardTwo.remove();
-      cardThree.remove();
-      $("#messages").remove();
-      let player1FinalScore = totalPlayer1Score.reduce(function(acc, val) {
-          return acc+val;
-        }, 0)
-      let player2FinalScore = totalPlayer2Score.reduce(function(acc, val) {
-          return acc+val;
-        }, 0)
-      console.log(player1FinalScore)
-      console.log(player2FinalScore)
-      if (player1FinalScore > player2FinalScore) {
-        //do something to alert the user they won
-        cardPlate.text("YOU WON!")
-      } else if (player2FinalScore > player1FinalScore) {
-        //do something to alert the user that they lost
-        cardPlate.text("You lost :(")
-      } else {
-        //let the user know they tied
-        cardPlate.text("You tied!")
-      }
+      //once the below works for the other button, delete it
+      // $("#round").css("visibility", "hidden")
+      // $("#button").hide()
+      // cardOne.remove();
+      // cardTwo.remove();
+      // cardThree.remove();
+      // $("#messages").remove();
+      // let player1FinalScore = totalPlayer1Score.reduce(function(acc, val) {
+      //     return acc+val;
+      //   }, 0)
+      // let player2FinalScore = totalPlayer2Score.reduce(function(acc, val) {
+      //     return acc+val;
+      //   }, 0)
+      // console.log(player1FinalScore)
+      // console.log(player2FinalScore)
+      // if (player1FinalScore > player2FinalScore) {
+      //   //do something to alert the user they won
+      //   cardPlate.text("YOU WON!")
+      // } else if (player2FinalScore > player1FinalScore) {
+      //   //do something to alert the user that they lost
+      //   cardPlate.text("You lost :(")
+      // } else {
+      //   //let the user know they tied
+      //   cardPlate.text("You tied!")
+      // }
     }else{
       $("#round").text("Round " + roundNumber)
       createRound();
@@ -130,6 +131,7 @@ let checkForNextRound = function () {
 
 
 let setDicePhoto = function() {
+  //this function is too lengthy
   //can I use a switch below??
   //could I use a loop somehow?
   //could put the three cards into an array and loop through each
@@ -182,7 +184,9 @@ let setDicePhoto = function() {
 
 
 //Below makes the dice "roll" when hovered over
+//BUG: does not work in full-screen mode??
 //used something I found on StackOverflow here to help with this section: http://stackoverflow.com/questions/18544237/keep-calling-on-a-function-while-mouseover
+
 let keepRolling = function() {
   cardOne.text(getRandomInteger(1,7))
   cardTwo.text(getRandomInteger(1,7))
@@ -195,7 +199,7 @@ $("#button").mouseover(function(){
   test = setInterval(function() {
     keepRolling()
     setDicePhoto()
-  }, 200)
+  }, 150)
 })
 $("#button").mouseout(function() {
   clearInterval(test)
@@ -206,7 +210,7 @@ $("#opponentButton").mouseover(function(){
   test2 = setInterval(function() {
     keepRolling()
     setDicePhoto()
-  }, 200)
+  }, 150)
 })
 $("#opponentButton").mouseout(function() {
   clearInterval(test2)
@@ -247,9 +251,9 @@ $("#button").on("click", function(event) {
 
      if(fullTurn_1_1[0][0] === fullTurn_1_1[0][1] && fullTurn_1_1[0][1] === fullTurn_1_1[0][2]) {
       if (fullTurn_1_1[0][0] === roundNumber) {
-        $("#messages").text("Bunco! You scored 21 points! Please roll again.")
+        $("#messages").text("You rolled: "+ fullTurn_1_1[0][0] + ", " + fullTurn_1_1[0][1] + ", " + fullTurn_1_1[0][2] + ". Bunco! You scored 21 points! Please roll again.")
       } else {
-        $("#messages").text("Three of a kind! You scored 5 points. Please roll again.")
+        $("#messages").text("You rolled: "+ fullTurn_1_1[0][0] + ", " + fullTurn_1_1[0][1] + ", " + fullTurn_1_1[0][2] + ". Three of a kind! You scored 5 points. Please roll again.")
       }
     }else {
       let scoreCount = 0
@@ -258,14 +262,14 @@ $("#button").on("click", function(event) {
           scoreCount++
           }
         }
-        $("#messages").text("You scored " + scoreCount + ". Please roll again.")
+        $("#messages").text("You rolled: "+ fullTurn_1_1[0][0] + ", " + fullTurn_1_1[0][1] + ", " + fullTurn_1_1[0][2] + ". You scored " + scoreCount + ". Please roll again.")
       }
     fullTurn_1_1.shift()
 
     if (fullTurn_1_1.length == 0) {
       //if the array is empty, it is the next player's turn
       //so this need to start the functions over again
-      $("#messages").text("You didn't score on this turn. You scored " + round1Player1 + " points this round. It is now your opponent's turn.")
+      $("#messages").text("Because you didn't roll a " + roundNumber + ", you didn't score on this turn. You scored " + round1Player1 + " points this round. It is now your opponent's turn.")
       $("#button").css("visibility", "hidden")
       $(".gameInPlay:first").text(round1Player1);
       $(".gameInPlay:first").removeClass("gameInPlay")
@@ -287,9 +291,9 @@ $("#opponentButton").on("click", function(event) {
 
   if(fullTurn_1_2[0][0] === fullTurn_1_2[0][1] && fullTurn_1_2[0][1] === fullTurn_1_2[0][2]) {
     if (fullTurn_1_2[0][0] === roundNumber) {
-      $("#messages").text("Bunco! Your opponent scored 21 points! Please roll again.")
+      $("#messages").text("They rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Bunco! Your opponent scored 21 points! Please roll again.")
     } else {
-      $("#messages").text("Three of a kind! Your opponent scored 5 points. Please roll again.")
+      $("#messages").text("They rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Three of a kind! Your opponent scored 5 points. Please roll again.")
     }
   }else {
     let scoreCount = 0
@@ -298,14 +302,11 @@ $("#opponentButton").on("click", function(event) {
         scoreCount++
         }
       }
-      $("#messages").text("Your opponent scored " + scoreCount + ". Please roll again.")
+      $("#messages").text("They rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Your opponent scored " + scoreCount + ". Please roll again.")
     }
-  console.log("before" + fullTurn_1_2.length)
   fullTurn_1_2.shift()
-  console.log("after" + fullTurn_1_2.length)
-  console.log(fullTurn_1_2.length == 0)
   if(fullTurn_1_2.length == 0) {
-    $("#messages").text("Your opponent didn't score on this roll. They scored " + round1Player2 + " points this round. It's the end of this round. Please click 'Roll Your Dice' to begin the next round!")
+    $("#messages").text("Because your opponent didn't roll a " + roundNumber + ", your opponent didn't score on this roll. They scored " + round1Player2 + " points this round. It's the end of this round. Please click 'Roll Your Dice' to begin the next round!")
     console.log(round1Player2)
     $(".gameInPlay:first").text(round1Player2);
     $(".gameInPlay:first").removeClass("gameInPlay")
@@ -315,14 +316,14 @@ $("#opponentButton").on("click", function(event) {
     if (roundNumber === 6 && fullTurn_1_2.length == 0) {
       // $("#button").text("WHO WON?")
       $("#button").css("visibility", "hidden")
-      $("#cardPlate").append("<button id='endOfGame'>GAME OVER! CLICK FOR RESULTS</button>")
+      $("#cardPlate").css("visibility", "visible")
     }
     return;
   }
 })
 
 
-//the below doesn't work because the element was created dynamically. need to go back in and just create this button and hide it in the beginning in css
+
 $("#endOfGame").on("click", function(event) {
   // if (roundNumber=6) {
     $("#round").css("visibility", "hidden")

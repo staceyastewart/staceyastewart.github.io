@@ -91,7 +91,8 @@ marquee{
   padding-bottom: 10px;
 }
 
-button#endOfGame {
+#endOfGame {
+  visibility: hidden;
   margin-left: -5px;
   margin-top: 25px;
   background-color: yellow;
