@@ -1,4 +1,3 @@
-console.log("linked")
 
 let body = $('body')
 let cardOne = $("#cardOne")
@@ -14,6 +13,7 @@ function getRandomInteger(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+//all the variables I needed to define outside of functions
 let roundNumber = 1
 let playerRoll = []
 let fullTurn = []
@@ -24,7 +24,7 @@ let fullTurn_1_2 = [];
 let round1Player1 = 0;
 let round1Player2 = 0;
 
-//check the dice should tell the player when they get points
+//below creates one turn for one player in one round
 let oneTurn = function() {
   let Score = 1;
   fullTurn = [];
@@ -67,12 +67,10 @@ let oneTurn = function() {
     let sum = playerScore.reduce(function(acc, val) {
       return acc+val;
     }, 0)
-    // console.log("full turn array" + fullTurn)
-    // console.log("Points this round " + sum)
     return sum
 }
 
-
+//below creates all that is needed in each round
 let createRound = function() {
   round1Player1 = oneTurn();
   fullTurn_1_1 = fullTurn;
@@ -89,38 +87,12 @@ let createRound = function() {
 createRound()
 
 
-
-
+//below checks if player two's array is enpty to start the next round
 let checkForNextRound = function () {
   if(fullTurn_1_2.length == 0) {
     roundNumber++;
     if (roundNumber>6) {
       //do nothing
-      //once the below works for the other button, delete it
-      // $("#round").css("visibility", "hidden")
-      // $("#button").hide()
-      // cardOne.remove();
-      // cardTwo.remove();
-      // cardThree.remove();
-      // $("#messages").remove();
-      // let player1FinalScore = totalPlayer1Score.reduce(function(acc, val) {
-      //     return acc+val;
-      //   }, 0)
-      // let player2FinalScore = totalPlayer2Score.reduce(function(acc, val) {
-      //     return acc+val;
-      //   }, 0)
-      // console.log(player1FinalScore)
-      // console.log(player2FinalScore)
-      // if (player1FinalScore > player2FinalScore) {
-      //   //do something to alert the user they won
-      //   cardPlate.text("YOU WON!")
-      // } else if (player2FinalScore > player1FinalScore) {
-      //   //do something to alert the user that they lost
-      //   cardPlate.text("You lost :(")
-      // } else {
-      //   //let the user know they tied
-      //   cardPlate.text("You tied!")
-      // }
     }else{
       $("#round").text("Round " + roundNumber)
       createRound();
@@ -129,12 +101,12 @@ let checkForNextRound = function () {
 }
 
 
-
+//below assigns the photo for each die
 let setDicePhoto = function() {
   //this function is too lengthy
   //can I use a switch below??
   //could I use a loop somehow?
-  //could put the three cards into an array and loop through each
+  //could put the three dice into an array and loop through each
 
   //cardOne
   if (document.getElementById("cardOne").innerText == 1) {
@@ -184,7 +156,7 @@ let setDicePhoto = function() {
 
 
 //Below makes the dice "roll" when hovered over
-//BUG: does not work in full-screen mode??
+//BUG: does not work in full-screen mode sometimes. But only sometimes!!
 //used something I found on StackOverflow here to help with this section: http://stackoverflow.com/questions/18544237/keep-calling-on-a-function-while-mouseover
 
 let keepRolling = function() {
@@ -217,31 +189,25 @@ $("#opponentButton").mouseout(function() {
 })
 
 
-
-
-
-//below is from the jquery ui library
+//below is from the jquery ui library, which Ben reccommended
 //Creates a bounce effect on the dice when they are "thrown"
 $("#button").click(function() {
-  $("#cardPlate").effect( "bounce", {times: 4}, "slow" );
+  $("#cardPlate").effect( "bounce", {times: 3}, "fast" );
   clearInterval(test)
 });
 
 $("#opponentButton").click(function() {
-  $("#cardPlate").effect( "bounce", {times: 4}, "slow" );
+  $("#cardPlate").effect( "bounce", {times: 3}, "fast" );
   clearInterval(test2)
 });
-
-
 
 
 //PLAYER 1 BUTTON
 $("#button").on("click", function(event) {
     clearInterval(test)
     checkForNextRound()
-    //found on StackOverflow css: visibility
+    //found on StackOverflow (css: visibility)
     $("#opponentButton").css("visibility", "hidden");
-    // console.log(fullTurn_1_1[0]);
     if (fullTurn_1_1.length > 0) {
       cardOne.text(fullTurn_1_1[0][0])
       cardTwo.text(fullTurn_1_1[0][1])
@@ -268,7 +234,6 @@ $("#button").on("click", function(event) {
 
     if (fullTurn_1_1.length == 0) {
       //if the array is empty, it is the next player's turn
-      //so this need to start the functions over again
       $("#messages").text("Because you didn't roll a " + roundNumber + ", you didn't score on this turn. You scored " + round1Player1 + " points this round. It is now your opponent's turn.")
       $("#button").css("visibility", "hidden")
       $(".gameInPlay:first").text(round1Player1);
@@ -280,7 +245,6 @@ $("#button").on("click", function(event) {
 
 
 //PLAYER 2 BUTTON
-//moving below click function out of above function seems to fix the error except at the very end of the game. It is still throwing an error
 $("#opponentButton").on("click", function(event) {
   clearInterval(test2)
   cardOne.text(fullTurn_1_2[0][0])
@@ -317,22 +281,23 @@ $("#opponentButton").on("click", function(event) {
       // $("#button").text("WHO WON?")
       $("#button").css("visibility", "hidden")
       $("#cardPlate").css("visibility", "visible")
+      $("#endOfGame").css("visibility", "visible")
     }
     return;
   }
 })
 
 
-
+//Happens when the game finished and the end of game button is clicked
 $("#endOfGame").on("click", function(event) {
-  // if (roundNumber=6) {
     $("#round").css("visibility", "hidden")
     $("#button").hide()
     cardOne.remove();
     cardTwo.remove();
     cardThree.remove();
-    $("#cardPlate").remove();
+    $("#refresh").css("visibility", "visible")
     $("#messages").remove();
+    //As stated above, took the below reduce function from MDN
     let player1FinalScore = totalPlayer1Score.reduce(function(acc, val) {
         return acc+val;
       }, 0)
@@ -351,11 +316,13 @@ $("#endOfGame").on("click", function(event) {
       //let the user know they tied
       cardPlate.text("You tied!")
   }
-// }
 })
+
+
+
 //THINGS TO WORK ON
 //
-// better alert for the conclusion of the game
+// better alert for the conclusion of the game because it is anti-climactic
 
 
 

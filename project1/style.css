@@ -8,8 +8,10 @@ body{
 }
 
 table{
-/*  color: navy;*/
-  margin: 5%;
+ /* color: navy; */
+  margin-top: -7px;
+  /* margin: 3%; */
+  margin-left: 50px;
   border-spacing: 1px;
   border-color: black;
   /* display: table-cell; */
@@ -37,8 +39,8 @@ marquee{
 
 #messageBoard {
   display: table;
-  height: 200px;
-  width: 200px;
+  height: 280px;
+  width: 280px;
   background-color: rgba(199,55,41, .7);
   float: left;
   margin-top: 50px;
@@ -58,8 +60,8 @@ marquee{
 #board{
   display: inline-block;
   position: relative;
-  height: 300px;
-  width: 300px;
+  height: 350px;
+  width: 350px;
   background-color: rgb(0, 94, 38);
   margin: auto;
   border: 10px solid black;
@@ -69,26 +71,30 @@ marquee{
 #button{
   height: 35px;
   width: 75px;
-  margin-top: 65px;
+  margin-top: 77px;
+  border-radius: 5px;
 }
 
 #opponentButton{
   height: 35px;
   width: 75px;
-  margin-top: 8px;
-  visibility: hidden
+  margin-top: 9px;
+  visibility: hidden;
+  border-radius: 5px;
 }
 
 #cardPlate{
   height: 65px;
   width: 200px;
-/*  background-color: yellow;*/
+  /* background-color: yellow; */
   text-align: center;
   background-position: center;
-  margin-top: 61px;
-  margin-left: 50px;
+  margin-top: 97px;
+  margin-left: 78px;
   padding-top: 10px;
   padding-bottom: 10px;
+  color: rgb(255,0,0);
+  font-size: 39px;
 }
 
 #endOfGame {
@@ -126,8 +132,8 @@ marquee{
 
 #scoreboard {
   display: table;
-  height: 200px;
-  width: 200px;
+  height: 280px;
+  width: 280px;
   background-color: rgba(199,55,41, .7);
   float: right;
   margin-top: 50px;
@@ -189,4 +195,12 @@ marquee{
   border-radius: 23px;
 }
 
+#refresh {
+  visibility: hidden;
+  margin-top: 33px;
+  font-size: 22px;
+  background-color: yellow;
+  font-family: serif;
+  border-radius: 10px;
+}
 
