@@ -1,6 +1,6 @@
 //this is the player two AI branch
 
-
+$(document).ready(function(){
 let body = $('body')
 let cardOne = $("#cardOne")
 let cardTwo = $("#cardTwo")
@@ -182,20 +182,29 @@ let stopRolling = function() {
   cardThree.text(0)
 };
 
-let test =
-$("#button").mouseover(function(){
-  // setInterval(keepRolling(), 500)
-  test = setInterval(function() {
-    keepRolling()
-    setDicePhoto()
-  }, 150)
-})
+let interval_id;
 
-$("#button").mouseout(function() {
-  clearInterval(test)
-  stopRolling()
-  setDicePhoto()
-})
+let startRolling = function(){
+  return setInterval(function() {
+      keepRolling()
+      setDicePhoto()
+    }, 150);
+}
+
+let ceaseRolling = function(interval_id){
+  clearInterval(interval_id);
+}
+
+$("#button").on("mouseover", function(){
+  console.log('hboveasdfa')
+  interval_id = startRolling();
+});
+
+$("#button").on("mouseout", function(){
+  ceaseRolling(interval_id);
+  stopRolling();
+  setDicePhoto();
+});
 
 let test2 =
 $("#opponentButton").mouseover(function(){
@@ -365,9 +374,17 @@ $("#endOfGame").on("click", function(event) {
 })
 
 
+}); // end closure
+
 
 
 
 
 //Things to work on
 //next branch: creating a game that lets you pick if you want to play against another player or the computer
+
+
+//Ask Bryan
+//hover bug
+//timeout
+//
