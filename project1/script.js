@@ -1,3 +1,5 @@
+//this is the player two AI branch
+
 
 let body = $('body')
 let cardOne = $("#cardOne")
