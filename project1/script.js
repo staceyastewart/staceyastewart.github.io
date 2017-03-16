@@ -214,17 +214,18 @@ $("#opponentButton").mouseout(function() {
 
 
 
-//when called, the below displays the correct info on screen
+//when called, the below runs through one full turn of AI
 let computerOneTurn = function() {
   cardOne.text(fullTurn_1_2[0][0])
   cardTwo.text(fullTurn_1_2[0][1])
   cardThree.text(fullTurn_1_2[0][2])
   setDicePhoto()
+  $("#cardPlate").effect( "bounce", {times: 3}, "fast" );
   if(fullTurn_1_2[0][0] === fullTurn_1_2[0][1] && fullTurn_1_2[0][1] === fullTurn_1_2[0][2]) {
     if (fullTurn_1_2[0][0] === roundNumber) {
-      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Bunco! Player 2 scored 21 points! Please roll again.")
+      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Bunco! Player 2 scored 21 points! They will roll again.")
     } else {
-      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Three of a kind! Player 2 scored 5 points. Please roll again.")
+      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Three of a kind! Player 2 scored 5 points. They will roll again.")
     }
   }else {
     let scoreCount = 0
@@ -233,7 +234,7 @@ let computerOneTurn = function() {
         scoreCount++
         }
       }
-      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Player 2 scored " + scoreCount + ". Please roll again.")
+      $("#messages").text("Player 2 rolled: "+ fullTurn_1_2[0][0] + ", " + fullTurn_1_2[0][1] + ", " + fullTurn_1_2[0][2] + ". Player 2 scored " + scoreCount + ". They will roll again.")
     }
   fullTurn_1_2.shift()
   if(fullTurn_1_2.length == 0) {
@@ -257,15 +258,17 @@ let computerOneTurn = function() {
 
 //after trying multiple methods to do the setTimeout in a loop, this stackoverflow post REALLY helped:
 //http://stackoverflow.com/questions/5226285/settimeout-in-for-loop-does-not-print-consecutive-values
-//setting the timeout * the variable i is the only way I can get this to work in succession
-//not sure I fully understand why though
+//setting the timeout * the variable i is amazingly helpful
 
 let artificialIntelligence = function() {
   for (var i = 0; i < fullTurn_1_2.length; i++) {
-    setTimeout(computerOneTurn, 2500 * i)
+    setTimeout(computerOneTurn, 3000 * i)
   }
 }
 
+let thisMightWork = function() {
+    setTimeout(artificialIntelligence, 4000)
+}
 
 
 
@@ -297,9 +300,9 @@ $("#button").on("click", function(event) {
 
      if(fullTurn_1_1[0][0] === fullTurn_1_1[0][1] && fullTurn_1_1[0][1] === fullTurn_1_1[0][2]) {
       if (fullTurn_1_1[0][0] === roundNumber) {
-        $("#messages").text("Player 1 rolled: "+ fullTurn_1_1[0][0] + ", " + fullTurn_1_1[0][1] + ", " + fullTurn_1_1[0][2] + ". Bunco! Player 1 scored 21 points! Please roll again.")
+        $("#messages").text("You rolled: "+ fullTurn_1_1[0][0] + ", " + fullTurn_1_1[0][1] + ", " + fullTurn_1_1[0][2] + ". Bunco! You scored 21 points! Please roll again.")
       } else {
-        $("#messages").text("Player 1 rolled: "+ fullTurn_1_1[0][0] + ", " + fullTurn_1_1[0][1] + ", " + fullTurn_1_1[0][2] + ". Three of a kind! Player 1 scored 5 points. Please roll again.")
+        $("#messages").text("You rolled: "+ fullTurn_1_1[0][0] + ", " + fullTurn_1_1[0][1] + ", " + fullTurn_1_1[0][2] + ". Three of a kind! You scored 5 points. Please roll again.")
       }
     }else {
       let scoreCount = 0
@@ -308,22 +311,21 @@ $("#button").on("click", function(event) {
           scoreCount++
           }
         }
-        $("#messages").text("Player 1 rolled: "+ fullTurn_1_1[0][0] + ", " + fullTurn_1_1[0][1] + ", " + fullTurn_1_1[0][2] + ". Player 1 scored " + scoreCount + ". Please roll again.")
+        $("#messages").text("You rolled: "+ fullTurn_1_1[0][0] + ", " + fullTurn_1_1[0][1] + ", " + fullTurn_1_1[0][2] + ". You scored " + scoreCount + ". Please roll again.")
       }
     fullTurn_1_1.shift()
 
     if (fullTurn_1_1.length == 0) {
       //if the array is empty, it is the next player's turn
-      $("#messages").text("Because Player 1 didn't roll a " + roundNumber + ", Player 1 didn't score on this turn. Player 1 scored " + round1Player1 + " points this round. It is now Player 2's turn.")
+      $("#messages").text("Because you didn't roll a " + roundNumber + ", you didn't score on this turn. You scored " + round1Player1 + " points this round. It is now Player 2's turn. They will roll in 3 seconds.")
       $("#button").css("visibility", "hidden")
       $(".gameInPlay:first").text(round1Player1);
       $(".gameInPlay:first").removeClass("gameInPlay")
       // setTimeout(artificialIntelligence(), 5000)
+      thisMightWork()
     }
   }
 );
-
-
 
 
 
@@ -349,12 +351,12 @@ $("#endOfGame").on("click", function(event) {
     console.log(player2FinalScore)
     if (player1FinalScore > player2FinalScore) {
       //do something to alert the user they won
-      cardPlate.text("Player 1 won!")
+      cardPlate.text("YOU WON!")
       $("#round").text("Congrats to Player 1!")
     } else if (player2FinalScore > player1FinalScore) {
       //do something to alert the user that they lost
-      cardPlate.text("Player 2 won!")
-      $("#round").text("Congrats to Player 2!")
+      cardPlate.text("The computer won!")
+      $("#round").text("Congrats to the Player 2!")
     } else {
       //let the user know they tied
       cardPlate.text("You tied!")
@@ -366,3 +368,6 @@ $("#endOfGame").on("click", function(event) {
 
 
 
+
+//Things to work on
+//next branch: creating a game that lets you pick if you want to play against another player or the computer
