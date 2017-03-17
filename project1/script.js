@@ -169,8 +169,8 @@ let numberofPlayers = 0;
 $("#onePlayerGame").on('click',  function(event) {
   numberofPlayers = 1;
   $("#button").css("visibility", "visible");
-  $("#onePlayerGame").css("visibility", "hidden");
-  $("#twoPlayerGame").css("visibility", "hidden");
+  $("#onePlayerGame").remove();
+  $("#twoPlayerGame").remove();
   // $("#messages").css("display", "table-cell")
   $("#messages").text("Player 1, please roll the dice to start the game!");
 });
@@ -178,8 +178,8 @@ $("#onePlayerGame").on('click',  function(event) {
 $("#twoPlayerGame").on('click',  function(event) {
   numberofPlayers = 2;
   $("#button").css("visibility", "visible");
-  $("#onePlayerGame").css("visibility", "hidden");
-  $("#twoPlayerGame").css("visibility", "hidden");
+  $("#onePlayerGame").remove();
+  $("#twoPlayerGame").remove();
   // $("#messages").css("display", "table-cell");
   $("#messages").text("Player 1, please roll the dice to start the game!");
 });
@@ -320,7 +320,6 @@ $("#button").on("click", function(event) {
       cardThree.text(fullTurn_1_1[0][2])
     }
     setDicePhoto()
-
      if(fullTurn_1_1[0][0] === fullTurn_1_1[0][1] && fullTurn_1_1[0][1] === fullTurn_1_1[0][2]) {
       if (fullTurn_1_1[0][0] === roundNumber) {
         $("#messages").text("You rolled: "+ fullTurn_1_1[0][0] + ", " + fullTurn_1_1[0][1] + ", " + fullTurn_1_1[0][2] + ". Bunco! You scored 21 points! Please roll again.")
@@ -354,14 +353,9 @@ $("#button").on("click", function(event) {
         // setTimeout(artificialIntelligence(), 5000)
         thisMightWork()
       }
-
     }
   }
 );
-
-
-
-
 
 //PLAYER 2 BUTTON FOR TWO PLAYER GAME
 $("#opponentButton").on("click", function(event) {
@@ -393,9 +387,8 @@ $("#opponentButton").on("click", function(event) {
     $(".gameInPlay:first").removeClass("gameInPlay")
     $("#opponentButton").css("visibility", "hidden")
     $("#button").css("visibility", "visible")
-    //should probably append a new button instead of using the same button
+
     if (roundNumber === 6 && fullTurn_1_2.length == 0) {
-      // $("#button").text("WHO WON?")
       $("#button").css("visibility", "hidden")
       $("#cardPlate").css("visibility", "visible")
       $("#endOfGame").css("visibility", "visible")
@@ -449,14 +442,6 @@ $("#endOfGame").on("click", function(event) {
 
 
 
-//Things to work on
-//next branch: creating a game that lets you pick if you want to play against another player or the computer
-//epiphany: can create two buttons, one that lets you have two players and one that lets you have one
-//when two players is clicked, a variable is assigned a value
-//can use an if statement within the player 1 button for if that button was clicked to show the opponent button
-//can use the else statement to make the player 2 AI run
 
 
-//Ask Bryan
-//timeout, interval
-//
+

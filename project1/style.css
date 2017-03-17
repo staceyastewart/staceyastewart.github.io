@@ -43,6 +43,7 @@ button#onePlayerGame {
   border-radius: 5px;
   height: 30px;
   width: 110px;
+  margin-left: 106px;
 }
 
 button#twoPlayerGame {
