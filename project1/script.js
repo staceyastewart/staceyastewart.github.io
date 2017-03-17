@@ -363,8 +363,12 @@ $("#endOfGame").on("click", function(event) {
 
 //Things to work on
 //next branch: creating a game that lets you pick if you want to play against another player or the computer
+//epiphany: can create two buttons, one that lets you have two players and one that lets you have one
+//when two players is clicked, a variable is assigned a value
+//can use an if statement within the player 1 button for if that button was clicked to show the opponent button
+//can use the else statement to make the player 2 AI run
 
 
 //Ask Bryan
-//timeout
+//timeout, interval
 //
