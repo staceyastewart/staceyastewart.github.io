@@ -1,4 +1,3 @@
-//this is the player two AI branch
 
 $(document).ready(function(){
 let body = $('body')
