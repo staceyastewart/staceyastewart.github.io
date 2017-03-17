@@ -11,9 +11,12 @@
   <h1> The Game of Bunco! </h1>
   <!-- Did not know what a marquee was. Took this from http://www.html.am/html-codes/marquees/ -->
   <marquee id="round" behavior="scroll" direction="right" scrollamount="18">Round 1</marquee>
+
   <div id="messageBoard">
     <!-- <h2>Messages</h2> -->
-    <p id="messages">Welcome to Bunco! This is a dice game with 6 rounds. In each round, you are trying to roll the number of the round. For example, in round 1, you are aiming to roll 1's. If you roll three of a kind of the round number you get 21 points! If you roll three of a kind of another number, you get 5 points. During each round, you continue rolling the dice until you don't score any points on a roll. Click "Roll Your Dice" to get started!</p>
+
+    <p id="messages">Welcome to Bunco! This is a dice game with 6 rounds. In each round, you are trying to roll the number of the round. For example, in round 1, you are aiming to roll 1's. If you roll three of a kind of the round number you get 21 points! If you roll three of a kind of another number, you get 5 points. During each round, you continue rolling the dice until you don't score any points on a roll. Would you like a one or two player game? (A one player game plays against the computer.)</p>
+
   </div>
   <div id="board">
     <button type="button" id="opponentButton">Player 2 Roll Your Dice</button>
@@ -23,6 +26,7 @@
       <div id="cardThree"> </div>
       <button id='endOfGame'>GAME OVER! CLICK FOR RESULTS</button>
     </div>
+
     <button type="button" id="button">Player 1 Roll Your Dice</button>
   </div>
   <div id="scoreboard">
@@ -71,6 +75,10 @@
   <!-- Took this button from Stack Overflow -->
     <input type="button" value="Play Again" onClick="window.location.reload()" id="refresh">
   </div>
+
+  <button type="button" id="onePlayerGame">One Player Game</button>
+  <button type="button" id="twoPlayerGame">Two Player Game</button>
+
 
 </body>
 </html>
