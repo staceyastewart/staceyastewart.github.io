@@ -36,28 +36,39 @@ app.listen(3000, function () {
 });
 
 app.get('/', function(req, res){
-//if the user is not logged in, we show them a login form that links to sign up
-//if the user is signed in then we show them the super secret stuff
-  // if(req.session.user){
-  //   //user is logged in
-  //   let data = {
-  //     "logged_in": true,
-  //     "email": req.session.user.email
-  //   }
-  //   res.render("index", data)
-  // } else {
-  //   //user is not logged in
-  //   res.render("index")
-  // }
-
+  if(req.session.user){
+    //user is logged in
+    let data = {
+      "logged_in": true,
+      "email": req.session.user.email
+    }
+    res.render("index", data)
+  } else {
+    //user is not logged in
+    res.render("index")
+  }
   res.render("index")
 });
 
 
 app.get('/signup', function(req, res){
   res.render('signup/index');
+  // console.log(req.params)
 });
 
+app.post('/signup', function(req, res){
+  let data = req.body
+  console.log(data)
+  bcrypt
+    .hash(data.password_digest, 10, function(err, hash) {
+      db
+        .none("INSERT INTO users(first_name, last_name, email, password_digest, borough, level) VALUES ($1, $2, $3, $4, $5, $6)", [data.first_name, data.last_name, data.email, hash, data.borough, data.level])
+        .then(function(){
+          //somehow log the user in
+          res.redirect("/")
+        })
+      }) //end of  bcrypt then
+  });
 
 
 

@@ -1,9 +1,12 @@
+//Bryan and Taj helped with this extensively
+//run node db/seeds.js  in terminal
 
 var fetch = require('node-fetch');
 const pgp = require('pg-promise')();
-
 var db = pgp('postgres://staceyastewart@localhost:5432/tennis');
 let url = "http://www.nycgovparks.org/bigapps/DPR_Parks_001.json"
+
+
 
 fetch(url)
   .then(function(r){
@@ -14,6 +17,10 @@ fetch(url)
       // console.log(json[i].Name);
       // console.log(json[i].Location);
       // console.log(json[i].Zip);
-      db.any("INSERT INTO courts (court_name, court_address, court_zip_code) VALUES ($1,$2,$3)", [json[i].Name, json[i].Location, json[i].Zip])
+      db
+        .any("INSERT INTO courts (court_name, court_address, court_zip_code) VALUES ($1,$2,$3)", [json[i].Name, json[i].Location, json[i].Zip])
+        .catch(function(err){
+          console.log(err)
+        })
     }
   })

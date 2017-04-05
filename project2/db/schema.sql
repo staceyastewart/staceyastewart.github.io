@@ -4,12 +4,12 @@ DROP TABLE IF EXISTS courts;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  first_name VARCHAR(50),
-  last_name VARCHAR(50),
-  email VARCHAR(255) UNIQUE,
-  password_digest VARCHAR(255)
-
-
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_digest VARCHAR(255) NOT NULL,
+  borough VARCHAR(50) NOT NULL,
+  level VARCHAR(5) NOT NULL
 );
 
 CREATE TABLE courts (
