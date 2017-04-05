@@ -14,6 +14,7 @@ CREATE TABLE users (
 
 CREATE TABLE courts (
   id SERIAL PRIMARY KEY,
+  borough VARCHAR(10),
   court_name VARCHAR(255),
   court_address VARCHAR(500),
   court_zip_code VARCHAR(50)

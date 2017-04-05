@@ -23,7 +23,7 @@
   <h1 class="#006064 cyan-text text-darken-4">Meet Your Match</h1>
   <div class="row">
     <h5 class="col s8 #006064 cyan-text text-darken-4"><span class="flow-text">Where you can meet other tennis enthusiasts</span></h5>
-    <h5 class="col s4 right-align #006064 cyan-text text-darken-4"><span class="flow-text"><a href="/login">Log In/Sign Up</a></span></h5>
+    <!-- <h5 class="col s4 right-align #006064 cyan-text text-darken-4"><span class="flow-text"><a href="#">Log In/Sign Up</a></span></h5> -->
   </div>
 
   <ul id="dropdown1" class="dropdown-content">
@@ -55,11 +55,45 @@
   </nav>
   <br>
   <br>
-  <img class="responsive-img" src="http://www.petsprin.com/i/2016/10/tennis-court-wallpapers-mobile.jpg">
 </div>
 </header>
-<br>
-<br>
+<!-- <br>
+<br> -->
+
+
+<main>
+  <div class=container>
+    <div class="row">
+      <h5 class="col s12 center-align #00acc1 cyan-text text-darken-1"><strong>Please log in below to find tennis partners in NYC!</strong>
+      </h5>
+    </div>
+    <div class="row">
+    <p class="center-align #00b8d4 cyan-text text-accent-4">If you're not already a member, please <a href="/signup"> signup</a>.</p>
+  </div>
+
+  <div class="row">
+    <form class="col s10 offset-s2" action="/login" method="post">
+      <div class="row">
+        <div class="input-field col s5">
+          <input required id="email" type="text" class="validate" name="email">
+          <label for="email">Email</label>
+        </div>
+        <div class="input-field col s5">
+          <input required id="password" type="password" class="validate" name="password_digest">
+          <label for="password">Password</label>
+        </div>
+      </div>
+  </div>
+  <!-- button below -->
+  <div class="row">
+        <div class="col s12 center-align">
+          <button class="btn waves-effect waves-light center-align" type="submit" name="action">Log In<i class="material-icons right">send</i></button>
+        </div>
+      </div>
+  </form>
+
+</main>
+
 
 
 
@@ -90,13 +124,6 @@
   </div>
 </footer>
 </div>
-
-
-
-
-
-
-
 
 
 </body>

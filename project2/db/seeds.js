@@ -18,7 +18,7 @@ fetch(url)
       // console.log(json[i].Location);
       // console.log(json[i].Zip);
       db
-        .any("INSERT INTO courts (court_name, court_address, court_zip_code) VALUES ($1,$2,$3)", [json[i].Name, json[i].Location, json[i].Zip])
+        .any("INSERT INTO courts (borough, court_name, court_address, court_zip_code) VALUES ($1,$2,$3, $4)", [json[i].Prop_ID[0], json[i].Name, json[i].Location, json[i].Zip])
         .catch(function(err){
           console.log(err)
         })
