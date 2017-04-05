@@ -5,6 +5,8 @@ const mustacheExpress = require('mustache-express');
 const bodyParser = require("body-parser");
 const session = require('express-session');
 let methodOverride = require('method-override');
+var fetch = require('node-fetch');
+
 
 
 /* BCrypt stuff here */
