@@ -1,0 +1,15 @@
+Pages I want to have:
+
+Login page
+Signup page
+Home page
+Page with all boroughs listed:
+  When you click on each, it should hit the API and list out all courts in that borough
+  Page with online bookable courts to redirect to NYC site
+Forums:
+  Singles
+  Doubles
+Page that has permit costs for each level (hit API)
+
+
+**Need another database besides just users

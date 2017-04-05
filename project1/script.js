@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+
 let body = $('body')
 let cardOne = $("#cardOne")
 let cardTwo = $("#cardTwo")
@@ -88,7 +89,7 @@ let createRound = function() {
 createRound()
 
 
-//below checks if player two's array is enpty to start the next round
+//below checks if player two's array is empty to start the next round
 let checkForNextRound = function () {
   if(fullTurn_1_2.length == 0) {
     roundNumber++;
@@ -170,7 +171,6 @@ $("#onePlayerGame").on('click',  function(event) {
   $("#button").css("visibility", "visible");
   $("#onePlayerGame").remove();
   $("#twoPlayerGame").remove();
-  // $("#messages").css("display", "table-cell")
   $("#messages").text("Player 1, please roll the dice to start the game!");
 });
 
@@ -179,7 +179,6 @@ $("#twoPlayerGame").on('click',  function(event) {
   $("#button").css("visibility", "visible");
   $("#onePlayerGame").remove();
   $("#twoPlayerGame").remove();
-  // $("#messages").css("display", "table-cell");
   $("#messages").text("Player 1, please roll the dice to start the game!");
 });
 
@@ -235,7 +234,6 @@ $("#opponentButton").on("mouseout", function(){
 });
 
 
-
 //when called, the below runs through one full turn of AI
 let computerOneTurn = function() {
   cardOne.text(fullTurn_1_2[0][0])
@@ -266,9 +264,7 @@ let computerOneTurn = function() {
   $(".gameInPlay:first").removeClass("gameInPlay")
   $("#opponentButton").css("visibility", "hidden")
   $("#button").css("visibility", "visible")
-  //should probably append a new button instead of using the same button
   if (roundNumber === 6 && fullTurn_1_2.length == 0) {
-    // $("#button").text("WHO WON?")
     $("#button").css("visibility", "hidden")
     $("#cardPlate").css("visibility", "visible")
     $("#endOfGame").css("visibility", "visible")
@@ -276,7 +272,6 @@ let computerOneTurn = function() {
   return;
 }
 }
-
 
 //after trying multiple methods to do the setTimeout in a loop, this stackoverflow post REALLY helped:
 //http://stackoverflow.com/questions/5226285/settimeout-in-for-loop-does-not-print-consecutive-values
@@ -291,8 +286,6 @@ let artificialIntelligence = function() {
 let thisMightWork = function() {
     setTimeout(artificialIntelligence, 4000)
 }
-
-
 
 //below is from the jquery ui library, which Ben reccommended
 //Creates a bounce effect on the dice when they are "thrown"
@@ -335,7 +328,6 @@ $("#button").on("click", function(event) {
         $("#messages").text("You rolled: "+ fullTurn_1_1[0][0] + ", " + fullTurn_1_1[0][1] + ", " + fullTurn_1_1[0][2] + ". You scored " + scoreCount + ". Please roll again.")
       }
     fullTurn_1_1.shift()
-
     if (fullTurn_1_1.length == 0) {
       if(numberofPlayers === 2) {
         $("#messages").text("Because you didn't roll a " + roundNumber + ", you didn't score on this turn. You scored " + round1Player1 + " points this round. It is now Player 2's turn. Player 2, please roll the dice.")
@@ -351,6 +343,9 @@ $("#button").on("click", function(event) {
         $(".gameInPlay:first").removeClass("gameInPlay")
         // setTimeout(artificialIntelligence(), 5000)
         thisMightWork()
+        // let thisMightWork = function() {
+        //   setTimeout(artificialIntelligence, 4000)
+        // }
       }
     }
   }
