@@ -80,32 +80,31 @@ app.get('/login', function(req, res){
 });
 
 
-// app.post('/login', function(req, res){
-//   //take the req.body => email, pass
-//   //Look up the email in the db
-//   let data = req.body
-//   db
-//     .one("SELECT * FROM users WHERE email = $1", [data.email])
-//     .catch(function(){
-//       //you would actually have a view here
-//       res.send("Authorization failed: Invalid email/password")
-//     })
-//     .then(function(user){
-//       //let the user in
-//       bcrypt.compare(data.password, user.password_digest, function(err, comp){
-//         if (comp){
-//           //create a session for the user
-//           req.session.user = user;
-//           res.redirect("/")
-//         } else {
-//           res.send("Authorization failed: Invalid email/password")
-//         }
-//       })
-//     })
-//   //SELECT * FROM users WHERE email = email
-//   //Compare that user's has pass, to the has of req.body.email
+app.post('/login', function(req, res){
+  //take the req.body => email, pass
+  //Look up the email in the db
+  let data = req.body
+  console.log(data)
+  db
+    .one("SELECT * FROM users WHERE email = $1", [data.email])
+    .catch(function(){
+      //you would actually have a view here
+      res.send("Authorization failed here at auth: Invalid email/password")
+    })
+    .then(function(user){
+      //let the user in
+      bcrypt.compare(data.password, user.password_digest, function(err, comp){
+        if (comp){
+          //create a session for the user
+          req.session.user = user;
+          res.redirect("/")
+        } else {
+          res.send("Authorization failed: Invalid email/password")
+        }
+      })
+    })
 
-// });
+});
 
 
 
