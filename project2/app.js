@@ -27,7 +27,6 @@ app.use(session({
 }))
 
 
-
 var db = pgp('postgres://staceyastewart@localhost:5432/tennis');
 
 app.listen(3000, function () {
@@ -51,3 +50,22 @@ app.get('/', function(req, res){
 
   res.render("index")
 });
+
+
+app.get('/signup', function(req, res){
+  res.render('signup/index');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
