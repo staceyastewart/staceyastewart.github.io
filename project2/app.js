@@ -37,7 +37,7 @@ app.listen(3000, function () {
 
 
 //renders the homepage
-app.get('/', function(req, res){
+app.get("/", function(req, res){
   if(req.session.user){
     //user is logged in
     let data = {
@@ -55,24 +55,27 @@ app.get('/', function(req, res){
 //renders the signup page
 app.get('/signup', function(req, res){
   res.render('signup/index');
-  // console.log(req.params)
 });
+
 
 //lets you sign up
 app.post('/signup', function(req, res){
   let data = req.body
-  // console.log(data)
+  console.log(data)
   bcrypt
     .hash(data.password_digest, 10, function(err, hash) {
       db
-        .none("INSERT INTO users(first_name, last_name, email, password_digest, borough, level) VALUES ($1, $2, $3, $4, $5, $6)", [data.first_name, data.last_name, data.email, hash, data.borough, data.level])
-        .catch(function(){
-          res.render("signup/show")
-        })
+        .one("INSERT INTO users(first_name, last_name, email, password_digest, borough, level) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id", [data.first_name, data.last_name, data.email, hash, data.borough, data.level])
         .then(function(){
           //somehow log the user in
-          req.session.user = user;
-          res.redirect("/")
+          console.log(data)
+          req.session.user = data;
+          res.redirect("/");
+
+        })
+        .catch(function(e){
+          console.log(e);
+          res.render("signup/show")
         })
       }) //end of  bcrypt then
   });
@@ -92,10 +95,6 @@ app.post('/login', function(req, res){
   // console.log(data)
   db
     .one("SELECT * FROM users WHERE email = $1", [data.email])
-    .catch(function(){
-      //you would actually have a view here
-      res.render("login/show")
-    })
     .then(function(user){
       //let the user in
       bcrypt.compare(data.password, user.password_digest, function(err, comp){
@@ -108,7 +107,10 @@ app.post('/login', function(req, res){
         }
       })
     })
-
+    .catch(function(){
+      //in case something goes wrong
+      res.render("login/show")
+    })
 });
 
 
@@ -131,7 +133,7 @@ app.get('/partners', function(req, res){
 
 
 //renders page to create new post
-app.get('/new', function(req, res){
+app.get('/partners/new', function(req, res){
   if(req.session.user){
 
     db
@@ -155,7 +157,7 @@ app.get('/new', function(req, res){
 
 
 
-//actually lets you log in
+//actually lets you post in the forum
 app.post('/new', function(req, res){
   console.log(req.session.user)
   let data = req.body
@@ -171,18 +173,7 @@ app.post('/new', function(req, res){
 
       res.redirect("/")
     })
-    // .then(function(user){
-    //   //let the user in
-    //   bcrypt.compare(data.password, user.password_digest, function(err, comp){
-    //     if (comp){
-    //       //create a session for the user
-    //       req.session.user = user;
-    //       res.redirect("/")
-    //     } else {
-    //       res.render("login/show")
-    //     }
-    //   })
-    // })
+
 
 });
 

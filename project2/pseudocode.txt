@@ -14,4 +14,13 @@ Forums:
 Page that has permit costs for each level (hit API)
 
 
-**Need another database besides just users
+
+view posts ---> /partners/all
+  --view by topic (i.e. /all/sinlges /all/doubles /all/other)
+
+
+Up next:
+  --when a new post goes through, redirect to that post's page
+  --render a page with all the posts
+
+
