@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Meet Your Match</title>
+  <title>REfdsafsdfa</title>
 
   <!--Import Google Icon Font-->
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -17,6 +17,7 @@
   <link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
 
 
 <!-- renders the header -->
@@ -45,14 +46,12 @@
     <li><a href="#!">Staten Island</a></li>
     <li><a href="#!">Online-Bookable Courts</a></li>
   </ul>
-
-  <!-- renders nav bar -->
   <nav class="#00838f cyan darken-3">
     <div class="nav-wrapper">
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="left hide-on-med-and-down">
         <li><a href="/">Home</a></li>
-        <li><a href="/partners">Find a Tennis Partner</a></li>
+        <li><a href="#">Find a Tennis Partner</a></li>
         <li><a class="dropdown-button" href="#" data-activates="dropdown1">Find a Tennis Court<i class="material-icons right">arrow_drop_down</i></a></li>
         <li><a href="#">Current Permit Costs</a></li>
       </ul>
@@ -72,28 +71,109 @@
 
 
 
-
-
-
-
 <main>
+
+    <!-- If not logged in -->
+  {{^logged_in}}
+    <div class="container">
+      <div class="row">
+      <div class="col s12 center-align #f50057 pink-text text-accent-3">Please <a href="/login">login</a> or <a href="/signup">signup</a> for access to the player forums! </div>
+    </div>
+    <div class="row center-align">
+      <img class="responsive-img" src="http://www.cycladbuildings.com.au/pics/37/37498b.jpg">
+    </div>
+    </div>
+  {{/logged_in}}
+
+
+  <!-- if logged in -->
+  {{#logged_in}}
+
   <div class="container">
 
+  <div class="row">
+
+
+    <form class="col s10 offset-s2" action="/new" method="post">
+      <div class="row">
+        <div class="input-field col s10">
+          <input required id="title" type="text" class="validate" name="title">
+          <label for="title">Post Title</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s10">
+          <textarea required placeholder="Please write a few words here about what you're looking for. Be sure to include days and times that work for you!" id="content" class="materialize-textarea" name="content"></textarea>
+         <label for="content">Your Post</label>
+        </div>
+      </div>
+
+       <!-- render a category -->
+       <div class="row">
+        <div class="input-field col s10">
+          <select required name="category">
+            <option value="" disabled selected>Please choose your category</option>
+            <option value="singles">Singles</option>
+            <option value="Doubles">Doubles</option>
+            <option value="Other">Other</option>
+          </select>
+          <label>Category of play</label>
+        </div>
+      </div>
+
+
+
+
+      <!-- below pre-fills based on the user -->
+      {{#user}}
+      <div class="row">
+        <div class="input-field col s10">
+          <input required id="title" type="text" class="validate" name="level" value="{{level}}">
+
+          <label>Level of Play</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s10">
+          <input required id="title" type="text" class="validate" name="borough" value="{{borough}}">
+
+          <label>Borough</label>
+        </div>
+      </div>
+
+      {{/user}}
+
+
+
+      <!-- below renders the button -->
+      <div class="row">
+        <div class="col s12">
+          <button class="btn waves-effect waves-light" type="submit" name="action">Submit Your Post!<i class="material-icons right">send</i></button>
+        </div>
+      </div>
+
+    </form>
 
 
 
 
   </div>
+  </div>
+
+  {{/logged_in}}
+
+
+
+
+
+
 </main>
 
 <br>
 <br>
-
-
-
-
-
-
+<br>
+<br>
 
 <!-- footer starts here -->
 <div class="container">
@@ -139,3 +219,4 @@
 <script type="text/javascript" src="css/js/materialize.min.js"></script>
 
 <script type="text/javascript" src="/js/script.js"></script>
+

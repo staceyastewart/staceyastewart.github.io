@@ -89,7 +89,7 @@ app.post('/login', function(req, res){
   //take the req.body => email, pass
   //Look up the email in the db
   let data = req.body
-  console.log(data)
+  // console.log(data)
   db
     .one("SELECT * FROM users WHERE email = $1", [data.email])
     .catch(function(){
@@ -104,7 +104,7 @@ app.post('/login', function(req, res){
           req.session.user = user;
           res.redirect("/")
         } else {
-          res.send("Authorization failed: Invalid email/password")
+          res.render("login/show")
         }
       })
     })
@@ -129,19 +129,61 @@ app.get('/partners', function(req, res){
   }
 });
 
+
 //renders page to create new post
-app.get('/partners/new', function(req, res){
+app.get('/new', function(req, res){
   if(req.session.user){
-    //user is logged in
-    let data = {
-      "logged_in": true,
-      "email": req.session.user.email
-    }
-    res.render("partners/new", data)
+
+    db
+      .one("SELECT * FROM users WHERE email = $1", [req.session.user.email])
+      .then(function(data){
+        // console.log(data)
+        let view_data = {
+          user: data,
+          logged_in: true,
+          email: req.session.user.email
+        }
+        res.render("partners/new", view_data)
+      })
+
   } else {
     //user is not logged in
     res.redirect("/login")
   }
+});
+
+
+
+
+//actually lets you log in
+app.post('/new', function(req, res){
+  console.log(req.session.user)
+  let data = req.body
+  console.log(data)
+  db
+    .none("INSERT INTO posts (user_id, title, content, category, level, borough) VALUES ($1, $2, $3, $4, $5, $6)", [req.session.user.id, data.title, data.content, data.category, data.level, data.borough])
+    .catch(function(){
+      //you would actually have a view here
+      // res.render("login/show")
+      res.send("Oops! Something bad happened")
+    })
+    .then(function(user){
+
+      res.redirect("/")
+    })
+    // .then(function(user){
+    //   //let the user in
+    //   bcrypt.compare(data.password, user.password_digest, function(err, comp){
+    //     if (comp){
+    //       //create a session for the user
+    //       req.session.user = user;
+    //       res.redirect("/")
+    //     } else {
+    //       res.render("login/show")
+    //     }
+    //   })
+    // })
+
 });
 
 
@@ -162,21 +204,19 @@ app.get('/partners/new', function(req, res){
 
 
 
-
-
 // using METHOD OVERRIDE for updating
-app.put("/user", function(req,res){
-  db
-  .none("UPDATE users SET email = $1 WHERE email = $2", [req.body.email, req.session.user.email])
-  .catch(function(){
-    //need to put in a catch
-    res.send("fail")
-  })
-  .then(function(){
-    res.send("email updated")
-  })
+// app.put("/user", function(req,res){
+//   db
+//   .none("UPDATE users SET email = $1 WHERE email = $2", [req.body.email, req.session.user.email])
+//   .catch(function(){
+//     //need to put in a catch
+//     res.send("fail")
+//   })
+//   .then(function(){
+//     res.send("email updated")
+//   })
 
-})
+// })
 
 
 //lets you logout

@@ -74,7 +74,7 @@
 <main>
 
     <!-- If not logged in -->
-  {{#logged_in}}
+  {{^logged_in}}
     <div class="container">
       <div class="row">
       <div class="col s12 center-align #f50057 pink-text text-accent-3">Please <a href="/login">login</a> or <a href="/signup">signup</a> for access to the player forums! </div>
@@ -87,12 +87,12 @@
 
 
   <!-- if logged in -->
-  {{^logged_in}}
+  {{#logged_in}}
 
   <div class="container">
 
   <div class="row">
-    <div class="col s12 center-align #f50057 pink-text text-accent-3">Would you like to <a href="/partners/new">write a new post </a>or <a href="/partners/all">search all current posts</a> </div>
+    <div class="col s12 center-align #f50057 pink-text text-accent-3">Would you like to <a href="/new">write a new post </a>or <a href="/partners/all">search all current posts</a> </div>
   </div>
   <br>
   <br>
