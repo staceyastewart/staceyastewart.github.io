@@ -35,6 +35,8 @@ app.listen(3000, function () {
   console.log('Shoebill Auth App: listening on port 3000!');
 });
 
+
+//renders the homepage
 app.get('/', function(req, res){
   if(req.session.user){
     //user is logged in
@@ -50,14 +52,16 @@ app.get('/', function(req, res){
 });
 
 
+//renders the signup page
 app.get('/signup', function(req, res){
   res.render('signup/index');
   // console.log(req.params)
 });
 
+//lets you sign up
 app.post('/signup', function(req, res){
   let data = req.body
-  console.log(data)
+  // console.log(data)
   bcrypt
     .hash(data.password_digest, 10, function(err, hash) {
       db
@@ -74,15 +78,13 @@ app.post('/signup', function(req, res){
   });
 
 
-
-
 //renders login page
 app.get('/login', function(req, res){
   res.render('login/index');
   // console.log(req.params)
 });
 
-
+//actually lets you log in
 app.post('/login', function(req, res){
   //take the req.body => email, pass
   //Look up the email in the db
@@ -112,20 +114,72 @@ app.post('/login', function(req, res){
 
 
 
+//renders the partner forums page
+app.get('/partners', function(req, res){
+  if(req.session.user){
+    //user is logged in
+    let data = {
+      "logged_in": true,
+      "email": req.session.user.email
+    }
+    res.render("partners/index", data)
+  } else {
+    //user is not logged in
+    res.render("partners/index")
+  }
+});
+
+//renders page to create new post
+app.get('/partners/new', function(req, res){
+  if(req.session.user){
+    //user is logged in
+    let data = {
+      "logged_in": true,
+      "email": req.session.user.email
+    }
+    res.render("partners/new", data)
+  } else {
+    //user is not logged in
+    res.redirect("/login")
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // using METHOD OVERRIDE for updating
-// app.put("/user", function(req,res){
-//   db
-//   .none("UPDATE users SET email = $1 WHERE email = $2", [req.body.email, req.session.user.email])
-//   .catch(function(){
-//     //need to put in a catch
-//     res.send("fail")
-//   })
-//   .then(function(){
-//     res.send("email updated")
-//   })
+app.put("/user", function(req,res){
+  db
+  .none("UPDATE users SET email = $1 WHERE email = $2", [req.body.email, req.session.user.email])
+  .catch(function(){
+    //need to put in a catch
+    res.send("fail")
+  })
+  .then(function(){
+    res.send("email updated")
+  })
 
-// })
+})
 
+
+//lets you logout
 app.get('/logout', function(req, res){
   req.session.user = false
   res.redirect("/")

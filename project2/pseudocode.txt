@@ -1,14 +1,16 @@
 Pages I want to have:
 
-Login page
-Signup page
-Home page
+>>Login page
+>>Signup page
+>>Home page
 Page with all boroughs listed:
   When you click on each, it should hit the API and list out all courts in that borough
   Page with online bookable courts to redirect to NYC site
 Forums:
   Singles
   Doubles
+  On forum home page:
+    option of creating a new post or searching through posts
 Page that has permit costs for each level (hit API)
 
 

@@ -1,6 +1,10 @@
 -- db name is tennis
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS courts;
+
+
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -18,4 +22,23 @@ CREATE TABLE courts (
   court_name VARCHAR(255),
   court_address VARCHAR(500),
   court_zip_code VARCHAR(50)
+);
+
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id),
+  title VARCHAR(100),
+  content VARCHAR(450),
+  category VARCHAR(100),
+  level VARCHAR(5),
+  borough VARCHAR(50)
+);
+
+CREATE TABLE comments (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id),
+  post_id INTEGER REFERENCES posts(id),
+  content VARCHAR(450),
+  level VARCHAR(5),
+  borough VARCHAR(50)
 );
