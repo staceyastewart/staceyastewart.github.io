@@ -13,10 +13,11 @@
 
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <!-- below is my personal stylesheet -->
+
   <link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
 
 
 <!-- renders the header -->
@@ -68,17 +69,32 @@
 </header>
 
 
-
-
-
 <main>
-  <div class="container">
-      <img class="responsive-img" src="http://www.petsprin.com/i/2016/10/tennis-court-wallpapers-mobile.jpg">
+<!-- {{^logged_in}} -->
+<div class="container">
+  <div class="row">
+    <div class="col s12 center-align #f50057 pink-text text-accent-3">Sorry! Something went wrong. If you are already a member, please try to <a href="/login">login</a>. </div>
   </div>
+  <div class="row">
+    <div class="col s12 center-align #f50057 pink-text text-accent-3">If you're not already a member, please try to <a href="/signup">signup</a> again! </div>
+  </div>
+  <div class="row center-align">
+    <img class="responsive-img" src="http://images.supersport.com/2013/7/Juan-Martin-del-Potro-sad-130705G300.jpg">
+  </div>
+
+
+
+</div>
+<!-- {{/logged_in}} -->
+
+<!-- {{#logged_in}} -->
+
+<!-- {{/logged_in}} -->
+
+
 </main>
 
-<br>
-<br>
+
 
 <!-- footer starts here -->
 <div class="container">

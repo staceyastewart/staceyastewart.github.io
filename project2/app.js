@@ -36,18 +36,17 @@ app.listen(3000, function () {
 });
 
 app.get('/', function(req, res){
-  // if(req.session.user){
-  //   //user is logged in
-  //   let data = {
-  //     "logged_in": true,
-  //     "email": req.session.user.email
-  //   }
-  //   res.render("index", data)
-  // } else {
-  //   //user is not logged in
-  //   res.render("index")
-  // }
-  res.render("index")
+  if(req.session.user){
+    //user is logged in
+    let data = {
+      "logged_in": true,
+      "email": req.session.user.email
+    }
+    res.render("index", data)
+  } else {
+    //user is not logged in
+    res.render("index")
+  }
 });
 
 
@@ -63,8 +62,12 @@ app.post('/signup', function(req, res){
     .hash(data.password_digest, 10, function(err, hash) {
       db
         .none("INSERT INTO users(first_name, last_name, email, password_digest, borough, level) VALUES ($1, $2, $3, $4, $5, $6)", [data.first_name, data.last_name, data.email, hash, data.borough, data.level])
+        .catch(function(){
+          res.render("signup/show")
+        })
         .then(function(){
           //somehow log the user in
+          req.session.user = user;
           res.redirect("/")
         })
       }) //end of  bcrypt then
@@ -109,6 +112,24 @@ app.post('/login', function(req, res){
 
 
 
+// using METHOD OVERRIDE for updating
+// app.put("/user", function(req,res){
+//   db
+//   .none("UPDATE users SET email = $1 WHERE email = $2", [req.body.email, req.session.user.email])
+//   .catch(function(){
+//     //need to put in a catch
+//     res.send("fail")
+//   })
+//   .then(function(){
+//     res.send("email updated")
+//   })
+
+// })
+
+app.get('/logout', function(req, res){
+  req.session.user = false
+  res.redirect("/")
+});
 
 
 

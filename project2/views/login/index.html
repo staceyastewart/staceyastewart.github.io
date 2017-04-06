@@ -18,13 +18,26 @@
 </head>
 <body>
 
+
+
+
+<!-- renders the header -->
 <header>
 <div class="container">
   <h1 class="#006064 cyan-text text-darken-4">Meet Your Match</h1>
+  {{#logged_in}}
   <div class="row">
     <h5 class="col s8 #006064 cyan-text text-darken-4"><span class="flow-text">Where you can meet other tennis enthusiasts</span></h5>
-    <!-- <h5 class="col s4 right-align #006064 cyan-text text-darken-4"><span class="flow-text"><a href="#">Log In/Sign Up</a></span></h5> -->
+    <h5 class="col s4 right-align #006064 cyan-text text-darken-4"><span class="flow-text"><a href="/logout">Log Out</a></span></h5>
   </div>
+  {{/logged_in}}
+
+  {{^logged_in}}
+  <div class="row">
+    <h5 class="col s8 #006064 cyan-text text-darken-4"><span class="flow-text">Where you can meet other tennis enthusiasts</span></h5>
+    <h5 class="col s4 right-align #006064 cyan-text text-darken-4"><span class="flow-text"><a href="/login">Log In/Sign Up</a></span></h5>
+  </div>
+  {{/logged_in}}
 
   <ul id="dropdown1" class="dropdown-content">
     <li><a href="#!">Bronx</a></li>
@@ -39,15 +52,13 @@
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="left hide-on-med-and-down">
         <li><a href="/">Home</a></li>
-        <li><a href="#">Singles Forum</a></li>
-        <li><a href="#">Doubles Forum</a></li>
+        <li><a href="#">Find a Tennis Partner</a></li>
         <li><a class="dropdown-button" href="#" data-activates="dropdown1">Find a Tennis Court<i class="material-icons right">arrow_drop_down</i></a></li>
         <li><a href="#">Current Permit Costs</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
         <li><a href="/">Home</a></li>
-        <li><a href="#">Singles Forum</a></li>
-        <li><a href="#">Doubles Forum</a></li>
+        <li><a href="#">Find a Tennis Partner</a></li>
         <li><a href="#">Find a Tennis Court</a></li>
         <li><a href="#">Current Permit Costs</a></li>
       </ul>
@@ -57,8 +68,8 @@
   <br>
 </div>
 </header>
-<!-- <br>
-<br> -->
+
+
 
 
 <main>
@@ -84,6 +95,10 @@
         </div>
       </div>
 
+<br>
+
+
+
   <!-- button below -->
   <div class="row">
         <div class="col s9 center-align">
@@ -94,7 +109,8 @@
   </div>
 </main>
 
-
+<br>
+<br>
 
 
 <!-- footer starts here -->

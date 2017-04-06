@@ -18,13 +18,25 @@
 </head>
 <body>
 
+
+
+<!-- renders the header -->
 <header>
 <div class="container">
   <h1 class="#006064 cyan-text text-darken-4">Meet Your Match</h1>
+  {{#logged_in}}
+  <div class="row">
+    <h5 class="col s8 #006064 cyan-text text-darken-4"><span class="flow-text">Where you can meet other tennis enthusiasts</span></h5>
+    <h5 class="col s4 right-align #006064 cyan-text text-darken-4"><span class="flow-text"><a href="/logout">Log Out</a></span></h5>
+  </div>
+  {{/logged_in}}
+
+  {{^logged_in}}
   <div class="row">
     <h5 class="col s8 #006064 cyan-text text-darken-4"><span class="flow-text">Where you can meet other tennis enthusiasts</span></h5>
     <h5 class="col s4 right-align #006064 cyan-text text-darken-4"><span class="flow-text"><a href="/login">Log In/Sign Up</a></span></h5>
   </div>
+  {{/logged_in}}
 
   <ul id="dropdown1" class="dropdown-content">
     <li><a href="#!">Bronx</a></li>
@@ -39,15 +51,13 @@
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="left hide-on-med-and-down">
         <li><a href="/">Home</a></li>
-        <li><a href="#">Singles Forum</a></li>
-        <li><a href="#">Doubles Forum</a></li>
+        <li><a href="#">Find a Tennis Partner</a></li>
         <li><a class="dropdown-button" href="#" data-activates="dropdown1">Find a Tennis Court<i class="material-icons right">arrow_drop_down</i></a></li>
         <li><a href="#">Current Permit Costs</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
         <li><a href="/">Home</a></li>
-        <li><a href="#">Singles Forum</a></li>
-        <li><a href="#">Doubles Forum</a></li>
+        <li><a href="#">Find a Tennis Partner</a></li>
         <li><a href="#">Find a Tennis Court</a></li>
         <li><a href="#">Current Permit Costs</a></li>
       </ul>
@@ -57,8 +67,7 @@
   <br>
 </div>
 </header>
-<!-- <br>
-<br> -->
+
 
 <main>
 <!-- {{^logged_in}} -->
@@ -67,7 +76,7 @@
     <div class="col s12 center-align #f50057 pink-text text-accent-3">Sorry! Your email or password was incorrect. Please try to <a href="/login">login</a> again. </div>
   </div>
   <div class="row">
-    <div class="col s12 center-align #f50057 pink-text text-accent-3">If you're not already a member, plase <a href="/signup">signup</a>! </div>
+    <div class="col s12 center-align #f50057 pink-text text-accent-3">If you're not already a member, please <a href="/signup">signup</a>! </div>
   </div>
   <div class="row center-align">
     <img class="responsive-img" src="http://images.supersport.com/2013/7/Juan-Martin-del-Potro-sad-130705G300.jpg">
