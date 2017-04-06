@@ -89,7 +89,7 @@ app.post('/login', function(req, res){
     .one("SELECT * FROM users WHERE email = $1", [data.email])
     .catch(function(){
       //you would actually have a view here
-      res.send("Authorization failed here at auth: Invalid email/password")
+      res.render("login/show")
     })
     .then(function(user){
       //let the user in

@@ -23,7 +23,7 @@
   <h1 class="#006064 cyan-text text-darken-4">Meet Your Match</h1>
   <div class="row">
     <h5 class="col s8 #006064 cyan-text text-darken-4"><span class="flow-text">Where you can meet other tennis enthusiasts</span></h5>
-    <!-- <h5 class="col s4 right-align #006064 cyan-text text-darken-4"><span class="flow-text"><a href="#">Log In/Sign Up</a></span></h5> -->
+    <h5 class="col s4 right-align #006064 cyan-text text-darken-4"><span class="flow-text"><a href="/login">Log In/Sign Up</a></span></h5>
   </div>
 
   <ul id="dropdown1" class="dropdown-content">
@@ -60,88 +60,30 @@
 <!-- <br>
 <br> -->
 
-
 <main>
-<div class=container>
+<!-- {{^logged_in}} -->
+<div class="container">
   <div class="row">
-    <h5 class="col s12 center-align #00acc1 cyan-text text-darken-1"><strong>Please sign up below to find tennis partners in NYC!</strong>
-    </h5>
+    <div class="col s12 center-align #f50057 pink-text text-accent-3">Sorry! Your email or password was incorrect. Please try to <a href="/login">login</a> again. </div>
   </div>
   <div class="row">
-    <p class="center-align #00b8d4 cyan-text text-accent-4">If you're already a member, please <a href="/login"> login</a>.</p>
+    <div class="col s12 center-align #f50057 pink-text text-accent-3">If you're not already a member, plase <a href="/signup">signup</a>! </div>
   </div>
-  <div class="row">
-    <form class="col s10 offset-s2" action="/signup" method="post">
-      <div class="row">
-        <div class="input-field col s5">
-          <input required id="first_name" type="text" class="validate" name="first_name">
-          <label for="first_name">First Name</label>
-        </div>
-        <div class="input-field col s5">
-          <input required id="last_name" type="text" class="validate" name="last_name">
-          <label for="last_name">Last Name</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s5">
-          <input required id="email" type="text" class="validate" name="email">
-          <label for="email">Email</label>
-        </div>
-        <div class="input-field col s5">
-          <input required id="password" type="password" class="validate" name="password_digest">
-          <label for="password">Password</label>
-        </div>
-      </div>
-
-      <!-- below lets you pick your borough -->
-      <div class="row">
-        <div class="input-field col s10">
-          <select required name="borough">
-            <option value="" disabled selected>Please choose your borough</option>
-            <option value="Bronx">Bronx</option>
-            <option value="Brooklyn">Brooklyn</option>
-            <option value="Manhattan">Manhattan</option>
-            <option value="Queens">Queens</option>
-            <option value="Staten Island">Staten Island</option>
-            <option value="Other">Outside the 5 boroughs</option>
-          </select>
-          <label>Borough</label>
-        </div>
-      </div>
-
-      <!-- below lets you pick your level of play -->
-      <div class="row">
-        <div class="input-field col s10">
-          <select required name="level">
-            <option value="" disabled selected>Please choose your level of play</option>
-            <option value="1.0">1</option>
-            <option value="1.5">1.5</option>
-            <option value="2.0">2.0</option>
-            <option value="3.0">3.0</option>
-            <option value="3.5">3.5</option>
-            <option value="4.0">4.0</option>
-            <option value="4.5">4.5</option>
-            <option value="5.0">5.0</option>
-            <option value="5.5">5.5 or above</option>
-          </select>
-          <label>Level of Play</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s8"><a target="_blank" href="http://www.bemidji.usta.com/Services_/_Info/NTRPPLAYERRATINGSCALE/"> For more information on level of play click here</a></div>
-      </div>
-      <div class="row">
-        <div class="col s12">
-          <button class="btn waves-effect waves-light" type="submit" name="action">Join Now!<i class="material-icons right">send</i></button>
-        </div>
-      </div>
-
-    </form>
+  <div class="row center-align">
+    <img class="responsive-img" src="http://images.supersport.com/2013/7/Juan-Martin-del-Potro-sad-130705G300.jpg">
   </div>
+
+
+
 </div>
-</main>
+<!-- {{/logged_in}} -->
 
-<br>
+<!-- {{#logged_in}} -->
+
+<!-- {{/logged_in}} -->
+
+
+</main>
 
 
 
@@ -172,6 +114,13 @@
   </div>
 </footer>
 </div>
+
+
+
+
+
+
+
 
 
 </body>
