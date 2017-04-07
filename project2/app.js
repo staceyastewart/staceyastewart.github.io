@@ -61,7 +61,6 @@ app.get('/signup', function(req, res){
 //lets you sign up
 app.post('/signup', function(req, res){
   let data = req.body
-  console.log(data)
   bcrypt
     .hash(data.password_digest, 10, function(err, hash) {
       db
@@ -101,7 +100,7 @@ app.post('/login', function(req, res){
         if (comp){
           //create a session for the user
           req.session.user = user;
-          res.redirect("/")
+          res.redirect("/partners")
         } else {
           res.render("login/show")
         }
@@ -113,10 +112,7 @@ app.post('/login', function(req, res){
     })
 });
 
-
-
-
-//renders the partner forums page
+//renders the partner forums home page
 app.get('/partners', function(req, res){
   if(req.session.user){
     //user is logged in
@@ -130,7 +126,6 @@ app.get('/partners', function(req, res){
     res.render("partners/index")
   }
 });
-
 
 //renders page to create new post
 app.get('/partners/new', function(req, res){
@@ -155,30 +150,69 @@ app.get('/partners/new', function(req, res){
 });
 
 
-
-
-//actually lets you post in the forum
+//lets you create a new post in for the forum
+//when you do, it redirects you to your post
 app.post('/new', function(req, res){
   console.log(req.session.user)
   let data = req.body
   console.log(data)
   db
-    .none("INSERT INTO posts (user_id, title, content, category, level, borough) VALUES ($1, $2, $3, $4, $5, $6)", [req.session.user.id, data.title, data.content, data.category, data.level, data.borough])
+    .one("INSERT INTO posts (user_id, title, content, category, level, borough) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id as new_id", [req.session.user.id, data.title, data.content, data.category, data.level, data.borough])
+    .then(function(data){
+      res.redirect("/partners/" + data.new_id)
+    })
     .catch(function(){
-      //you would actually have a view here
-      // res.render("login/show")
+      //should add a view
       res.send("Oops! Something bad happened")
     })
-    .then(function(user){
-
-      res.redirect("/")
-    })
-
-
 });
 
 
 
+//renders the posts page
+app.get("/partners/all", function(req, res){
+  if(req.session.user){
+    //user is logged in
+    db
+      .any("SELECT * FROM posts ORDER BY id DESC")
+      .then(function(data){
+        // console.log(data)
+        let view_data = {
+          posts: data,
+          logged_in: true,
+          email: req.session.user.email
+        }
+        res.render("partners/all", view_data)
+      })
+  } else {
+    //user is not logged in
+    res.redirect("/login")
+  }
+});
+
+
+//renders each individual post page
+app.get("/partners/:id", function(req, res){
+  let id = req.params.id
+  console.log("THIS IS THE INFO")
+  console.log(id)
+  console.log(req.session.user)
+  if(req.session.user){
+    db
+    .one("SELECT * FROM posts WHERE id = $1", id)
+    .then(function(data){
+      console.log(data)
+      let view_data = {
+        post: data,
+        logged_in: true,
+        email: req.session.user.email
+      }
+      res.render("partners/id", view_data);
+    })
+  } else {
+    res.redirect("/login")
+  }
+});
 
 
 

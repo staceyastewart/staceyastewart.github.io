@@ -27,18 +27,18 @@ CREATE TABLE courts (
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id),
-  title VARCHAR(100),
-  content VARCHAR(450),
-  category VARCHAR(100),
-  level VARCHAR(5),
-  borough VARCHAR(50)
+  title VARCHAR(100) NOT NULL,
+  content VARCHAR(550) NOT NULL,
+  category VARCHAR(100) NOT NULL,
+  level VARCHAR(5) NOT NULL,
+  borough VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE comments (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id),
   post_id INTEGER REFERENCES posts(id),
-  content VARCHAR(450),
-  level VARCHAR(5),
-  borough VARCHAR(50)
+  content VARCHAR(450) NOT NULL,
+  level VARCHAR(5) NOT NULL,
+  borough VARCHAR(50) NOT NULL
 );
