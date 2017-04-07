@@ -76,73 +76,92 @@
 
 <main>
   <div class="container">
-
-
-
-<!-- not logged in -->
-{{^logged_in}}
-
-
-{{/logged_in}}
-
-
-
-
-  {{#logged_in}}
-
-
-
-  <div class="container">
-    <div class="row center-align">
-      <div class="col s8 offset-s2 #00838f cyan-text text-darken-3"><a href="/partners/all">View all posts here</a></div>
-      <div class="col s8 offset-s2 #00838f cyan-text text-darken-3">Search by <a href="partners/all/singles">Singles </a>,<a href="partners/all/doubles">Doubles </a>or <a href="partners/all/other">Other </a> </div>
+    <div class="row">
+      THIS IS THE UPDATE PAGE
     </div>
   </div>
 
+<br>
+<br>
 
-
-
-  {{#post}}
 
   <div class="container">
-    <div class="row">
-        <div class="col s10 offset-s1">
-          <div class="card #e0f7fa cyan lighten-5">
-            <div class="card-content white-text">
-              <span class="card-title #00838f cyan-text text-darken-3">{{title}}</span>
-              <p class="#00838f cyan-text text-darken-3">{{content}}</p>
-            </div>
-            <div class="card-action">
-              <span class="#0097a7 cyan-text text-darken-2">Category: {{category}}</span> <br>
-              <span class="#0097a7 cyan-text text-darken-2">Level: {{level}}</span> <br>
-              <span class="#0097a7 cyan-text text-darken-2">Borough: {{borough}}</span> <br>
-              <!-- This is your post -->
-              {{#this_users_post}}
-                <span class="#0097a7 cyan-text text-darken-2"><a href="/partners/update/{{id}}">Update This Post</a></span> <br>
-                <span class="#0097a7 cyan-text text-darken-2"><a href="/partners/{{id}}/delete" >Delete</a></span> <br>
 
+  <div class="row">
 
-                <form action="/partners/{{id}}?_method=delete" method="POST" >
-                    <button class="waves-effect waves-teal btn-flat" type="submit" name="action">Delete this post
-                    <i class="material-icons right">send</i>
-                  </button>
-                </form>
+  {{#post}}
+    <form class="col s10 offset-s2" action="/update?_method=PUT" method="post">
 
-
-              {{/this_users_post}}
-              <!-- This is not your post -->
-              {{^this_users_post}}
-
-              {{/this_users_post}}
-            </div>
-          </div>
+      <div class="row">
+        <div class="input-field col s10">
+          <input required value="{{id}}" id="id" type="hidden" class="validate" name="id">
         </div>
       </div>
-    </div>
 
-  {{/post}}
+      <div class="row">
+        <div class="input-field col s10">
+          <input required value="{{title}}" id="title" type="text" class="validate" name="title" maxlength="100">
+          <label for="title">Post Title</label>
+        </div>
+      </div>
 
-{{/logged_in}}
+      <div class="row">
+        <div class="input-field col s10">
+          <textarea required  id="content" type="text" class="materialize-textarea" name="content" maxlength="450">{{content}}</textarea>
+         <label for="content">Your Post</label>
+        </div>
+      </div>
+
+
+       <!-- render a category -->
+       <div class="row">
+        <div class="input-field col s10">
+          <select required name="updatecategory">
+            <option value="" disabled selected>Please choose your category</option>
+            <option value="Singles">Singles</option>
+            <option value="Doubles">Doubles</option>
+            <option value="Other">Other</option>
+          </select>
+          <label>Category of play</label>
+        </div>
+      </div>
+
+
+
+
+      <!-- below pre-fills based on the user -->
+      <div class="row">
+        <div class="input-field col s10">
+          <input required id="title" type="text" class="validate" name="level" value="{{level}}" maxlength="5">
+
+          <label>Level of Play</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s10">
+          <input required id="title" type="text" class="validate" name="borough" value="{{borough}}" maxlength="50">
+
+          <label>Borough</label>
+        </div>
+      </div>
+
+      {{/post}}
+
+
+      <!-- below renders the button -->
+      <div class="row">
+        <div class="col s12">
+          <button class="btn waves-effect waves-light" type="submit" name="action">Submit Your Post!<i class="material-icons right">send</i></button>
+        </div>
+      </div>
+
+    </form>
+
+
+
+
+  </div>
+  </div>
 
 
 

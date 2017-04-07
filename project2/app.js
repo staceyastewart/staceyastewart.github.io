@@ -223,33 +223,68 @@ app.get("/partners/:id", function(req, res){
 });
 
 
+//lets the user delete their own post
+app.delete("/partners/:id", function(req, res){
+  id = req.params.id
+  console.log(id)
+  db
+    .none("DELETE FROM posts WHERE id = $1", [id])
+    .then(function(data){
+      res.redirect("/partners/all")
+    })
+})
+
+//renders the update page
+app.get("/partners/update/:id", function(req, res){
+  let id = req.params.id
+  if(req.session.user){
+    db
+    .one("SELECT * FROM posts WHERE id = $1", id)
+    .then(function(data){
+      console.log(data) //this gives the data of the post
+      //if the user in this session is the author of the post
+      if(data.user_id===req.session.user.id){
+        let view_data = {
+          post: data,
+          logged_in: true,
+          email: req.session.user.email,
+          this_users_post: true
+        }
+        res.render("partners/updateid", view_data);
+      } else {
+        //if this is not your post
+        res.redirect("/partners/"+id)
+      }
+    })
+  } else {
+    //you are not logged in
+    res.redirect("/login")
+  }
+});
+
+
+// updates the post
+app.put("/update", function(req,res){
+  // console.log(req.session.user)
+  let data = req.body
+  console.log('data')
+  console.log(data)
+  console.log(req.params)
+  db
+  .none("UPDATE posts SET title = $1, content = $2, category = $3, level = $4, borough = $5 WHERE id = $6", [data.title, data.content, data.updatecategory, data.level, data.borough, data.id])
+
+  .then(function(){
+    res.redirect("/partners/"+data.id)
+  })
+  .catch(function(){
+    //need to put in a catch
+    res.send("fail")
+  })
+
+})
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-// using METHOD OVERRIDE for updating
-// app.put("/user", function(req,res){
-//   db
-//   .none("UPDATE users SET email = $1 WHERE email = $2", [req.body.email, req.session.user.email])
-//   .catch(function(){
-//     //need to put in a catch
-//     res.send("fail")
-//   })
-//   .then(function(){
-//     res.send("email updated")
-//   })
-
-// })
 
 
 //lets you logout
