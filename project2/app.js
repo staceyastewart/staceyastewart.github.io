@@ -194,20 +194,28 @@ app.get("/partners/all", function(req, res){
 //renders each individual post page
 app.get("/partners/:id", function(req, res){
   let id = req.params.id
-  console.log("THIS IS THE INFO")
-  console.log(id)
-  console.log(req.session.user)
   if(req.session.user){
     db
     .one("SELECT * FROM posts WHERE id = $1", id)
     .then(function(data){
-      console.log(data)
-      let view_data = {
-        post: data,
-        logged_in: true,
-        email: req.session.user.email
+      console.log(data) //this gives the data of the post
+      //if the user in this session is the author of the post
+      if(data.user_id===req.session.user.id){
+        let view_data = {
+          post: data,
+          logged_in: true,
+          email: req.session.user.email,
+          this_users_post: true
+        }
+        res.render("partners/id", view_data);
+      } else {
+        let view_data = {
+          post: data,
+          logged_in: true,
+          email: req.session.user.email
+        }
+        res.render("partners/id", view_data);
       }
-      res.render("partners/id", view_data);
     })
   } else {
     res.redirect("/login")

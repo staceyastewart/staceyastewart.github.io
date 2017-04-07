@@ -83,14 +83,14 @@
 {{^logged_in}}
 
 
-
-
 {{/logged_in}}
 
 
 
 
   {{#logged_in}}
+
+
 
   <div class="container">
     <div class="row center-align">
@@ -116,7 +116,15 @@
               <span class="#0097a7 cyan-text text-darken-2">Category: {{category}}</span> <br>
               <span class="#0097a7 cyan-text text-darken-2">Level: {{level}}</span> <br>
               <span class="#0097a7 cyan-text text-darken-2">Borough: {{borough}}</span> <br>
+              <!-- This is your post -->
+              {{#this_users_post}}
+                <span class="#0097a7 cyan-text text-darken-2"><a href="/partners/{{id}}/update">Update This Post</a></span> <br>
+                <span class="#0097a7 cyan-text text-darken-2"><a href="/partners/{{id}}/delete">Delete</a></span> <br>
+              {{/this_users_post}}
+              <!-- This is not your post -->
+              {{^this_users_post}}
 
+              {{/this_users_post}}
             </div>
           </div>
         </div>
