@@ -198,21 +198,26 @@ app.get("/partners/:id", function(req, res){
     db
     .one("SELECT * FROM posts WHERE id = $1", id)
     .then(function(data){
-      console.log(data) //this gives the data of the post
+      // console.log("user")
+      // console.log(req.session.user)
+      // console.log("data")
+      // console.log(data) //this gives the data of the post
       //if the user in this session is the author of the post
       if(data.user_id===req.session.user.id){
         let view_data = {
           post: data,
           logged_in: true,
           email: req.session.user.email,
-          this_users_post: true
+          this_users_post: true,
+          user: req.session.user
         }
         res.render("partners/id", view_data);
       } else {
         let view_data = {
           post: data,
           logged_in: true,
-          email: req.session.user.email
+          email: req.session.user.email,
+          user: req.session.user
         }
         res.render("partners/id", view_data);
       }
@@ -264,25 +269,40 @@ app.get("/partners/update/:id", function(req, res){
 
 
 // updates the post
-app.put("/update", function(req,res){
-  // console.log(req.session.user)
+app.put("/post/:id", function(req,res){
   let data = req.body
-  console.log('data')
-  console.log(data)
-  console.log(req.params)
   db
-  .none("UPDATE posts SET title = $1, content = $2, category = $3, level = $4, borough = $5 WHERE id = $6", [data.title, data.content, data.updatecategory, data.level, data.borough, data.id])
-
+  .none("UPDATE posts SET title = $1, content = $2, category = $3, level = $4, borough = $5 WHERE id = $6", [data.title, data.content, data.updatecategory, data.level, data.borough, req.params.id])
   .then(function(){
-    res.redirect("/partners/"+data.id)
+    res.redirect("/partners/"+req.params.id)
   })
   .catch(function(){
     //need to put in a catch
     res.send("fail")
   })
-
 })
 
+
+//lets you create a new comment on one post
+//when you do, it should not refresh the page, but should append to the page
+app.post('/comment', function(req, res){
+  console.log(req.session.user)
+  let current_user = req.session.user
+  let data = req.body
+  console.log(data)
+  console.log(req.params)
+  db
+    //do i need this to reutnr one since I'm appending to the page?
+    .one("INSERT INTO comments (user_id, post_id, content, level, borough) VALUES ($1, $2, $3, $4, $5) RETURNING id as new_id", [current_user.id, data.post_id, data.content, data.level, data.borough])
+    .then(function(el){
+
+      res.redirect("/partners/" + data.post_id)
+    })
+    .catch(function(){
+      //should add a view
+      res.send("Oops! Something bad happened")
+    })
+});
 
 
 
@@ -292,9 +312,6 @@ app.get('/logout', function(req, res){
   req.session.user = false
   res.redirect("/")
 });
-
-
-
 
 
 

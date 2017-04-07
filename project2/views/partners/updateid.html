@@ -90,13 +90,8 @@
   <div class="row">
 
   {{#post}}
-    <form class="col s10 offset-s2" action="/update?_method=PUT" method="post">
+    <form class="col s10 offset-s2" action="/post/{{id}}?_method=PUT" method="post">
 
-      <div class="row">
-        <div class="input-field col s10">
-          <input required value="{{id}}" id="id" type="hidden" class="validate" name="id">
-        </div>
-      </div>
 
       <div class="row">
         <div class="input-field col s10">
@@ -117,7 +112,8 @@
        <div class="row">
         <div class="input-field col s10">
           <select required name="updatecategory">
-            <option value="" disabled selected>Please choose your category</option>
+            <option value="" disabled>Please choose your category</option>
+            <option value="{{category}}" selected="selected">{{category}} (you selected this originally)</option>
             <option value="Singles">Singles</option>
             <option value="Doubles">Doubles</option>
             <option value="Other">Other</option>

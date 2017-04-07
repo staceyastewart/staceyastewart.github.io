@@ -118,27 +118,70 @@
               <span class="#0097a7 cyan-text text-darken-2">Borough: {{borough}}</span> <br>
               <!-- This is your post -->
               {{#this_users_post}}
-                <span class="#0097a7 cyan-text text-darken-2"><a href="/partners/update/{{id}}">Update This Post</a></span> <br>
-                <span class="#0097a7 cyan-text text-darken-2"><a href="/partners/{{id}}/delete" >Delete</a></span> <br>
-
-
+                <br>
+                <div class="center-align">
+                  <span class="#0097a7 cyan-text text-darken-2"><a class="#00e5ff cyan-text text-accent-3 btn-flat" href="/partners/update/{{id}}">Update This Post</a></span>
+                </div>
+                <br>
                 <form action="/partners/{{id}}?_method=delete" method="POST" >
-                    <button class="waves-effect waves-teal btn-flat" type="submit" name="action">Delete this post
+                  <div class="center-align">
+                    <button class="waves-effect waves-teal btn-flat pink-text text-accent-3" type="submit" name="action">Delete this post
                     <i class="material-icons right">send</i>
-                  </button>
+                    </button>
+                  </div>
                 </form>
-
-
               {{/this_users_post}}
               <!-- This is not your post -->
               {{^this_users_post}}
-
+                <!-- should already redirect -->
               {{/this_users_post}}
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+<div class="row">
+<!-- start of the comment form -->
+  <form class="col s10 offset-s2" action="/comment" method="post">
+
+    <!-- need one hidden field for each of the follow: user_id, post_id -->
+    <input required value="{{id}}" id="id" type="hidden" class="validate" name="post_id">
+      <div class="row">
+        <div class="input-field col s10">
+          <textarea required placeholder="Please write a few words here in response to this post!" id="content" type="text" class="materialize-textarea" name="content" maxlength="450"></textarea>
+         <label for="content">Your Comment</label>
+        </div>
+      </div>
+
+      <!-- below pre-fills based on the user -->
+      {{#user}}
+      <div class="row">
+        <div class="input-field col s10">
+          <input required id="title" type="text" class="validate" name="level" value="{{level}}" maxlength="5">
+
+          <label>Level of Play</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s10">
+          <input required id="title" type="text" class="validate" name="borough" value="{{borough}}" maxlength="50">
+
+          <label>Borough</label>
+        </div>
+      </div>
+
+      {{/user}}
+
+      <!-- below renders the button -->
+      <span class="col s10 center-align">
+          <button class="waves-effect waves-light btn" type="submit" name="commentButton">Add a comment
+          <i class="material-icons right">send</i>
+        </button>
+        </span>
+
+  </form>
+</div>
+
 
   {{/post}}
 
