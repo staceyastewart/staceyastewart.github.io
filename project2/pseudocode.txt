@@ -26,7 +26,8 @@ UP NEXT:
 
 
 COMMENTS:
-post /comments
+--need a JOIN on the individual ID page so that comments are rendered as well
+post: /comments
 
 ajax:
   url: /comments
@@ -43,6 +44,9 @@ prevent default
 -------
 -------
 )
+
+
+
 
 
 

@@ -198,29 +198,35 @@ app.get("/partners/:id", function(req, res){
     db
     .one("SELECT * FROM posts WHERE id = $1", id)
     .then(function(data){
-      // console.log("user")
-      // console.log(req.session.user)
-      // console.log("data")
-      // console.log(data) //this gives the data of the post
+      db
+        .any("SELECT * FROM comments WHERE post_id = $1", id)
+        .then(function(stuff){
+          // console.log(data) //this gives you the post
+          // console.log(stuff) //this gives you the comments
+
+          if(data.user_id===req.session.user.id){
+            let view_data = {
+              post: data,
+              comment: stuff,
+              logged_in: true,
+              email: req.session.user.email,
+              this_users_post: true,
+              user: req.session.user
+            }
+            res.render("partners/id", view_data);
+          } else {
+            let view_data = {
+              post: data,
+              comment: stuff,
+              logged_in: true,
+              email: req.session.user.email,
+              user: req.session.user
+            }
+            res.render("partners/id", view_data);
+          }
+        })
       //if the user in this session is the author of the post
-      if(data.user_id===req.session.user.id){
-        let view_data = {
-          post: data,
-          logged_in: true,
-          email: req.session.user.email,
-          this_users_post: true,
-          user: req.session.user
-        }
-        res.render("partners/id", view_data);
-      } else {
-        let view_data = {
-          post: data,
-          logged_in: true,
-          email: req.session.user.email,
-          user: req.session.user
-        }
-        res.render("partners/id", view_data);
-      }
+
     })
   } else {
     res.redirect("/login")
@@ -292,10 +298,9 @@ app.post('/comment', function(req, res){
   console.log(data)
   console.log(req.params)
   db
-    //do i need this to reutnr one since I'm appending to the page?
+    //do I need this to return one since I'm appending to the page?
     .one("INSERT INTO comments (user_id, post_id, content, level, borough) VALUES ($1, $2, $3, $4, $5) RETURNING id as new_id", [current_user.id, data.post_id, data.content, data.level, data.borough])
     .then(function(el){
-
       res.redirect("/partners/" + data.post_id)
     })
     .catch(function(){
