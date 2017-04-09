@@ -203,7 +203,7 @@ app.get("/partners/:id", function(req, res){
         .then(function(stuff){
           // console.log(data) //this gives you the post
           // console.log(stuff) //this gives you the comments
-
+          //if this is the user's post:
           if(data.user_id===req.session.user.id){
             let view_data = {
               post: data,
@@ -214,7 +214,7 @@ app.get("/partners/:id", function(req, res){
               user: req.session.user
             }
             res.render("partners/id", view_data);
-          } else {
+          } else { //if this is not the user's post
             let view_data = {
               post: data,
               comment: stuff,
@@ -225,8 +225,6 @@ app.get("/partners/:id", function(req, res){
             res.render("partners/id", view_data);
           }
         })
-      //if the user in this session is the author of the post
-
     })
   } else {
     res.redirect("/login")
@@ -308,6 +306,95 @@ app.post('/comment', function(req, res){
       res.send("Oops! Something bad happened")
     })
 });
+
+
+
+
+
+//renders the courts page
+//should be able to view even if you are not logged in
+app.get("/courts", function(req, res){
+  db
+    .any("SELECT * FROM courts")
+    .then(function(data){
+      // console.log(data)
+      let view_data = {
+        courts: data
+      }
+      res.render("courts/index", view_data)
+    })
+});
+
+
+//renders each court's page
+app.get("/courts/:id", function(req, res){
+  console.log(req.params.id)
+  let id = req.params.id
+  if(id==="Manhattan"){
+    let borough = "M";
+    db
+    .any("SELECT * FROM courts WHERE borough = $1", [borough])
+    .then(function(data){
+      console.log(data)
+      let view_data = {
+        courts: data,
+        location: "Manhattan"
+      }
+      res.render("courts/show", view_data)
+    })
+  } else if(id==="Brooklyn"){
+    let borough = "B";
+    db
+    .any("SELECT * FROM courts WHERE borough = $1", [borough])
+    .then(function(data){
+      console.log(data)
+      let view_data = {
+        courts: data,
+        location: "Brooklyn"
+      }
+      res.render("courts/show", view_data)
+    })
+  } else if (id==="Bronx"){
+    let borough = "X";
+    db
+    .any("SELECT * FROM courts WHERE borough = $1", [borough])
+    .then(function(data){
+      console.log(data)
+      let view_data = {
+        courts: data,
+        location: "Bronx"
+      }
+      res.render("courts/show", view_data)
+    })
+  } else if(id==="Queens"){
+    let borough = "Q";
+    db
+    .any("SELECT * FROM courts WHERE borough = $1", [borough])
+    .then(function(data){
+      console.log(data)
+      let view_data = {
+        courts: data,
+        location: "Queens"
+      }
+      res.render("courts/show", view_data)
+    })
+  } else if(id==="StatenIsland"){
+    let borough = "R";
+    db
+    .any("SELECT * FROM courts WHERE borough = $1", [borough])
+    .then(function(data){
+      console.log(data)
+      let view_data = {
+        courts: data,
+        location: "Staten Island"
+      }
+      res.render("courts/show", view_data)
+    })
+  } else {
+    res.redirect("/courts")
+  }
+});
+
 
 
 
