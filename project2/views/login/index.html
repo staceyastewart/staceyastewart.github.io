@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -38,18 +39,21 @@
   {{/logged_in}}
 
   <ul id="dropdown1" class="dropdown-content">
-    <li><a href="#!">Bronx</a></li>
-    <li><a href="#">Brooklyn</a></li>
-    <li><a href="#">Manhattan</a></li>
-    <li><a href="#!">Queens</a></li>
-    <li><a href="#!">Staten Island</a></li>
-    <li><a href="#!">Online-Bookable Courts</a></li>
+    <li><a href="/courts/Bronx">Bronx</a></li>
+    <li><a href="/courts/Brooklyn">Brooklyn</a></li>
+    <li><a href="/courts/Manhattan">Manhattan</a></li>
+    <li><a href="/courts/Queens">Queens</a></li>
+    <li><a href="/courts/StatenIsland">Staten Island</a></li>
+    <li><a href="/courts/onlinebooking">Online-Bookable Courts</a></li>
   </ul>
 
   <!-- renders nav bar -->
   <nav class="#00838f cyan darken-3">
     <div class="nav-wrapper">
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      {{#logged_in}}
+        <a class="right" href="/account">User Page &nbsp</a>
+      {{/logged_in}}
       <ul class="left hide-on-med-and-down">
         <li><a href="/">Home</a></li>
         <li><a href="/partners">Find a Tennis Partner</a></li>
@@ -86,11 +90,11 @@
     <form class="col s10 offset-s2" action="/login" method="post">
       <div class="row">
         <div class="input-field col s5">
-          <input required id="email" type="text" class="validate" name="email">
+          <input required id="email" type="text" class="validate" name="email" value="stacey.alicia.stewart@gmail.com">
           <label for="email">Email</label>
         </div>
         <div class="input-field col s5">
-          <input required id="password" type="password" class="validate" name="password">
+          <input required id="password" type="password" class="validate" name="password" value="password">
           <label for="password">Password</label>
         </div>
       </div>

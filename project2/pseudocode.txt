@@ -1,9 +1,6 @@
 UP NEXT:
-  View posts by topic (i.e. /all/sinlges /all/doubles /all/other)
   Figure out delete comments
-  user's homepage with their posts listed
-  should maybe add a username to each user that signs up
-
+  Figure out how to append the comments with ajax
 
 
 

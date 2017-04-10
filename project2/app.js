@@ -95,12 +95,12 @@ app.post('/login', function(req, res){
   //take the req.body => email, pass
   //Look up the email in the db
   let data = req.body
-  console.log(data)
+  // console.log(data)
   db
     .one("SELECT * FROM users WHERE email = $1", [data.email])
     .then(function(user){
       //let the user in
-      console.log(user)
+      // console.log(user)
       bcrypt.compare(data.password, user.password_digest, function(err, comp){
         if (comp){
           //create a session for the user
@@ -187,7 +187,8 @@ app.get("/partners/all", function(req, res){
         let view_data = {
           posts: data,
           logged_in: true,
-          email: req.session.user.email
+          email: req.session.user.email,
+          viewing_all: true
         }
         res.render("partners/all", view_data)
       })
@@ -428,6 +429,103 @@ app.get("/permits", function(req, res){
     })
 });
 
+
+
+//renders the user's account page
+app.get("/account", function(req, res){
+  // console.log(req.session.user)
+  if(req.session.user){
+      db
+    .one("SELECT * FROM users WHERE email = $1", req.session.user.email)
+    .then(function(data){
+      // console.log(data)
+      db
+        .any("SELECT * FROM posts WHERE user_id = $1", [data.id])
+        .then(function(posts){
+          // console.log(posts)
+          let view_data = {
+            posts: posts,
+            user: data
+          }
+          res.render("account/index", view_data)
+        })
+    })
+  } else{
+    //user is not logged in
+    res.redirect("/login")
+  }
+
+});
+
+//renders the category pages
+app.get("/partners/all/:id", function(req, res){
+  let id = req.params.id
+  if(req.session.user){
+    db
+    .any("SELECT * FROM posts WHERE category = $1", id)
+    .then(function(data){
+      // console.log(data)
+      let view_data = {
+        posts: data,
+        logged_in: true,
+        email: req.session.user.email,
+        category: id
+      }
+      res.render("partners/all", view_data)
+    })
+  } else {
+    //you are not logged in
+    res.redirect("/login")
+  }
+});
+
+
+
+//renders the update account page
+app.get("/account/update/:id", function(req, res){
+  let id = req.params.id
+  if(req.session.user){
+    db
+    .one("SELECT * FROM users WHERE id = $1", id)
+    .then(function(data){
+      console.log(data) //this gives the data of the post
+      //if the user in this session is the account holder
+      if(data.id===req.session.user.id){
+        let view_data = {
+          user: data,
+          logged_in: true,
+          email: req.session.user.email,
+        }
+        res.render("account/view", view_data);
+      } else {
+        //if this is not your account
+        res.redirect("/account")
+      }
+    })
+  } else {
+    //you are not logged in
+    res.redirect("/login")
+  }
+});
+
+
+
+// updates the account
+app.put("/post/account/:id", function(req,res){
+  let data = req.body
+  // console.log("BELOW IS WHAT YOU WANT")
+  // console.log(req.body)
+  // console.log(req.params)
+  db
+  .none("UPDATE users SET first_name = $1, last_name = $2, email = $3, username = $4, borough = $5, level = $6 WHERE id = $7", [data.first_name, data.last_name, data.email, data.username, data.borough, data.level, req.params.id])
+  .then(function(){
+    res.redirect("/account")
+  })
+  .catch(function(){
+    //need to put in a catch
+    res.send("fail")
+  })
+})
 
 
 

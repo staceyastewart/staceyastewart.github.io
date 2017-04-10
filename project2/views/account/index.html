@@ -76,11 +76,53 @@
 
 
 
+
 <main>
   <div class="container">
 
+  {{#user}}
+  <div class="row">
+    <div class="col s6 offset-s3 center-align">
+      <div class="card #e0f7fa cyan lighten-5">
+        <div class="card-content white-text">
+          <span class="card-title #00838f cyan-text text-darken-3">{{first_name}} {{last_name}}</span>
+          <p class="#00838f cyan-text text-darken-3"><strong>Your email:</strong> <i>{{email}}</i></p>
+          <p class="#00838f cyan-text text-darken-3"><strong>Your username:</strong> <i>{{username}}</i></p>
+          <p class="#00838f cyan-text text-darken-3"><strong>Your borough:</strong> <i>{{borough}}</i></p>
+          <p class="#00838f cyan-text text-darken-3"><strong>Your level:</strong> <i>{{level}}</i></p>
+          <p class="#ff5252 red-text text-accent-2"><a href="/account/update/{{id}}">Update Account Info</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/user}}
+  <br>
+  <div class="row center-align">
+    <h4 class="#00b8d4 cyan-text text-accent-4">Your posts:</h4>
+  </div>
 
-
+  <div class="row">
+    <div class="col s6 offset-s3">
+        <table>
+        <thead>
+          <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Borough</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#posts}}
+          <tr>
+            <td><a href="partners/{{id}}">{{title}}</a></td>
+            <td>{{category}}</td>
+            <td>{{borough}}</td>
+          </tr>
+          {{/posts}}
+        </tbody>
+      </table>
+      </div>
+  </div>
 
 
   </div>
@@ -117,14 +159,6 @@
 </footer>
 </div>
 
-
-
-
-
-
-
-
-
 </body>
 </html>
 
@@ -133,4 +167,3 @@
 <script type="text/javascript" src="/css/js/materialize.min.js"></script>
 
 <script type="text/javascript" src="/js/script.js"></script>
-

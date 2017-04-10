@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -38,18 +39,21 @@
   {{/logged_in}}
 
   <ul id="dropdown1" class="dropdown-content">
-    <li><a href="#!">Bronx</a></li>
-    <li><a href="#">Brooklyn</a></li>
-    <li><a href="#">Manhattan</a></li>
-    <li><a href="#!">Queens</a></li>
-    <li><a href="#!">Staten Island</a></li>
-    <li><a href="#!">Online-Bookable Courts</a></li>
+    <li><a href="/courts/Bronx">Bronx</a></li>
+    <li><a href="/courts/Brooklyn">Brooklyn</a></li>
+    <li><a href="/courts/Manhattan">Manhattan</a></li>
+    <li><a href="/courts/Queens">Queens</a></li>
+    <li><a href="/courts/StatenIsland">Staten Island</a></li>
+    <li><a href="/courts/onlinebooking">Online-Bookable Courts</a></li>
   </ul>
 
   <!-- renders nav bar -->
   <nav class="#00838f cyan darken-3">
     <div class="nav-wrapper">
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      {{#logged_in}}
+        <a class="right" href="/account">User Page &nbsp</a>
+      {{/logged_in}}
       <ul class="left hide-on-med-and-down">
         <li><a href="/">Home</a></li>
         <li><a href="/partners">Find a Tennis Partner</a></li>
@@ -86,9 +90,23 @@ Not logged in
 
   <div class="container">
     <div class="row center-align">
-      <div class="col s8 offset-s2 #00838f cyan-text text-darken-3">Search by <a href="partners/all/singles">Singles </a>,<a href="partners/all/doubles">Doubles </a>or <a href="partners/all/other">Other </a> </div>
+      <div class="col s8 offset-s2 #00838f cyan-text text-darken-3">Search by <a href="/partners/all/Singles">Singles </a>,<a href="/partners/all/Doubles">Doubles </a>or <a href="/partners/all/Other">Other</a>. </div>
+    </div>
+    {{^viewing_all}}
+    <div class="row center-align">
+      <div class="col s8 offset-s2 #00838f cyan-text text-darken-3"><a href="/partners/all">Go back to view all posts</a></div>
+    </div>
+    {{/viewing_all}}
+    {{#viewing_all}}
+    <div class="row center-align">
+      <h4>ALL POSTS:</h4>
+    </div>
+    {{/viewing_all}}
+    <div class="row center-align">
+      <h4>{{category}}</h4>
     </div>
   </div>
+
 
 
 

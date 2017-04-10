@@ -51,6 +51,9 @@
   <nav class="#00838f cyan darken-3">
     <div class="nav-wrapper">
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      {{#logged_in}}
+        <a class="right" href="/account">User Page &nbsp</a>
+      {{/logged_in}}
       <ul class="left hide-on-med-and-down">
         <li><a href="/">Home</a></li>
         <li><a href="/partners">Find a Tennis Partner</a></li>
