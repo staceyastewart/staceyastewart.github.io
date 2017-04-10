@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -75,7 +76,24 @@
 
 <main>
   <div class="container">
-      <img class="responsive-img" src="http://www.petsprin.com/i/2016/10/tennis-court-wallpapers-mobile.jpg">
+    <div class="row">
+      <table class="col s10 offset-s1 highlight">
+        <thead>
+          <tr>
+              <th>Age Group</th>
+              <th>Fee</th>
+          </tr>
+        </thead>
+        {{#permits}}
+        <tbody>
+          <tr>
+            <td>{{age_group}}</td>
+            <td>{{fee}}</td>
+          </tr>
+        </tbody>
+        {{/permits}}
+      </table>
+    </div>
   </div>
 </main>
 
@@ -109,14 +127,6 @@
   </div>
 </footer>
 </div>
-
-
-
-
-
-
-
-
 
 </body>
 </html>

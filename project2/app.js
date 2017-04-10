@@ -390,10 +390,37 @@ app.get("/courts/:id", function(req, res){
       }
       res.render("courts/show", view_data)
     })
+  } else if(id==="onlinebooking"){
+    db
+    .any("SELECT * FROM onlineCourts")
+    .then(function(data){
+      console.log(data)
+      let view_data = {
+        onlineCourts: data
+      }
+      res.render("courts/online", view_data)
+    })
   } else {
     res.redirect("/courts")
   }
 });
+
+
+
+//renders the permits page
+//should be able to view even if you are not logged in
+app.get("/permits", function(req, res){
+  db
+    .any("SELECT * FROM tennisPermits")
+    .then(function(data){
+      console.log(data)
+      let view_data = {
+        permits: data
+      }
+      res.render("permits/index", view_data)
+    })
+});
+
 
 
 

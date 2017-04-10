@@ -18,15 +18,16 @@ Page that has permit costs for each level (hit API)
 
 
 UP NEXT:
-  Make comments possible on each id page
   View posts by topic (i.e. /all/sinlges /all/doubles /all/other)
-  Render tennis court pages
-  Render the post pages by category
+  Figure out delete comments
+  user's homepage with their posts listed
+  should maybe add a username to each user that signs up
+
+
 
 
 
 COMMENTS:
---need a JOIN on the individual ID page so that comments are rendered as well
 post: /comments
 
 ajax:

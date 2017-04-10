@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -43,7 +44,7 @@
     <li><a href="/courts/Manhattan">Manhattan</a></li>
     <li><a href="/courts/Queens">Queens</a></li>
     <li><a href="/courts/StatenIsland">Staten Island</a></li>
-    <li><a href="/courts/onlinebooking">Online-Bookable Courts</a></li>
+    <li><a href="#!">Online-Bookable Courts</a></li>
   </ul>
 
   <!-- renders nav bar -->
@@ -75,7 +76,30 @@
 
 <main>
   <div class="container">
-      <img class="responsive-img" src="http://www.petsprin.com/i/2016/10/tennis-court-wallpapers-mobile.jpg">
+    <div class="row">
+      <table class="col s10 offset-s1 highlight">
+        <thead>
+          <tr>
+              <th>Location</th>
+              <th>Reservation Courts</th>
+              <th>Walk-on Courts</th>
+              <th>First Reservation</th>
+              <th>Last Reservation</th>
+          </tr>
+        </thead>
+        {{#onlineCourts}}
+        <tbody>
+          <tr>
+            <td>{{location}}</td>
+            <td>{{reservation_courts}}</td>
+            <td>{{walk_on_courts}}</td>
+            <td>{{first_reservation}}</td>
+            <td>{{last_reservation}}</td>
+          </tr>
+        </tbody>
+        {{/onlineCourts}}
+      </table>
+    </div>
   </div>
 </main>
 
@@ -109,14 +133,6 @@
   </div>
 </footer>
 </div>
-
-
-
-
-
-
-
-
 
 </body>
 </html>
