@@ -201,39 +201,31 @@ app.get("/partners/all", function(req, res){
 
 //renders each individual post page
 app.get("/partners/:id", function(req, res){
-  let id = req.params.id
+  let id = req.params.id;
+  let view_data = {};
+
   if(req.session.user){
     db
     .one("SELECT * FROM posts WHERE id = $1", id)
-    .then(function(data){
+    .then(function(post){
       db
         .any("SELECT * FROM comments WHERE post_id = $1", id)
-        .then(function(stuff){
-          // console.log(data) //this gives you the post
-          // console.log(stuff) //this gives you the comments
-          //if this is the user's post:
-          if(data.user_id===req.session.user.id){
-            let view_data = {
-              post: data,
-              comment: stuff,
-              logged_in: true,
-              email: req.session.user.email,
-              this_users_post: true,
-              user: req.session.user
-            }
-            res.render("partners/id", view_data);
-          } else { //if this is not the user's post
-            let view_data = {
-              post: data,
-              comment: stuff,
-              logged_in: true,
-              email: req.session.user.email,
-              user: req.session.user
-            }
-            res.render("partners/id", view_data);
+        .then(function(comments){
+  	      view_data.post = post;
+  	      view_data.comments = comments;
+  	      view_data.logged_in = true;
+  	      view_data.email = req.session.user.email;
+  	      view_data.user = req.session.user;
+          //bryan helped with this
+          comments.forEach(function(comment){
+            comment.current_users_comment = (req.session.user.id === comment.user_id) ? true : false;
+          })
+          if(post.user_id === req.session.user.id){
+	          view_data.this_users_post = true;
           }
-        })
-    })
+          res.render("partners/id", view_data);
+        });
+    });
   } else {
     res.redirect("/login")
   }
@@ -243,12 +235,14 @@ app.get("/partners/:id", function(req, res){
 //lets the user delete their own post
 app.delete("/partners/:id", function(req, res){
   id = req.params.id
-  console.log(id)
-  db
-    .none("DELETE FROM posts WHERE id = $1", [id])
-    .then(function(data){
-      res.redirect("/partners/all")
-    })
+  user = Number(req.body.posts_user_id)
+  if(user===req.session.user.id) {
+    db
+      .none("DELETE FROM posts WHERE id = $1", [id])
+      .then(function(data){
+        res.redirect("/partners/all")
+      })
+  }
 })
 
 //renders the update page
@@ -298,11 +292,11 @@ app.put("/post/:id", function(req,res){
 //lets you create a new comment on one post
 //when you do, it should not refresh the page, but should append to the page
 app.post('/comment', function(req, res){
-  console.log(req.session.user)
+  // console.log(req.session.user)
   let current_user = req.session.user
   let data = req.body
-  console.log(data)
-  console.log(req.params)
+  // console.log(data)
+  // console.log(req.params)
   db
     //do I need this to return one since I'm appending to the page?
     .one("INSERT INTO comments (user_id, post_id, content, level, borough, username) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id as new_id", [current_user.id, data.post_id, data.content, data.level, data.borough, current_user.username])
@@ -314,6 +308,20 @@ app.post('/comment', function(req, res){
       res.send("Oops! Something bad happened")
     })
 });
+
+//lets the user delete their own comments
+app.delete("/partners/comment/:id", function(req, res){
+  id = req.params.id
+  user = Number(req.body.comments_user_id)
+  post = req.body.post_id
+  if(user===req.session.user.id) {
+    db
+      .none("DELETE FROM comments WHERE id = $1", [id])
+      .then(function(data){
+        res.redirect("/partners/" + post)
+      })
+  }
+})
 
 
 
