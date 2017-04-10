@@ -116,6 +116,7 @@
               <span class="#0097a7 cyan-text text-darken-2">Category: {{category}}</span> <br>
               <span class="#0097a7 cyan-text text-darken-2">Level: {{level}}</span> <br>
               <span class="#0097a7 cyan-text text-darken-2">Borough: {{borough}}</span> <br>
+              <span class="#0097a7 cyan-text text-darken-2">User: <strong>{{username}}</strong></span> <br>
               <!-- This is your post -->
               {{#this_users_post}}
                 <br>
@@ -146,6 +147,19 @@
   </div>
 
 
+<script>
+comment.forEach(function(comment){
+  console.log("working")
+  //  -->do whatever
+  // if(comment.user_id === req.session.user.id){
+  //   // add delete button -->
+  //   console.log("yes")
+  // }
+})
+</script>
+
+
+
 {{#comment}}
 <!-- loop of rendering the comments -->
 <div class="row">
@@ -159,6 +173,7 @@
               <span class="#0097a7 cyan-text text-darken-2">Comment: {{content}}</span> <br> <br>
               <span class="#0097a7 cyan-text text-darken-2">Level: {{level}}</span> <br>
               <span class="#0097a7 cyan-text text-darken-2">Borough: {{borough}}</span> <br>
+              <span class="#0097a7 cyan-text text-darken-2">Username: <strong>{{username}}</strong></span> <br>
 
 
               <!-- This is your post -->

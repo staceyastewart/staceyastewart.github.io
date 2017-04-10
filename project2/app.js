@@ -61,16 +61,20 @@ app.get('/signup', function(req, res){
 //lets you sign up
 app.post('/signup', function(req, res){
   let data = req.body
+  // console.log(data)
   bcrypt
     .hash(data.password_digest, 10, function(err, hash) {
       db
-        .one("INSERT INTO users(first_name, last_name, email, password_digest, borough, level) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id", [data.first_name, data.last_name, data.email, hash, data.borough, data.level])
-        .then(function(){
+        .none("INSERT INTO users(first_name, last_name, email, password_digest, username, borough, level) VALUES ($1, $2, $3, $4, $5, $6, $7)", [data.first_name, data.last_name, data.email, hash, data.username, data.borough, data.level])
+        .then(function(id){
           //somehow log the user in
-          console.log(data)
-          req.session.user = data;
-          res.redirect("/");
-
+          db
+            .one("SELECT * FROM users WHERE email = $1", [data.email])
+            .then(function(el){
+              console.log(el)
+              req.session.user = el
+              res.redirect("/partners");
+            })
         })
         .catch(function(e){
           console.log(e);
@@ -91,11 +95,12 @@ app.post('/login', function(req, res){
   //take the req.body => email, pass
   //Look up the email in the db
   let data = req.body
-  // console.log(data)
+  console.log(data)
   db
     .one("SELECT * FROM users WHERE email = $1", [data.email])
     .then(function(user){
       //let the user in
+      console.log(user)
       bcrypt.compare(data.password, user.password_digest, function(err, comp){
         if (comp){
           //create a session for the user
@@ -129,6 +134,7 @@ app.get('/partners', function(req, res){
 
 //renders page to create new post
 app.get('/partners/new', function(req, res){
+  // console.log(req.session.user)
   if(req.session.user){
 
     db
@@ -153,11 +159,12 @@ app.get('/partners/new', function(req, res){
 //lets you create a new post in for the forum
 //when you do, it redirects you to your post
 app.post('/new', function(req, res){
+  console.log("POST DATA")
   console.log(req.session.user)
   let data = req.body
   console.log(data)
   db
-    .one("INSERT INTO posts (user_id, title, content, category, level, borough) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id as new_id", [req.session.user.id, data.title, data.content, data.category, data.level, data.borough])
+    .one("INSERT INTO posts (user_id, title, content, category, level, borough, username) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id as new_id", [req.session.user.id, data.title, data.content, data.category, data.level, data.borough, req.session.user.username])
     .then(function(data){
       res.redirect("/partners/" + data.new_id)
     })
@@ -297,7 +304,7 @@ app.post('/comment', function(req, res){
   console.log(req.params)
   db
     //do I need this to return one since I'm appending to the page?
-    .one("INSERT INTO comments (user_id, post_id, content, level, borough) VALUES ($1, $2, $3, $4, $5) RETURNING id as new_id", [current_user.id, data.post_id, data.content, data.level, data.borough])
+    .one("INSERT INTO comments (user_id, post_id, content, level, borough, username) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id as new_id", [current_user.id, data.post_id, data.content, data.level, data.borough, current_user.username])
     .then(function(el){
       res.redirect("/partners/" + data.post_id)
     })
@@ -335,7 +342,7 @@ app.get("/courts/:id", function(req, res){
     db
     .any("SELECT * FROM courts WHERE borough = $1", [borough])
     .then(function(data){
-      console.log(data)
+      // console.log(data)
       let view_data = {
         courts: data,
         location: "Manhattan"
@@ -347,7 +354,7 @@ app.get("/courts/:id", function(req, res){
     db
     .any("SELECT * FROM courts WHERE borough = $1", [borough])
     .then(function(data){
-      console.log(data)
+      // console.log(data)
       let view_data = {
         courts: data,
         location: "Brooklyn"
@@ -359,7 +366,7 @@ app.get("/courts/:id", function(req, res){
     db
     .any("SELECT * FROM courts WHERE borough = $1", [borough])
     .then(function(data){
-      console.log(data)
+      // console.log(data)
       let view_data = {
         courts: data,
         location: "Bronx"
@@ -371,7 +378,7 @@ app.get("/courts/:id", function(req, res){
     db
     .any("SELECT * FROM courts WHERE borough = $1", [borough])
     .then(function(data){
-      console.log(data)
+      // console.log(data)
       let view_data = {
         courts: data,
         location: "Queens"
@@ -383,7 +390,7 @@ app.get("/courts/:id", function(req, res){
     db
     .any("SELECT * FROM courts WHERE borough = $1", [borough])
     .then(function(data){
-      console.log(data)
+      // console.log(data)
       let view_data = {
         courts: data,
         location: "Staten Island"
@@ -394,7 +401,7 @@ app.get("/courts/:id", function(req, res){
     db
     .any("SELECT * FROM onlineCourts")
     .then(function(data){
-      console.log(data)
+      // console.log(data)
       let view_data = {
         onlineCourts: data
       }
@@ -413,7 +420,7 @@ app.get("/permits", function(req, res){
   db
     .any("SELECT * FROM tennisPermits")
     .then(function(data){
-      console.log(data)
+      // console.log(data)
       let view_data = {
         permits: data
       }
