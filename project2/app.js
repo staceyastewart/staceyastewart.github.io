@@ -298,7 +298,6 @@ app.post('/comment', function(req, res){
   // console.log(data)
   // console.log(req.params)
   db
-    //do I need this to return one since I'm appending to the page?
     .one("INSERT INTO comments (user_id, post_id, content, level, borough, username) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id as new_id", [current_user.id, data.post_id, data.content, data.level, data.borough, current_user.username])
     .then(function(el){
       res.redirect("/partners/" + data.post_id)
@@ -323,10 +322,6 @@ app.delete("/partners/comment/:id", function(req, res){
   }
 })
 
-
-
-
-
 //renders the courts page
 //should be able to view even if you are not logged in
 app.get("/courts", function(req, res){
@@ -341,85 +336,42 @@ app.get("/courts", function(req, res){
     })
 });
 
-
-//renders each court's page
-app.get("/courts/:id", function(req, res){
-  console.log(req.params.id)
-  let id = req.params.id
-  if(id==="Manhattan"){
-    let borough = "M";
-    db
-    .any("SELECT * FROM courts WHERE borough = $1", [borough])
-    .then(function(data){
-      // console.log(data)
-      let view_data = {
-        courts: data,
-        location: "Manhattan"
-      }
-      res.render("courts/show", view_data)
-    })
-  } else if(id==="Brooklyn"){
-    let borough = "B";
-    db
-    .any("SELECT * FROM courts WHERE borough = $1", [borough])
-    .then(function(data){
-      // console.log(data)
-      let view_data = {
-        courts: data,
-        location: "Brooklyn"
-      }
-      res.render("courts/show", view_data)
-    })
-  } else if (id==="Bronx"){
-    let borough = "X";
-    db
-    .any("SELECT * FROM courts WHERE borough = $1", [borough])
-    .then(function(data){
-      // console.log(data)
-      let view_data = {
-        courts: data,
-        location: "Bronx"
-      }
-      res.render("courts/show", view_data)
-    })
-  } else if(id==="Queens"){
-    let borough = "Q";
-    db
-    .any("SELECT * FROM courts WHERE borough = $1", [borough])
-    .then(function(data){
-      // console.log(data)
-      let view_data = {
-        courts: data,
-        location: "Queens"
-      }
-      res.render("courts/show", view_data)
-    })
-  } else if(id==="StatenIsland"){
-    let borough = "R";
-    db
-    .any("SELECT * FROM courts WHERE borough = $1", [borough])
-    .then(function(data){
-      // console.log(data)
-      let view_data = {
-        courts: data,
-        location: "Staten Island"
-      }
-      res.render("courts/show", view_data)
-    })
-  } else if(id==="onlinebooking"){
-    db
+//renders the online court page
+app.get("/courts/onlinebooking", function(req,res){
+  db
     .any("SELECT * FROM onlineCourts")
     .then(function(data){
-      // console.log(data)
       let view_data = {
         onlineCourts: data
       }
       res.render("courts/online", view_data)
     })
-  } else {
-    res.redirect("/courts")
+})
+
+//renders 5 borough pages
+app.get("/courts/:id", function(req, res){
+  let id = req.params.id;
+  let view_data = {};
+  let borough = id[0] //only works for manhattan, queens and brooklyn
+  if(id === "StatenIsland"){
+    borough = "R"
+  } else if(id==="Bronx"){
+    borough = "X"
+  } else if(id==="Manhattan" || id==="Brooklyn" || id==="Queens"){
+    borough = id[0]
+  } else{
+    // res.redirect("/courts")
   }
-});
+  console.log(borough)
+  db
+    .any("SELECT * FROM courts WHERE borough = $1", [borough])
+    .then(function(courts){
+      view_data.location = id;
+      view_data.courts = courts;
+      res.render("courts/show", view_data)
+    })
+})
+
 
 
 
@@ -429,7 +381,6 @@ app.get("/permits", function(req, res){
   db
     .any("SELECT * FROM tennisPermits")
     .then(function(data){
-      // console.log(data)
       let view_data = {
         permits: data
       }
@@ -437,20 +388,15 @@ app.get("/permits", function(req, res){
     })
 });
 
-
-
 //renders the user's account page
 app.get("/account", function(req, res){
-  // console.log(req.session.user)
   if(req.session.user){
       db
     .one("SELECT * FROM users WHERE email = $1", req.session.user.email)
     .then(function(data){
-      // console.log(data)
       db
         .any("SELECT * FROM posts WHERE user_id = $1", [data.id])
         .then(function(posts){
-          // console.log(posts)
           let view_data = {
             posts: posts,
             user: data
@@ -472,7 +418,6 @@ app.get("/partners/all/:id", function(req, res){
     db
     .any("SELECT * FROM posts WHERE category = $1", id)
     .then(function(data){
-      // console.log(data)
       let view_data = {
         posts: data,
         logged_in: true,
@@ -486,8 +431,6 @@ app.get("/partners/all/:id", function(req, res){
     res.redirect("/login")
   }
 });
-
-
 
 //renders the update account page
 app.get("/account/update/:id", function(req, res){
@@ -516,14 +459,9 @@ app.get("/account/update/:id", function(req, res){
   }
 });
 
-
-
 // updates the account
 app.put("/post/account/:id", function(req,res){
   let data = req.body
-  // console.log("BELOW IS WHAT YOU WANT")
-  // console.log(req.body)
-  // console.log(req.params)
   db
   .none("UPDATE users SET first_name = $1, last_name = $2, email = $3, username = $4, borough = $5, level = $6 WHERE id = $7", [data.first_name, data.last_name, data.email, data.username, data.borough, data.level, req.params.id])
   .then(function(){
@@ -534,10 +472,6 @@ app.put("/post/account/:id", function(req,res){
     res.send("fail")
   })
 })
-
-
-
-
 
 //lets you logout
 app.get('/logout', function(req, res){
