@@ -330,12 +330,13 @@ app.delete("/partners/comment/:id", function(req, res){
 //renders the courts page
 //should be able to view even if you are not logged in
 app.get("/courts", function(req, res){
+  let view_data = {}
   db
     .any("SELECT * FROM courts")
     .then(function(data){
-      // console.log(data)
-      let view_data = {
-        courts: data
+      view_data.courts = data
+      if(req.session.user){
+        view_data.logged_in = true
       }
       res.render("courts/index", view_data)
     })
@@ -343,11 +344,13 @@ app.get("/courts", function(req, res){
 
 //renders the online court page
 app.get("/courts/onlinebooking", function(req,res){
+  let view_data = {}
   db
     .any("SELECT * FROM onlineCourts")
     .then(function(data){
-      let view_data = {
-        onlineCourts: data
+      view_data.onlineCourts = data
+      if(req.session.user){
+        view_data.logged_in = true
       }
       res.render("courts/online", view_data)
     })
@@ -372,6 +375,9 @@ app.get("/courts/:id", function(req, res){
     .then(function(courts){
       view_data.location = id;
       view_data.courts = courts;
+      if(req.session.user){
+        view_data.logged_in = true
+      }
       res.render("courts/show", view_data)
     })
 })
@@ -379,11 +385,13 @@ app.get("/courts/:id", function(req, res){
 //renders the permits page
 //should be able to view even if you are not logged in
 app.get("/permits", function(req, res){
+  let view_data = {};
   db
     .any("SELECT * FROM tennisPermits")
     .then(function(data){
-      let view_data = {
-        permits: data
+      view_data.permits = data
+      if(req.session.user){
+        view_data.logged_in = true
       }
       res.render("permits/index", view_data)
     })
