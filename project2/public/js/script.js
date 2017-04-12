@@ -15,24 +15,44 @@ $("select[required]").css({display: "block", height: 0, padding: 0, width: 0, po
 let commentBtn = $("#addCommentButton")
 
 var comment = {};
+let form = $('#commentForm');
 
-commentBtn.on('click', function(event) {
-  event.preventDefault();
-  /* Act on the event */
-  $.ajax({
-    url: '/comment',
-    // data: {param1: 'value1'},
-    success: function(el){
-      console.log(el)
-    }
-  })
-  // .done(function() {
-  //   console.log("success");
-  // })
-  // .catch(function() {
-  //   console.log("error");
-  // })
-});
+// form.on('submit', function(e){
+//   e.preventDefault()
+//   let data = form.serializeArray();
+//   let url = form.attr('action')
+// console.log(data)
+//   $.ajax({
+//     url: url,
+//     method: "POST",
+//     // data: {param1: 'value1'},
+//     success: function(el){
+//       console.log(el)
+//     }
+//   })
+// })
+
+
+
+
+// commentBtn.on('click', function(event) {
+//   event.preventDefault();
+//   /* Act on the event */
+//   $.ajax({
+//     url: '/comment',
+//     method: "POST",
+//     // data: {param1: 'value1'},
+//     success: function(el){
+//       console.log(el)
+//     }
+//   })
+//   // .done(function() {
+//   //   console.log("success");
+//   // })
+//   // .catch(function() {
+//   //   console.log("error");
+//   // })
+// });
 
 
 

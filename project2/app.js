@@ -7,8 +7,6 @@ const session = require('express-session');
 let methodOverride = require('method-override');
 var fetch = require('node-fetch');
 
-
-
 /* BCrypt stuff here */
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSalt(10);
@@ -28,13 +26,11 @@ app.use(session({
   cookie: { secure: false }
 }))
 
-
 var db = pgp('postgres://staceyastewart@localhost:5432/tennis');
 
 app.listen(3000, function () {
   console.log('Shoebill Auth App: listening on port 3000!');
 });
-
 
 //renders the homepage
 app.get("/", function(req, res){
@@ -51,56 +47,44 @@ app.get("/", function(req, res){
   }
 });
 
-
 //renders the signup page
 app.get('/signup', function(req, res){
   res.render('signup/index');
 });
 
-
 //lets you sign up
 app.post('/signup', function(req, res){
   let data = req.body
-  // console.log(data)
   bcrypt
     .hash(data.password_digest, 10, function(err, hash) {
       db
         .none("INSERT INTO users(first_name, last_name, email, password_digest, username, borough, level) VALUES ($1, $2, $3, $4, $5, $6, $7)", [data.first_name, data.last_name, data.email, hash, data.username, data.borough, data.level])
         .then(function(id){
-          //somehow log the user in
           db
             .one("SELECT * FROM users WHERE email = $1", [data.email])
             .then(function(el){
-              console.log(el)
               req.session.user = el
               res.redirect("/partners");
             })
         })
         .catch(function(e){
-          console.log(e);
           res.render("signup/show")
         })
-      }) //end of  bcrypt then
+      })
   });
-
 
 //renders login page
 app.get('/login', function(req, res){
   res.render('login/index');
-  // console.log(req.params)
 });
 
 //actually lets you log in
 app.post('/login', function(req, res){
-  //take the req.body => email, pass
-  //Look up the email in the db
   let data = req.body
-  // console.log(data)
   db
     .one("SELECT * FROM users WHERE email = $1", [data.email])
     .then(function(user){
       //let the user in
-      // console.log(user)
       bcrypt.compare(data.password, user.password_digest, function(err, comp){
         if (comp){
           //create a session for the user
@@ -148,13 +132,11 @@ app.get('/partners/new', function(req, res){
         }
         res.render("partners/new", view_data)
       })
-
   } else {
     //user is not logged in
     res.redirect("/login")
   }
 });
-
 
 //lets you create a new post in for the forum
 //when you do, it redirects you to your post
@@ -173,8 +155,6 @@ app.post('/new', function(req, res){
       res.send("Oops! Something bad happened")
     })
 });
-
-
 
 //renders the posts page
 app.get("/partners/all", function(req, res){
@@ -197,7 +177,6 @@ app.get("/partners/all", function(req, res){
     res.redirect("/login")
   }
 });
-
 
 //renders each individual post page
 app.get("/partners/:id", function(req, res){
@@ -273,7 +252,6 @@ app.get("/partners/update/:id", function(req, res){
   }
 });
 
-
 // updates the post
 app.put("/post/:id", function(req,res){
   let data = req.body
@@ -288,9 +266,32 @@ app.put("/post/:id", function(req,res){
   })
 })
 
-
 //lets you create a new comment on one post
 //when you do, it should not refresh the page, but should append to the page
+// app.post('posts/:id/comment', function(req, res){
+//   // console.log(req.session.user)
+//   let current_user = req.session.user
+//   let data = req.body
+//   let post_id = req.params.id;
+//   // console.log(data)
+//   // console.log(req.params)
+//   console.log('Route HIT!!!!!!!!! YEAH ')
+//   db
+//     .none("INSERT INTO comments (user_id, post_id, content, level, borough, username) VALUES ($1, $2, $3, $4, $5, $6)", [current_user.id, post_id, data.content, data.level, data.borough, current_user.username])
+//     .then(function(newCommentData){
+//       res.redirect("/partners/" + data.post_id)
+//       // res.send(newCommentData)
+//     })
+//     .catch(function(){
+//       //should add a view
+//       res.send("Oops! Something bad happened")
+//     })
+// });
+
+
+
+//lets you create a new comment on one post
+//when you do, below will refresh the page and show the new comment
 app.post('/comment', function(req, res){
   // console.log(req.session.user)
   let current_user = req.session.user
@@ -307,6 +308,10 @@ app.post('/comment', function(req, res){
       res.send("Oops! Something bad happened")
     })
 });
+
+
+
+
 
 //lets the user delete their own comments
 app.delete("/partners/comment/:id", function(req, res){
@@ -360,9 +365,8 @@ app.get("/courts/:id", function(req, res){
   } else if(id==="Manhattan" || id==="Brooklyn" || id==="Queens"){
     borough = id[0]
   } else{
-    // res.redirect("/courts")
+    res.redirect("/courts")
   }
-  console.log(borough)
   db
     .any("SELECT * FROM courts WHERE borough = $1", [borough])
     .then(function(courts){
@@ -371,9 +375,6 @@ app.get("/courts/:id", function(req, res){
       res.render("courts/show", view_data)
     })
 })
-
-
-
 
 //renders the permits page
 //should be able to view even if you are not logged in
@@ -439,7 +440,7 @@ app.get("/account/update/:id", function(req, res){
     db
     .one("SELECT * FROM users WHERE id = $1", id)
     .then(function(data){
-      console.log(data) //this gives the data of the post
+      console.log(data)
       //if the user in this session is the account holder
       if(data.id===req.session.user.id){
         let view_data = {

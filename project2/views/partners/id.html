@@ -98,7 +98,7 @@
   <div class="container">
     <div class="row center-align">
       <div class="col s8 offset-s2 #00838f cyan-text text-darken-3"><a href="/partners/all">View all posts here</a></div>
-      <div class="col s8 offset-s2 #00838f cyan-text text-darken-3">Search by <a href="partners/all/Singles">Singles </a>,<a href="partners/all/Doubles">Doubles </a>or <a href="partners/all/Other">Other </a> </div>
+      <div class="col s8 offset-s2 #00838f cyan-text text-darken-3">Search by <a href="/partners/all/Singles">Singles </a>,<a href="/partners/all/Doubles">Doubles </a>or <a href="/partners/all/Other">Other </a> </div>
     </div>
   </div>
 
@@ -187,7 +187,8 @@
 {{#post}}
 <div class="row">
 <!-- start of the comment form -->
-  <form class="col s10 offset-s2" action="/comment" method="post">
+  <!-- <form id="commentForm" class="col s10 offset-s2" action="posts/{{id}}/comment" method="post"> -->
+  <form id="commentForm" class="col s10 offset-s2" action="/comment" method="post">
 
     <!-- need one hidden field for each of the follow: user_id, post_id -->
     <input required value="{{id}}" id="id" type="hidden" class="validate" name="post_id">

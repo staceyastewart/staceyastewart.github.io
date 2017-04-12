@@ -1,9 +1,5 @@
 UP NEXT:
-  Figure out delete comments
   Figure out how to append the comments with ajax
-
-
-
 
 COMMENTS:
 post: /comments
