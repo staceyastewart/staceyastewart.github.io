@@ -5,14 +5,9 @@ let cardOne = $("#cardOne")
 let cardTwo = $("#cardTwo")
 let cardThree = $("#cardThree")
 let cardPlate = $("#cardPlate")
-
-//grabbed the below random integer formula from MDN
-function getRandomInteger(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
+let dieOne = $("#cardOne")
+let dieTwo = $("#cardTwo")
+let dieThree = $("#cardThree")
 //all the variables I needed to define outside of functions
 let roundNumber = 1
 let playerRoll = []
@@ -24,23 +19,28 @@ let fullTurn_1_2 = [];
 let round1Player1 = 0;
 let round1Player2 = 0;
 
+function getRandomInteger(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+let rollTheDice = function() {
+  for (var i = 0; i < 3; i++) {
+    playerRoll.push(getRandomInteger(1,7))
+  }
+  fullTurn.push(playerRoll)
+};
+
 //below creates one turn for one player in one round
 let oneTurn = function() {
   let Score = 1;
   fullTurn = [];
   playerScore = [];
   while (Score > playerScore.length){
-    let rollTheDice = function() {
-      for (var i = 0; i < 3; i++) {
-        playerRoll.push(getRandomInteger(1,7))
-      }
-      fullTurn.push(playerRoll)
-    };
     rollTheDice();
-    console.log(playerRoll)
      if(playerRoll[0] === playerRoll[1] && playerRoll[1] === playerRoll[2]) {
       if (playerRoll[0] === roundNumber) {
-        //three of a kind of the target number
         //this is a "bunco"
         playerScore.push(21)
         Score++;
@@ -95,61 +95,20 @@ let checkForNextRound = function () {
 }
 
 //below assigns the photo for each die
-let setDicePhoto = function() {
-  //this function is too lengthy
-  //can I use a switch below??
-  //could I use a loop somehow?
-  //could put the three dice into an array and loop through each
-
-  //cardOne
-  if (document.getElementById("cardOne").innerText == 1) {
-    document.getElementById("cardOne").className="dice1"
-  } else if (document.getElementById("cardOne").innerText == 2) {
-    document.getElementById("cardOne").className="dice2"
-  } else if (document.getElementById("cardOne").innerText == 3) {
-    document.getElementById("cardOne").className="dice3"
-  } else if (document.getElementById("cardOne").innerText == 4) {
-    document.getElementById("cardOne").className="dice4"
-  } else if (document.getElementById("cardOne").innerText == 5) {
-    document.getElementById("cardOne").className="dice5"
-  } else if (document.getElementById("cardOne").innerText == 6) {
-    document.getElementById("cardOne").className="dice6"
-  } else {
-    document.getElementById("cardOne").className=""
-  }
-  //cardTwo
-    if (document.getElementById("cardTwo").innerText == 1) {
-    document.getElementById("cardTwo").className="dice1"
-  } else if (document.getElementById("cardTwo").innerText == 2) {
-    document.getElementById("cardTwo").className="dice2"
-  } else if (document.getElementById("cardTwo").innerText == 3) {
-    document.getElementById("cardTwo").className="dice3"
-  } else if (document.getElementById("cardTwo").innerText == 4) {
-    document.getElementById("cardTwo").className="dice4"
-  } else if (document.getElementById("cardTwo").innerText == 5) {
-    document.getElementById("cardTwo").className="dice5"
-  } else if (document.getElementById("cardTwo").innerText == 6) {
-    document.getElementById("cardTwo").className="dice6"
-  } else {
-    document.getElementById("cardTwo").className=""
-  }
-  //cardThree
-  if (document.getElementById("cardThree").innerText == 1) {
-    document.getElementById("cardThree").className="dice1"
-  } else if (document.getElementById("cardThree").innerText == 2) {
-    document.getElementById("cardThree").className="dice2"
-  } else if (document.getElementById("cardThree").innerText == 3) {
-    document.getElementById("cardThree").className="dice3"
-  } else if (document.getElementById("cardThree").innerText == 4) {
-    document.getElementById("cardThree").className="dice4"
-  } else if (document.getElementById("cardThree").innerText == 5) {
-    document.getElementById("cardThree").className="dice5"
-  } else if (document.getElementById("cardThree").innerText == 6) {
-    document.getElementById("cardThree").className="dice6"
-  } else {
-    document.getElementById("cardThree").className=""
+let setEachDicePhoto = function(die) {
+  if(die.text() === "0"){
+    die.removeClass();
+  } else{
+    die.removeClass().addClass(`dice${die.text()}`)
   }
 }
+
+let setDicePhoto = function(){
+  setEachDicePhoto(dieOne)
+  setEachDicePhoto(dieTwo)
+  setEachDicePhoto(dieThree)
+}
+
 
 //below lets the player pick between two player and one player game
 let numberofPlayers = 0;
