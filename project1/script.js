@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
 
 let body = $('body')
@@ -6,7 +5,6 @@ let cardOne = $("#cardOne")
 let cardTwo = $("#cardTwo")
 let cardThree = $("#cardThree")
 let cardPlate = $("#cardPlate")
-
 
 //grabbed the below random integer formula from MDN
 function getRandomInteger(min, max) {
@@ -77,17 +75,11 @@ let createRound = function() {
   round1Player1 = oneTurn();
   fullTurn_1_1 = fullTurn;
   totalPlayer1Score.push(round1Player1);
-  console.log("Player 1 score: " + totalPlayer1Score);
-  console.log("Round 1: " + round1Player1);
   round1Player2 = oneTurn();
   fullTurn_1_2 = fullTurn;
   totalPlayer2Score.push(round1Player2);
-  console.log("Player 2 score: " + totalPlayer2Score);
-  console.log("Round 1: " + round1Player2);
 }
-
 createRound()
-
 
 //below checks if player two's array is empty to start the next round
 let checkForNextRound = function () {
@@ -101,7 +93,6 @@ let checkForNextRound = function () {
     }
   }
 }
-
 
 //below assigns the photo for each die
 let setDicePhoto = function() {
@@ -124,7 +115,6 @@ let setDicePhoto = function() {
   } else if (document.getElementById("cardOne").innerText == 6) {
     document.getElementById("cardOne").className="dice6"
   } else {
-    // $("#cardOne").css("visibility", "hidden")
     document.getElementById("cardOne").className=""
   }
   //cardTwo
@@ -141,7 +131,6 @@ let setDicePhoto = function() {
   } else if (document.getElementById("cardTwo").innerText == 6) {
     document.getElementById("cardTwo").className="dice6"
   } else {
-    // $("#cardTwo").css("visibility", "hidden")
     document.getElementById("cardTwo").className=""
   }
   //cardThree
@@ -158,7 +147,6 @@ let setDicePhoto = function() {
   } else if (document.getElementById("cardThree").innerText == 6) {
     document.getElementById("cardThree").className="dice6"
   } else {
-    // $("#cardThree").css("visibility", "hidden")
     document.getElementById("cardThree").className=""
   }
 }
@@ -182,10 +170,7 @@ $("#twoPlayerGame").on('click',  function(event) {
   $("#messages").text("Player 1, please roll the dice to start the game!");
 });
 
-
-
 //Below makes the dice "roll" when hovered over
-//used something I found on StackOverflow to help with this section: http://stackoverflow.com/questions/18544237/keep-calling-on-a-function-while-mouseover
 
 let keepRolling = function() {
   cardOne.text(getRandomInteger(1,7))
@@ -201,7 +186,6 @@ let stopRolling = function() {
 
 let interval_id;
 
-//Bryan helped with this section when I had a Chrome bug when resizing
 let startRolling = function(){
   return setInterval(function() {
       keepRolling()
@@ -232,7 +216,6 @@ $("#opponentButton").on("mouseout", function(){
   stopRolling();
   setDicePhoto();
 });
-
 
 //when called, the below runs through one full turn of AI
 let computerOneTurn = function() {
@@ -287,7 +270,6 @@ let thisMightWork = function() {
     setTimeout(artificialIntelligence, 4000)
 }
 
-//below is from the jquery ui library, which Ben reccommended
 //Creates a bounce effect on the dice when they are "thrown"
 $("#button").click(function() {
   $("#cardPlate").effect( "bounce", {times: 3}, "fast" );
@@ -341,11 +323,7 @@ $("#button").on("click", function(event) {
         $("#button").css("visibility", "hidden")
         $(".gameInPlay:first").text(round1Player1);
         $(".gameInPlay:first").removeClass("gameInPlay")
-        // setTimeout(artificialIntelligence(), 5000)
         thisMightWork()
-        // let thisMightWork = function() {
-        //   setTimeout(artificialIntelligence, 4000)
-        // }
       }
     }
   }
@@ -391,12 +369,6 @@ $("#opponentButton").on("click", function(event) {
   }
 })
 
-
-
-
-
-
-
 //Happens when the game finished and the end of game button is clicked
 $("#endOfGame").on("click", function(event) {
     $("#button").hide()
@@ -405,7 +377,6 @@ $("#endOfGame").on("click", function(event) {
     cardThree.remove();
     $("#refresh").css("visibility", "visible")
     $("#messages").remove();
-    //As stated above, took the below reduce function from MDN
     let player1FinalScore = totalPlayer1Score.reduce(function(acc, val) {
         return acc+val;
       }, 0)
@@ -428,7 +399,6 @@ $("#endOfGame").on("click", function(event) {
       $("#round").text("Please play again!")
   }
 })
-
 
 }); // end closure
 
