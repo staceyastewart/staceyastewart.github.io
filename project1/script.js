@@ -87,18 +87,13 @@ let setDicePhoto = function(){
 
 let startOfGame = function(){
   $("#button").css("visibility", "visible");
-  $("#onePlayerGame").remove();
-  $("#twoPlayerGame").remove();
+  $(".startGameButtons").remove();
   $("#messages").text("Player 1, please roll the dice to start the game!");
 }
 
-$("#onePlayerGame").on('click',  function(event) {
-  numberofPlayers = 1;
-  startOfGame();
-});
-
-$("#twoPlayerGame").on('click',  function(event) {
-  numberofPlayers = 2;
+$(".startGameButtons").on('click',  function(event) {
+  numberofPlayers = Number(this.id);
+  console.log(typeof(numberofPlayers))
   startOfGame();
 });
 
@@ -200,7 +195,6 @@ $("#opponentButton").on("click", function(event) {
   dieThree.text(fullTurn_1_2[0][2])
   setDicePhoto()
   eachPlayersTurn(fullTurn_1_2, 2, round1Player2)
-
 })
 
 let eachPlayersTurn = function(player_arr, player_number, round_score){
@@ -287,13 +281,4 @@ $("#endOfGame").on("click", function(event) {
       $("#round").text("Please play again!")
   }
 })
-
 }); // end closure
-
-
-
-
-
-
-
-

@@ -37,7 +37,7 @@ marquee{
   color: white;
 }
 
-button#onePlayerGame {
+button.onePlayerGame {
   background-color: rgb(7, 19, 140);
   color: white;
   border-radius: 5px;
@@ -46,7 +46,7 @@ button#onePlayerGame {
   margin-left: 106px;
 }
 
-button#twoPlayerGame {
+button.twoPlayerGame {
   background-color: rgb(7, 19, 140);
   color: white;
   border-radius: 5px;
